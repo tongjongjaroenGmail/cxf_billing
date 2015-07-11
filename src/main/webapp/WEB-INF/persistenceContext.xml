@@ -17,7 +17,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan">
 		    <list>
-		        <value>com.bredit.leavemanagement.model</value>
+		        <value>com.metasoft.claim.model</value>
 		    </list>
 		</property>
 		<!-- <property name="packagesToScan" value="com.vialink.echantiers.model" /> -->
