@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:security="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ldap="http://www.springframework.org/schema/ldap"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-3.2.xsd http://www.springframework.org/schema/ldap http://www.springframework.org/schema/ldap/spring-ldap.xsd">
+
+	<security:http use-expressions="true">
+		<!-- Non secure static zone -->
+		<security:intercept-url pattern="/ace/**" access="permitAll" />
+		<security:intercept-url pattern="/assets/**" access="permitAll" />
+		<security:intercept-url pattern="/upload/**" access="permitAll" />
+		<security:intercept-url pattern="/img/**" access="permitAll" />
+
+		<!-- Non secure zone -->
+		<security:intercept-url pattern="/login" access="permitAll" />
+
+		<!-- Secure zone -->
+		<security:intercept-url pattern="/**" access="isAuthenticated()" />
+
+		<security:form-login login-page="/login" login-processing-url="/j_spring_security_check" default-target-url="/summary" always-use-default-target="false" authentication-success-handler-ref="customSimpleUrlAuthenticationSuccessHandler"
+			authentication-failure-url="/login" />
+		<security:logout logout-url="/j_spring_security_logout" logout-success-url="/login" />
+		
+		<security:custom-filter ref="ajaxTimeoutRedirectFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
+	</security:http>
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:ldap-authentication-provider user-search-filter="(&amp;(objectClass=user)(sAMAccountName={0}))"
+			user-search-base="${ldap.base}" group-search-filter="(&amp;(objectClass=user)(sAMAccountName={0}))" group-search-base="OU=BRED IT,DC=bred-it,DC=local"
+			group-role-attribute="CN" user-context-mapper-ref="customPersonContextMapper" />
+	</security:authentication-manager>
+
+	<security:ldap-server url="${ldap.url}" manager-dn="${ldap.managerDn}" manager-password="${ldap.password}" />
+
+	<!-- This is for our Active Dir LDAP implementation -->
+	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="${ldap.url}" />
+		<property name="base" value="${ldap.base}" />
+		<property name="userDn" value="${ldap.userDn}" />
+		<property name="password" value="${ldap.password}" />
+	</bean>
+	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSource" />
+	</bean>
+	
+	<bean id="ajaxTimeoutRedirectFilter" class="com.bredit.leavemanagement.filter.AjaxTimeoutRedirectFilter">
+	    <property name="customSessionExpiredErrorCode" value="901"/>
+	</bean>
+</beans>
