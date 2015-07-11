@@ -1,0 +1,17 @@
+.input-disabled {
+	background-color: #EBEBE4 !important;
+	border: 1px solid #ABADB3;
+	padding: 2px 1px;
+}
+
+.divIconAm {
+    position:relative;
+    left:0px;
+    top:0px;
+}
+
+.divIconPm {
+    position:relative;
+    left:0px;
+    top:0px;
+}
