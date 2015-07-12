@@ -1,7 +1,9 @@
 package com.metasoft.claim.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -12,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name="std_position")
 @NamedQuery(name="StdPosition.findAll", query="SELECT s FROM StdPosition s")
-public class StdPosition implements Serializable {
+public class StdPosition extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -21,6 +23,9 @@ public class StdPosition implements Serializable {
 
 	@Column(name="position_name")
 	private String positionName;
+	
+	@Column(name="role")
+	private String role;
 
 	public StdPosition() {
 	}
@@ -39,6 +44,23 @@ public class StdPosition implements Serializable {
 
 	public void setPositionName(String positionName) {
 		this.positionName = positionName;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	@Override
+	public Serializable getId() {
+		return positionId;
 	}
 
 

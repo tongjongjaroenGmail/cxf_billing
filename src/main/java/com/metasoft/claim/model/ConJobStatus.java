@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name="con_job_status")
 @NamedQuery(name="ConJobStatus.findAll", query="SELECT c FROM ConJobStatus c")
-public class ConJobStatus implements Serializable {
+public class ConJobStatus extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -41,5 +41,10 @@ public class ConJobStatus implements Serializable {
 
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
+	}
+
+	@Override
+	public Serializable getId() {
+		return jobStatus;
 	}
 }

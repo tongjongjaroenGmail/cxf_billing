@@ -9,13 +9,8 @@
 		<param-value>
 			/WEB-INF/applicationContext.xml
             /WEB-INF/persistenceContext.xml
-            
-            <!--  
-            /WEB-INF/applicationContext.xml
-            /WEB-INF/persistenceContext.xml
-            /WEB-INF/presentationContext.xml
             /WEB-INF/securityContext.xml
-            -->
+            /WEB-INF/presentationContext.xml
         </param-value>
 	</context-param>
 

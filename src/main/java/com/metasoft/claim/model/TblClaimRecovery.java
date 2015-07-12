@@ -1,7 +1,9 @@
 package com.metasoft.claim.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name="tbl_claim_recovery")
 @NamedQuery(name="TblClaimRecovery.findAll", query="SELECT t FROM TblClaimRecovery t")
-public class TblClaimRecovery implements Serializable {
+public class TblClaimRecovery extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -338,6 +340,11 @@ public class TblClaimRecovery implements Serializable {
 
 	public void setTblInvoices(List<TblInvoice> tblInvoices) {
 		this.tblInvoices = tblInvoices;
+	}
+
+	@Override
+	public Serializable getId() {
+		return claimRecoveryId;
 	}
 
 }

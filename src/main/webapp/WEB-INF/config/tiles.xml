@@ -16,38 +16,5 @@
         <put-attribute name="footer" value="/WEB-INF/jsp/common/footer.jsp"></put-attribute>
     </definition>
     
-    <definition name="summary" extends="base.definition">
-        <put-attribute name="title" value="Summary"></put-attribute>
-        <put-attribute name="body" value="/WEB-INF/jsp/summary.jsp"></put-attribute>
-    </definition>
-    
-     <definition name="view-leave" extends="base.definition">
-        <put-attribute name="title" value="View Leaves"></put-attribute>
-        <put-attribute name="body" value="/WEB-INF/jsp/view-leave.jsp"></put-attribute>
-    </definition>
-    
-    <definition name="history-log" extends="base.definition">
-        <put-attribute name="title" value="History Log"></put-attribute>
-        <put-attribute name="body" value="/WEB-INF/jsp/history-log.jsp"></put-attribute>
-    </definition>
-    
-    <definition name="adjust-leave" extends="base.definition">
-        <put-attribute name="title" value="Adjust Leave"></put-attribute>
-        <put-attribute name="body" value="/WEB-INF/jsp/adjust-leave.jsp"></put-attribute>
-    </definition>
-    
-    <definition name="import-employee" extends="base.definition">
-        <put-attribute name="title" value="Import Employee"></put-attribute>
-        <put-attribute name="body" value="/WEB-INF/jsp/import-employee.jsp"></put-attribute>
-    </definition>
-    
-    <definition name="holiday" extends="base.definition">
-        <put-attribute name="title" value="Holiday"></put-attribute>
-        <put-attribute name="body" value="/WEB-INF/jsp/holiday.jsp"></put-attribute>
-    </definition>
-    
-    <definition name="adjust-employee" extends="base.definition">
-        <put-attribute name="title" value="Adjust Employee"></put-attribute>
-        <put-attribute name="body" value="/WEB-INF/jsp/adjust-employee.jsp"></put-attribute>
-    </definition>
+   
 </tiles-definitions>

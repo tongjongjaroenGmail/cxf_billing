@@ -1,7 +1,9 @@
 package com.metasoft.claim.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -12,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name="std_receive_type")
 @NamedQuery(name="StdReceiveType.findAll", query="SELECT s FROM StdReceiveType s")
-public class StdReceiveType implements Serializable {
+public class StdReceiveType extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -39,6 +41,11 @@ public class StdReceiveType implements Serializable {
 
 	public void setReceiveTypeName(String receiveTypeName) {
 		this.receiveTypeName = receiveTypeName;
+	}
+
+	@Override
+	public Serializable getId() {
+		return receiveTypeId;
 	}
 
 	
