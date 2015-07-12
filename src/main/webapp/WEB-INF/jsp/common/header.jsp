@@ -9,7 +9,7 @@
 
 	<div class="navbar-container" id="navbar-container">
 		<div class="navbar-header pull-left">
-			<a href="#" class="navbar-brand"> <small> <img alt="" src="img/logo.png"> Leave Management
+			<a href="#" class="navbar-brand"> <small> <img alt="" src="img/logo.png"> Claim Application
 			</small>
 			</a>
 			<!-- /.brand -->
@@ -22,14 +22,14 @@
 					<%-- <img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo" /> --%>
 					<span class="user-info"> 
 					<small>Welcome,</small>
-							${SPRING_SECURITY_CONTEXT.authentication.principal.cn[0]}
+							${pageContext.request.userPrincipal.name}
 					</span> 
 					<i class="icon-caret-down"></i>
 				</a>
 
 					<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 
-						<li><a href="${pageContext.request.contextPath}/summary"> <i class="icon-user"></i>Profile
+						<li><a href="${pageContext.request.contextPath}/mainPage"> <i class="icon-user"></i>Profile
 						</a></li>
 
 						<li class="divider"></li>

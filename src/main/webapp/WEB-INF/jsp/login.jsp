@@ -71,23 +71,23 @@
 											</h4>
 
 											<div class="space-6"></div>
-                                            <div>
-                                              <c:if test="${not empty sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}">
-                                                ${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}
+                                            <div style="color: red;">       
+                                              <c:if test="${not empty error}">
+                                                ${error}
                                               </c:if>
                                             </div>
 											<form action="${pageContext.request.contextPath}/j_spring_security_check" method="post">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" name="j_username" class="form-control" placeholder="Username" />
+															<input type="text" name="userName" class="form-control" placeholder="Username" />
 															<i class="icon-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" name="j_password" class="form-control" placeholder="Password" />
+															<input type="password" name="password" class="form-control" placeholder="Password" />
 															<i class="icon-lock"></i>
 														</span>
 													</label>

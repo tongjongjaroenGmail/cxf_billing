@@ -8,6 +8,10 @@
 
     </definition>
     
+    <definition name="403" template="/WEB-INF/jsp/403.jsp">
+
+    </definition>
+ 
     <definition name="base.definition" template="/WEB-INF/jsp/mainTemplate.jsp">
         <put-attribute name="title" value=""></put-attribute>
         <put-attribute name="header" value="/WEB-INF/jsp/common/header.jsp"></put-attribute>
@@ -15,6 +19,9 @@
         <put-attribute name="body" value=""></put-attribute>
         <put-attribute name="footer" value="/WEB-INF/jsp/common/footer.jsp"></put-attribute>
     </definition>
-    
-   
+
+    <definition name="mainPage" extends="base.definition">
+		<put-attribute name="title" value=""></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/mainPage.jsp"></put-attribute>
+    </definition>
 </tiles-definitions>
