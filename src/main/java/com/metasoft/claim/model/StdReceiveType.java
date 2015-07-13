@@ -6,48 +6,42 @@ import javax.persistence.*;
 
 import java.util.List;
 
-
 /**
  * The persistent class for the std_receive_type database table.
  * 
  */
 @Entity
-@Table(name="std_receive_type")
-@NamedQuery(name="StdReceiveType.findAll", query="SELECT s FROM StdReceiveType s")
+@Table(name = "std_receive_type")
+@NamedQuery(name = "StdReceiveType.findAll", query = "SELECT s FROM StdReceiveType s")
 public class StdReceiveType extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="receive_type_id")
-	private int receiveTypeId;
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 
-	@Column(name="receive_type_name")
-	private String receiveTypeName;
+	@Column(name = "name")
+	private String name;
 
-	public StdReceiveType() {
+	public Integer getId() {
+		return id;
 	}
 
-	public int getReceiveTypeId() {
-		return this.receiveTypeId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public void setReceiveTypeId(int receiveTypeId) {
-		this.receiveTypeId = receiveTypeId;
+	public String getName() {
+		return name;
 	}
 
-	public String getReceiveTypeName() {
-		return this.receiveTypeName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setReceiveTypeName(String receiveTypeName) {
-		this.receiveTypeName = receiveTypeName;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
-
-	@Override
-	public Serializable getId() {
-		return receiveTypeId;
-	}
-
-	
 
 }

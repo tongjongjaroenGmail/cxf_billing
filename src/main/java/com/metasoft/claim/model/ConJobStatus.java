@@ -18,33 +18,32 @@ public class ConJobStatus extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="job_status")
-	private String jobStatus;
+	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 
-	@Column(name="job_name")
-	private String jobName;
+	@Column(name="name")
+	private String name;
 
-	public ConJobStatus() {
+	public Integer getId() {
+		return id;
 	}
 
-	public String getJobStatus() {
-		return this.jobStatus;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public void setJobStatus(String jobStatus) {
-		this.jobStatus = jobStatus;
+	public String getName() {
+		return name;
 	}
 
-	public String getJobName() {
-		return this.jobName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setJobName(String jobName) {
-		this.jobName = jobName;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	@Override
-	public Serializable getId() {
-		return jobStatus;
-	}
+	
 }

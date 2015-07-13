@@ -7,143 +7,145 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the tbl_claim_recovery database table.
  * 
  */
 @Entity
-@Table(name="tbl_claim_recovery")
-@NamedQuery(name="TblClaimRecovery.findAll", query="SELECT t FROM TblClaimRecovery t")
+@Table(name = "tbl_claim_recovery")
+@NamedQuery(name = "TblClaimRecovery.findAll", query = "SELECT t FROM TblClaimRecovery t")
 public class TblClaimRecovery extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="claim_recovery_id")
-	private int claimRecoveryId;
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="accident_date")
+	@Column(name = "accident_date")
 	private Date accidentDate;
 
-	@Column(name="agent_id")
-	private int agentId;
+	@ManyToOne
+	@JoinColumn(name = "agent_id")
+	private SecUser agent;
 
-	@Column(name="claim_amount")
+	@Column(name = "claim_amount")
 	private float claimAmount;
 
-	@Column(name="claim_insurance_amount")
+	@Column(name = "claim_insurance_amount")
 	private float claimInsuranceAmount;
 
-	@Column(name="claim_number")
+	@Column(name = "claim_number")
 	private String claimNumber;
 
-	@Column(name="create_by")
+	@Column(name = "create_by")
 	private int createBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="create_date")
+	@Column(name = "create_date")
 	private Date createDate;
 
-	@Column(name="job_cancel_remark")
+	@Column(name = "job_cancel_remark")
 	private String jobCancelRemark;
 
-	@Column(name="job_close_remark")
+	@Column(name = "job_close_remark")
 	private String jobCloseRemark;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="job_date")
+	@Column(name = "job_date")
 	private Date jobDate;
 
-	@Column(name="job_no")
+	@Column(name = "job_no")
 	private String jobNo;
 
-	@Column(name="job_start_remark")
+	@Column(name = "job_start_remark")
 	private String jobStartRemark;
 
-	@Column(name="license_number")
+	@Column(name = "license_number")
 	private String licenseNumber;
 
-	@Column(name="party_claim_number")
+	@Column(name = "party_claim_number")
 	private String partyClaimNumber;
 
-	@Column(name="party_insurance_id")
+	@Column(name = "party_insurance_id")
 	private int partyInsuranceId;
 
-	@Column(name="party_license_number")
+	@Column(name = "party_license_number")
 	private String partyLicenseNumber;
 
-	@Column(name="party_policy_no")
+	@Column(name = "party_policy_no")
 	private String partyPolicyNo;
 
-	@Column(name="policy_no")
+	@Column(name = "policy_no")
 	private String policyNo;
 
-	@Column(name="request_amount")
+	@Column(name = "request_amount")
 	private float requestAmount;
 
 	private byte responsibility;
 
-	@Column(name="update_by")
+	@Column(name = "update_by")
 	private int updateBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="update_date")
+	@Column(name = "update_date")
 	private Date updateDate;
 
-	//bi-directional many-to-one association to StdReceiveType
+	// bi-directional many-to-one association to StdReceiveType
 	@ManyToOne
-	@JoinColumn(name="receive_type_id")
+	@JoinColumn(name = "receive_type")
 	private StdReceiveType stdReceiveType;
 
-	//bi-directional many-to-one association to StdInsurance
+	// bi-directional many-to-one association to StdInsurance
 	@ManyToOne
-	@JoinColumn(name="insurance_id")
+	@JoinColumn(name = "insurance_id")
 	private StdInsurance stdInsurance;
 
-	//bi-directional many-to-one association to ConJobStatus
+	// bi-directional many-to-one association to ConJobStatus
 	@ManyToOne
-	@JoinColumn(name="job_status")
+	@JoinColumn(name = "job_status")
 	private ConJobStatus conJobStatus;
 
-	//bi-directional many-to-one association to ConClaimType
+	// bi-directional many-to-one association to ConClaimType
 	@ManyToOne
-	@JoinColumn(name="claim_type")
+	@JoinColumn(name = "claim_type")
 	private ConClaimType conClaimType;
 
-	//bi-directional many-to-one association to TblInvoice
-	@OneToMany(mappedBy="tblClaimRecovery")
+	// bi-directional many-to-one association to TblInvoice
+	@OneToMany(mappedBy = "tblClaimRecovery")
 	private List<TblInvoice> tblInvoices;
 
-	public TblClaimRecovery() {
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "maturity_date")
+	private Date maturityDate;
+
+	public Integer getId() {
+		return id;
 	}
 
-	public int getClaimRecoveryId() {
-		return this.claimRecoveryId;
-	}
-
-	public void setClaimRecoveryId(int claimRecoveryId) {
-		this.claimRecoveryId = claimRecoveryId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Date getAccidentDate() {
-		return this.accidentDate;
+		return accidentDate;
 	}
 
 	public void setAccidentDate(Date accidentDate) {
 		this.accidentDate = accidentDate;
 	}
 
-	public int getAgentId() {
-		return this.agentId;
+	public SecUser getAgent() {
+		return agent;
 	}
 
-	public void setAgentId(int agentId) {
-		this.agentId = agentId;
+	public void setAgent(SecUser agent) {
+		this.agent = agent;
 	}
 
 	public float getClaimAmount() {
-		return this.claimAmount;
+		return claimAmount;
 	}
 
 	public void setClaimAmount(float claimAmount) {
@@ -151,7 +153,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public float getClaimInsuranceAmount() {
-		return this.claimInsuranceAmount;
+		return claimInsuranceAmount;
 	}
 
 	public void setClaimInsuranceAmount(float claimInsuranceAmount) {
@@ -159,7 +161,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public String getClaimNumber() {
-		return this.claimNumber;
+		return claimNumber;
 	}
 
 	public void setClaimNumber(String claimNumber) {
@@ -167,7 +169,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public int getCreateBy() {
-		return this.createBy;
+		return createBy;
 	}
 
 	public void setCreateBy(int createBy) {
@@ -175,7 +177,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public Date getCreateDate() {
-		return this.createDate;
+		return createDate;
 	}
 
 	public void setCreateDate(Date createDate) {
@@ -183,7 +185,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public String getJobCancelRemark() {
-		return this.jobCancelRemark;
+		return jobCancelRemark;
 	}
 
 	public void setJobCancelRemark(String jobCancelRemark) {
@@ -191,7 +193,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public String getJobCloseRemark() {
-		return this.jobCloseRemark;
+		return jobCloseRemark;
 	}
 
 	public void setJobCloseRemark(String jobCloseRemark) {
@@ -199,7 +201,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public Date getJobDate() {
-		return this.jobDate;
+		return jobDate;
 	}
 
 	public void setJobDate(Date jobDate) {
@@ -207,7 +209,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public String getJobNo() {
-		return this.jobNo;
+		return jobNo;
 	}
 
 	public void setJobNo(String jobNo) {
@@ -215,7 +217,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public String getJobStartRemark() {
-		return this.jobStartRemark;
+		return jobStartRemark;
 	}
 
 	public void setJobStartRemark(String jobStartRemark) {
@@ -223,7 +225,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public String getLicenseNumber() {
-		return this.licenseNumber;
+		return licenseNumber;
 	}
 
 	public void setLicenseNumber(String licenseNumber) {
@@ -231,7 +233,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public String getPartyClaimNumber() {
-		return this.partyClaimNumber;
+		return partyClaimNumber;
 	}
 
 	public void setPartyClaimNumber(String partyClaimNumber) {
@@ -239,7 +241,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public int getPartyInsuranceId() {
-		return this.partyInsuranceId;
+		return partyInsuranceId;
 	}
 
 	public void setPartyInsuranceId(int partyInsuranceId) {
@@ -247,7 +249,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public String getPartyLicenseNumber() {
-		return this.partyLicenseNumber;
+		return partyLicenseNumber;
 	}
 
 	public void setPartyLicenseNumber(String partyLicenseNumber) {
@@ -255,7 +257,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public String getPartyPolicyNo() {
-		return this.partyPolicyNo;
+		return partyPolicyNo;
 	}
 
 	public void setPartyPolicyNo(String partyPolicyNo) {
@@ -263,7 +265,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public String getPolicyNo() {
-		return this.policyNo;
+		return policyNo;
 	}
 
 	public void setPolicyNo(String policyNo) {
@@ -271,7 +273,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public float getRequestAmount() {
-		return this.requestAmount;
+		return requestAmount;
 	}
 
 	public void setRequestAmount(float requestAmount) {
@@ -279,7 +281,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public byte getResponsibility() {
-		return this.responsibility;
+		return responsibility;
 	}
 
 	public void setResponsibility(byte responsibility) {
@@ -287,7 +289,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public int getUpdateBy() {
-		return this.updateBy;
+		return updateBy;
 	}
 
 	public void setUpdateBy(int updateBy) {
@@ -295,7 +297,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public Date getUpdateDate() {
-		return this.updateDate;
+		return updateDate;
 	}
 
 	public void setUpdateDate(Date updateDate) {
@@ -303,7 +305,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public StdReceiveType getStdReceiveType() {
-		return this.stdReceiveType;
+		return stdReceiveType;
 	}
 
 	public void setStdReceiveType(StdReceiveType stdReceiveType) {
@@ -311,7 +313,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public StdInsurance getStdInsurance() {
-		return this.stdInsurance;
+		return stdInsurance;
 	}
 
 	public void setStdInsurance(StdInsurance stdInsurance) {
@@ -319,7 +321,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public ConJobStatus getConJobStatus() {
-		return this.conJobStatus;
+		return conJobStatus;
 	}
 
 	public void setConJobStatus(ConJobStatus conJobStatus) {
@@ -327,7 +329,7 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public ConClaimType getConClaimType() {
-		return this.conClaimType;
+		return conClaimType;
 	}
 
 	public void setConClaimType(ConClaimType conClaimType) {
@@ -335,16 +337,25 @@ public class TblClaimRecovery extends BaseModel {
 	}
 
 	public List<TblInvoice> getTblInvoices() {
-		return this.tblInvoices;
+		return tblInvoices;
 	}
 
 	public void setTblInvoices(List<TblInvoice> tblInvoices) {
 		this.tblInvoices = tblInvoices;
 	}
 
-	@Override
-	public Serializable getId() {
-		return claimRecoveryId;
+	public Date getMaturityDate() {
+		return maturityDate;
 	}
+
+	public void setMaturityDate(Date maturityDate) {
+		this.maturityDate = maturityDate;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	
 
 }

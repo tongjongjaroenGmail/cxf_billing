@@ -18,33 +18,32 @@ public class StdInsurance extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="insurance_id")
-	private int insuranceId;
+	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 
-	@Column(name="insurance_name")
-	private String insuranceName;
+	@Column(name="name")
+	private String name;
 
-	public StdInsurance() {
+	public Integer getId() {
+		return id;
 	}
 
-	public int getInsuranceId() {
-		return this.insuranceId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public void setInsuranceId(int insuranceId) {
-		this.insuranceId = insuranceId;
+	public String getName() {
+		return name;
 	}
 
-	public String getInsuranceName() {
-		return this.insuranceName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setInsuranceName(String insuranceName) {
-		this.insuranceName = insuranceName;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	@Override
-	public Serializable getId() {
-		return insuranceId;
-	}
+	
 }

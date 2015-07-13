@@ -1,10 +1,19 @@
 package com.metasoft.claim.model;
 
-import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the sec_user database table.
@@ -17,13 +26,13 @@ public class SecUser extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "user_id")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int userId;
+	private Integer id;
 
 	private String email;
 
-	private String lastname;
+	private String lastName;
 
 	private String name;
 
@@ -66,13 +75,7 @@ public class SecUser extends BaseModel {
 		this.password = password;
 	}
 
-	public int getUserId() {
-		return this.userId;
-	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
 
 	public String getEmail() {
 		return this.email;
@@ -82,12 +85,12 @@ public class SecUser extends BaseModel {
 		this.email = email;
 	}
 
-	public String getLastname() {
-		return this.lastname;
+	public String getLastName() {
+		return this.lastName;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastname(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getName() {
@@ -134,9 +137,18 @@ public class SecUser extends BaseModel {
 		this.stdInsurances = stdInsurances;
 	}
 
-	@Override
-	public Serializable getId() {
-		return userId;
+	public Integer getId() {
+		return id;
 	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	
 
 }
