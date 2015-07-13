@@ -49,7 +49,7 @@ public class SecUser extends BaseModel {
 	private String password;
 
 	// bi-directional many-to-one association to StdPosition
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne
 	@JoinColumn(name = "position_id")
 	private StdPosition stdPosition;
 

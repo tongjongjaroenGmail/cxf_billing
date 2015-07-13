@@ -85,13 +85,8 @@ public class SiteController extends BaseController
 	}
     
     @RequestMapping(value = "/mainPage", method = RequestMethod.GET)
-    public String mainPage(@RequestParam(value = "loginSuccess", required = false) String loginSuccess,Principal principal, HttpSession session)
+    public String mainPage()
     {	
-    	if (loginSuccess != null) {
-	    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    	SecUser secUser = secUserService.findByUserName(authentication.getName());
-	    	session.setAttribute("loginUser", secUser);
-    	}
 		return "mainPage";
     }
     

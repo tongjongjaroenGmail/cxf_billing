@@ -13,20 +13,28 @@
 	<!-- PAGE CONTENT BEGINS -->
 
 	<div class="row">
-		<div class="col-sm-offset-1 col-sm-10">
+		<div class="col-sm-10">
 			<div class="table-responsive">
+				<div class="col-sm-2">		
+					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
+						<b>วันที่รับงาน : </b> 
+					</div>
+				</div>
 				<div class="col-sm-3">		
 					<div class="input-group col-sm-12 no-padding-left">
-						<b>วันที่รับงาน : </b> 
 						<input class="form-control date-picker" id="txtJobDateStart" type="text" data-date-format="dd/mm/yyyy" /> 
 						<span class="input-group-addon"> 
 							<i class="icon-calendar bigger-110"></i>
 						</span>
 					</div>
 				</div>
+				<div class="col-sm-2">		
+					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
+						<b>ถึงวันที่ : </b> 
+					</div>
+				</div>
 				<div class="col-sm-3">	
 					<div class="input-group col-sm-12 no-padding-left">
-						<b>ถึงวันที่ : </b> 
 						<input class="form-control date-picker" id="txtJobDateEnd" type="text" data-date-format="dd/mm/yyyy" /> 
 						<span class="input-group-addon"> 
 							<i class="icon-calendar bigger-110"></i>
@@ -37,24 +45,41 @@
 		</div>		
 	</div>
 	
+	<div class="space-4"></div>
+
 	<div class="row">
-		<div class="col-sm-offset-1 col-sm-10">
+		<div class="col-sm-10">
 			<div class="table-responsive">
+				<div class="col-sm-2">		
+					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
+						<b>บริษัทประกัน : </b> 
+					</div>
+				</div>
 				<div class="col-sm-3">		
 					<div class="input-group col-sm-12 no-padding-left">
-						<b>บริษัทประกัน : </b> 
 						<select class="col-sm-12" id="selInsurance">
 							<option value="">ทั้งหมด</option>
 							<c:forEach var="insurance" items="${insurances}" varStatus="index">		
 								<option value="${insurance.id}">${insurance.name}</option>					
 							</c:forEach>
-					</select>
+						</select>
 					</div>
 				</div>
-				<div class="col-sm-3">	
-					<div class="input-group col-sm-12 no-padding-left">
+				<div class="col-sm-3">		
+					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
 						<b>จำนวนวันที่จะหมดอายุความ : </b> 
+					</div>
+				</div>
+				<div class="col-sm-2">	
+					<div class="input-group col-sm-12 no-padding-left">
+						
 						<input class="form-control input-mask-number" id="txtTotalDay" type="text" maxlength="3" /> 
+						
+					</div>
+				</div>
+				
+				<div class="col-sm-1">		
+					<div class="input-group col-sm-12 no-padding-left" style="text-align: left;">
 						<b> วัน</b> 
 					</div>
 				</div>
@@ -62,59 +87,74 @@
 		</div>		
 	</div>
 	
+	<div class="space-4"></div>
+	
 	<div class="row">
-		<div class="col-sm-offset-1 col-sm-10">
+		<div class="col-sm-10">
 			<div class="table-responsive">
+				<div class="col-sm-2">		
+					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
+						<b>ประเภทเคลม : </b> 
+					</div>
+				</div>
 				<div class="col-sm-3">		
 					<div class="input-group col-sm-12 no-padding-left">
-						<b>ประเภทเคลม : </b> 
 						<select class="col-sm-12" id="selInsurance">
 							<option value="">ทั้งหมด</option>
 							<c:forEach var="claimType" items="${claimTypes}" varStatus="index">		
 								<option value="${claimType.id}">${claimType.name}</option>					
 							</c:forEach>
-					</select>
+						</select>
 					</div>
 				</div>
-			</div>
-		</div>		
-	</div>
-	
-	<div class="row">
-		<div class="col-sm-offset-1 col-sm-10">
-			<div class="table-responsive">
 				<div class="col-sm-3">		
-					<div class="input-group col-sm-12 no-padding-left">
+					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
 						<b>เลขเคลม : </b> 
-						<input class="form-control" id="txtClaimNumber" type="text" maxlength="20" /> 
 					</div>
 				</div>
+				<div class="col-sm-2">	
+					<div class="input-group col-sm-12 no-padding-left">
+						
+						<input class="form-control" id="txtClaimNumber" type="text" maxlength="20" /> 
+						
+					</div>
+				</div>
+				
 			</div>
 		</div>		
 	</div>
 	
+	<div class="space-4"></div>
+	
 	<div class="row">
-		<div class="col-sm-offset-1 col-sm-10">
+		<div class="col-sm-10">
 			<div class="table-responsive">
+				<div class="col-sm-2">		
+					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
+						<b>สถานะ : </b> 				
+					</div>
+				</div>
+				
 				<div class="col-sm-3">		
 					<div class="input-group col-sm-12 no-padding-left">
-						<b>สถานะ : </b> 
 						<select class="col-sm-12" id="selInsurance">
 							<option value="">ทั้งหมด</option>
 							<c:forEach var="jobStatus" items="${jobStatuses}" varStatus="index">		
 								<option value="${jobStatus.id}">${jobStatus.name}</option>					
 							</c:forEach>
-					</select>
+						</select>
 					</div>
 				</div>
 			</div>
 		</div>		
 	</div>
 	
+	<div class="space-4"></div>
+	
 	<div class="row">
-		<div class="col-sm-offset-1 col-sm-10">
+		<div class="col-sm-offset-1 col-sm-10" style="text-align: right;">
 			<div class="table-responsive">
-				<div class="col-sm-2"  style="padding-top: 13px">
+				<div class="col-sm-12">
 					<button class="btn btn-info" type="button" id="btnSearch" onclick="search();">
 						<i class="icon-search"></i> ค้นหา
 					</button>
