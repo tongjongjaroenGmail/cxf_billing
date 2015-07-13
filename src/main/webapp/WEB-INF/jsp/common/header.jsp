@@ -22,7 +22,7 @@
 					<%-- <img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo" /> --%>
 					<span class="user-info"> 
 					<small>Welcome,</small>
-							${pageContext.request.userPrincipal.name}
+							${sessionScope.loginUser.name}&nbsp;&nbsp;${sessionScope.loginUser.lastName}
 					</span> 
 					<i class="icon-caret-down"></i>
 				</a>

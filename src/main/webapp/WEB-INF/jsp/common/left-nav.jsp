@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <a class="menu-toggler" id="menu-toggler" href="#"> <span class="menu-text"></span></a>
 			
@@ -39,39 +41,75 @@
 	</div>
 
 	<!-- #sidebar-shortcuts -->
+	
+	<c:set var="currentUrl" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
 	<ul class="nav nav-list">
-		<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/summary'}">class="active"</c:if>><a
-			href="${pageContext.request.contextPath}/summary"> <i class="icon-home"></i> <span class="menu-text">
-					Summary </span>
-		</a></li>
-		<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/view-leave'}">class="active"</c:if>><a
-			href="${pageContext.request.contextPath}/view-leave"> <i class="icon-list-alt"></i> <span class="menu-text">
-					View Leaves </span>
-		</a></li>
-		<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/history-log'}">class="active"</c:if>><a
-			href="${pageContext.request.contextPath}/history-log"> <i class="icon-list"></i> <span class="menu-text">
-					History Log </span>
-		</a></li>
-		<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/holiday'}">class="active"</c:if>><a
-			href="${pageContext.request.contextPath}/holiday"> <i class="icon-calendar"></i> <span class="menu-text">
-					Holiday </span>
-		</a></li>
+		<li <c:if test="${fn:startsWith(currentUrl, 'claim')}">class="active open"</c:if>>
+			<a href="#" class="dropdown-toggle">
+				<i class="icon-tag"></i>
+				<span class="menu-text">สร้างเรื่องเรียกร้อง</span>
+				<b class="arrow icon-angle-down"></b>
+			</a>
+			<ul class="submenu">
+				<c:if test="${loginUser.stdPosition.id == 1}">
+					<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/claimImport'}">class="active"</c:if>>
+						<a href="${pageContext.request.contextPath}/claimImport"> 
+							<i class="icon-double-angle-right"></i> 
+							<span class="menu-text">นำเข้าไฟล์</span>
+						</a>
+					</li>
+       			</c:if>
+				
+
+				<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/claim'}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/claimSearch"> 
+						<i class="icon-double-angle-right"></i> 
+						<span class="menu-text">เรื่องเรียกร้อง</span>
+					</a>
+				</li>
+			</ul>
+		</li>
 		
-		<c:if test="${loginEmployee.role.id == 2 or loginEmployee.role.id == 3}">
-			<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/adjust-leave'}">class="active"</c:if>><a
-				href="${pageContext.request.contextPath}/adjust-leave"> <i class="icon-edit"></i> <span class="menu-text">
-						Adjust Leave </span>
-			</a></li>
-			<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/adjust-employee'}">class="active"</c:if>><a
-				href="${pageContext.request.contextPath}/adjust-employee"> <i class="icon-edit"></i> <span class="menu-text">
-						Adjust Employee </span>
-			</a></li>
-	        <li class="${requestScope['javax.servlet.forward.servlet_path'] eq '/import-employee'?'active':''}"><a
-	            href="${pageContext.request.contextPath}/import-employee"> <i class="icon-cogs"></i> <span class="menu-text">
-	                    Import Employee </span>
-	        </a></li>
-        </c:if>
+		<li <c:if test="${fn:startsWith(currentUrl, 'report')}">class="active open"</c:if>>
+			<a href="#" class="dropdown-toggle">
+				<i class="icon-tag"></i>
+				<span class="menu-text">รายงาน</span>
+				<b class="arrow icon-angle-down"></b>
+			</a>
+			<ul class="submenu">
+				<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/report1'}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/report1"> 
+						<i class="icon-double-angle-right"></i> 
+						<span class="menu-text">ออกหนังสือติดตาม</span>
+					</a>
+				</li>
+
+				<c:if test="${loginUser.stdPosition.id == 1}">
+					<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/report2'}">class="active"</c:if>>
+						<a href="${pageContext.request.contextPath}/report2"> 
+							<i class="icon-double-angle-right"></i> 
+							<span class="menu-text">จ่ายค่าแรง</span>
+						</a>
+					</li>
+					
+					<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/report3'}">class="active"</c:if>>
+						<a href="${pageContext.request.contextPath}/report3"> 
+							<i class="icon-double-angle-right"></i> 
+							<span class="menu-text">วางบิล</span>
+						</a>
+					</li>
+				</c:if>
+				
+				<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/report4'}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/report4"> 
+						<i class="icon-double-angle-right"></i> 
+						<span class="menu-text">รายงานการปฏิบัติงาน</span>
+					</a>
+				</li>
+			</ul>
+		</li>
 	</ul>
+
 
 	<div class="sidebar-collapse" id="sidebar-collapse">
 		<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>

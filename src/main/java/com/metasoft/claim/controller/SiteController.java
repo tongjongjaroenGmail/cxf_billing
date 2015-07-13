@@ -3,8 +3,12 @@
  */
 package com.metasoft.claim.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
@@ -12,11 +16,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.metasoft.claim.model.SecUser;
+import com.metasoft.claim.service.SecUserService;
 
 /**
  * @author 
@@ -25,6 +31,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SiteController extends BaseController
 {
+	 @Autowired
+	 private SecUserService secUserService;
+	 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {
@@ -74,10 +83,21 @@ public class SiteController extends BaseController
 		model.setViewName("403");
 		return model;
 	}
-
+    
     @RequestMapping(value = "/mainPage", method = RequestMethod.GET)
-    public String mainPage()
+    public String mainPage(@RequestParam(value = "loginSuccess", required = false) String loginSuccess,Principal principal, HttpSession session)
     {	
+    	if (loginSuccess != null) {
+	    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    	SecUser secUser = secUserService.findByUserName(authentication.getName());
+	    	session.setAttribute("loginUser", secUser);
+    	}
 		return "mainPage";
+    }
+    
+    @RequestMapping(value = "/claimSearch", method = RequestMethod.GET)
+    public String claimSearch()
+    {	
+		return "claimSearch";
     }
 }

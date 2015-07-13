@@ -4,6 +4,6 @@ import com.metasoft.claim.model.SecUser;
 
 public interface SecUserDao extends AbstractDao<SecUser, Integer>{
 
-	SecUser findByUserName(String username);
+	SecUser findByUserName(String userName);
 
 }

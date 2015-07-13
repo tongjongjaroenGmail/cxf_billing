@@ -27,6 +27,19 @@ public class StdPosition extends BaseModel {
 
 	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "role")
+	private String role;
+	
+	
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 	public Integer getId() {
 		return id;

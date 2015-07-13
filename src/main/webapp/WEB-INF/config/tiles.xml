@@ -24,4 +24,9 @@
 		<put-attribute name="title" value=""></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/mainPage.jsp"></put-attribute>
     </definition>
+    
+    <definition name="claimSearch" extends="base.definition">
+		<put-attribute name="title" value=""></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/claim/claim/claimSearch.jsp"></put-attribute>
+    </definition>
 </tiles-definitions>

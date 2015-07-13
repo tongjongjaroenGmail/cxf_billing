@@ -32,6 +32,7 @@ public class SecUser extends BaseModel {
 
 	private String email;
 
+	@Column(name = "last_name")
 	private String lastName;
 
 	private String name;
@@ -42,6 +43,7 @@ public class SecUser extends BaseModel {
 	@Column(name = "tel_number")
 	private String telNumber;
 
+	@Column(name = "user_name")
 	private String userName;
 
 	private String password;

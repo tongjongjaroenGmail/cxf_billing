@@ -21,11 +21,14 @@
 		<!-- access denied page -->
 		<security:access-denied-handler error-page="/403" />
 
-		<security:form-login login-page="/login" default-target-url="/mainPage"
-			authentication-failure-url="/login?error"
+		<security:form-login login-page="/login" default-target-url="/mainPage?loginSuccess" 
+			always-use-default-target="true" 
+			authentication-failure-url="/login?error" 
 			username-parameter="userName"
 			password-parameter="password" />
-		<security:logout logout-url="/j_spring_security_logout" logout-success-url="/login" />
+		<security:logout logout-url="/j_spring_security_logout" logout-success-url="/login?logout" />
+
+		<security:custom-filter ref="ajaxTimeoutRedirectFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
 	</security:http>
 
 	<security:authentication-manager alias="authenticationManager">
