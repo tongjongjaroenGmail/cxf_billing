@@ -61,7 +61,13 @@
 <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
 <script src="assets/js/chosen.jquery.min.js"></script>
 <script src="assets/js/fuelux/fuelux.spinner.min.js"></script>
+<%-- 
 <script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
+--%>
+<script type="text/javascript" src="js/bootstrap-datepicker-thai-thai/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="js/bootstrap-datepicker-thai-thai/js/bootstrap-datepicker-thai.js"></script>
+<script type="text/javascript" src="js/bootstrap-datepicker-thai-thai/js/locales/bootstrap-datepicker.th.js"></script>
+
 <script src="assets/js/date-time/bootstrap-timepicker.min.js"></script>
 <script src="assets/js/bootstrap-colorpicker.min.js"></script>
 <script src="assets/js/jquery.knob.min.js"></script>

@@ -22,7 +22,7 @@
 				</div>
 				<div class="col-sm-3">		
 					<div class="input-group col-sm-12 no-padding-left">
-						<input class="form-control date-picker" id="txtJobDateStart" type="text" data-date-format="dd/mm/yyyy" /> 
+						<input class="form-control date-picker" id="txtJobDateStart" type="text" data-date-format="dd/mm/yyyy" data-date-language="th-th"/> 
 						<span class="input-group-addon"> 
 							<i class="icon-calendar bigger-110"></i>
 						</span>
@@ -33,9 +33,10 @@
 						<b>ถึงวันที่ : </b> 
 					</div>
 				</div>
+				
 				<div class="col-sm-3">	
 					<div class="input-group col-sm-12 no-padding-left">
-						<input class="form-control date-picker" id="txtJobDateEnd" type="text" data-date-format="dd/mm/yyyy" /> 
+						<input class="form-control date-picker" id="txtJobDateEnd" type="text" data-date-format="dd/mm/yyyy" data-date-language="th-th"/> 
 						<span class="input-group-addon"> 
 							<i class="icon-calendar bigger-110"></i>
 						</span>
