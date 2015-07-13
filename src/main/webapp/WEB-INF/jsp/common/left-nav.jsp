@@ -43,8 +43,9 @@
 	<!-- #sidebar-shortcuts -->
 	
 	<c:set var="currentUrl" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
+
 	<ul class="nav nav-list">
-		<li <c:if test="${fn:startsWith(currentUrl, 'claim')}">class="active open"</c:if>>
+		<li <c:if test="${fn:startsWith(currentUrl, '/claim')}">class="active open"</c:if>>
 			<a href="#" class="dropdown-toggle">
 				<i class="icon-tag"></i>
 				<span class="menu-text">สร้างเรื่องเรียกร้อง</span>
@@ -70,7 +71,7 @@
 			</ul>
 		</li>
 		
-		<li <c:if test="${fn:startsWith(currentUrl, 'report')}">class="active open"</c:if>>
+		<li <c:if test="${fn:startsWith(currentUrl, '/report')}">class="active open"</c:if>>
 			<a href="#" class="dropdown-toggle">
 				<i class="icon-tag"></i>
 				<span class="menu-text">รายงาน</span>
