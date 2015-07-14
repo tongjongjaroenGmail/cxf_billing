@@ -74,7 +74,7 @@
 				<div class="col-sm-2">	
 					<div class="input-group col-sm-12 no-padding-left">
 						
-						<input class="form-control input-mask-number" id="txtTotalDay" type="text" maxlength="3" /> 
+						<input class="form-control input-mask-number" id="txtTotalDayOfMaturity" type="text" maxlength="3" style="text-align: right"/> 
 						
 					</div>
 				</div>
@@ -100,7 +100,7 @@
 				</div>
 				<div class="col-sm-3">		
 					<div class="input-group col-sm-12 no-padding-left">
-						<select class="col-sm-12" id="selInsurance">
+						<select class="col-sm-12" id="selClaimType">
 							<option value="">ทั้งหมด</option>
 							<c:forEach var="claimType" items="${claimTypes}" varStatus="index">		
 								<option value="${claimType.id}">${claimType.name}</option>					
@@ -138,7 +138,7 @@
 				
 				<div class="col-sm-3">		
 					<div class="input-group col-sm-12 no-padding-left">
-						<select class="col-sm-12" id="selInsurance">
+						<select class="col-sm-12" id="selJobStatus">
 							<option value="">ทั้งหมด</option>
 							<c:forEach var="jobStatus" items="${jobStatuses}" varStatus="index">		
 								<option value="${jobStatus.id}">${jobStatus.name}</option>					
@@ -166,6 +166,32 @@
 		<!-- /span -->
 	</div>
 	<!-- /row -->
+	
+	<div class="table-responsive">
+				<br> <br>
+				<table id="tblClaim" class="table table-striped table-bordered table-hover" style="width: 100%;">
+					<thead>
+						<tr>
+							<th>วันที่รับงาน</th>
+							<th>เลขเคลม</th>
+							<th>เลขเรียกร้อง</th>
+							<th>บริษัทประกัน</th>
+							<th>ประเภทเคลม</th>
+							<th>จำนวนเงินเรียกร้อง</th>
+							<th>สถานะ</th>
+							<th>ผู้รับผิดชอบ</th>
+							<th>อายุความ</th>
+							<th>แก้ไข</th>
+							<th>แสดง</th>
+						</tr>
+					</thead>
+
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+	
 </div>
 <!-- /.page-content -->
 
@@ -175,6 +201,62 @@ $('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, functi
 });
 
 $('.input-mask-number').mask('9,999');
+
+var tblClaim;
+var firstTime = true;
+
+$(document).ready(function() {
+	tblClaim = $("#tblClaim").dataTable({
+			"aoColumns"   : [
+				{ "mData" : "jobDate" },
+				{ "mData" : "claimNumber"  },
+				{ "mData" : "jobNo"  },
+				{ "mData" : "insuranceName"    },
+				{ "mData" : "claimType"    },
+				{ "mData" : "requestAmount"    },
+				{ "mData" : "jobStatus"    },
+				{ "mData" : "agentName"    },
+				{ "mData" : "maturityDate"    },
+				{ "mData" : "",
+					"bSortable": false,
+					"mRender" : function (data, type, full) {
+						return '<button id="btnEdit" class="btn-info" type="button">Edit</button>';
+					}	
+				},
+				{ "mData" : "",
+					"bSortable": false,
+					"mRender" : function (data, type, full) {
+						return '<button id="btnDetail" class="btn-info" type="button">Detail</button>';
+					}	
+				}],
+				columnDefs: [ { type: 'date-dd/mm/yyyy', targets: 3 }],
+				"processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": '${pageContext.request.contextPath}/claim/search',
+                    "type": "POST",
+                    "data": function ( d ) {
+                         d.jobDateStart       =  $("#txtJobDateStart").val(),  
+                         d.jobDateEnd         =  $("#txtJobDateEnd").val(),  
+                         d.insuranceId        =  $("#selInsurance").val(),  
+                         d.totalDayOfMaturity =  $("#txtTotalDayOfMaturity").val(),  
+                         d.claimTypeId        =  $("#selClaimType").val(),  
+                         d.claimNumber        =  $("#txtClaimNumber").val(),  
+                         d.jobStatusId        =  $("#selJobStatus").val(),
+                         d.firstTime          =  firstTime
+                    }
+                },
+				"createdRow": function ( row, data, index ) {
+					firstTime = false;
+		        }
+	});
+});
+
+function search(){
+	delay(function(){
+		tblClaim.fnDraw();
+	}, 1000 );
+}
 </script>
 
 <div id='msgbox' title='' style='display:none'></div>
