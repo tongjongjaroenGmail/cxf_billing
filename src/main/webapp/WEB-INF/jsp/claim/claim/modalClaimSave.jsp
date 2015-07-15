@@ -243,7 +243,7 @@
 								<div class="col-sm-2 no-padding-left">	
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
 										<div class="input-group col-sm-12 no-padding-left no-padding-right">
-											<input class="form-control" id="txtPartylicenseNumber" type="text" maxlength="10"/> 
+											<input class="form-control" id="txtPartyLicenseNumber" type="text" maxlength="10"/> 
 										</div>
 									</div>
 								</div>

@@ -224,10 +224,10 @@ $(document).ready(function() {
 				{ "mData" : "jobStatus"    },
 				{ "mData" : "agentName"    },
 				{ "mData" : "maturityDate"    },
-				{ "mData" : "",
+				{ "mData" : "claimId",
 					"bSortable": false,
 					"mRender" : function (data, type, full) {
-						return '<button id="btnEdit" class="btn-info" type="button">Edit</button>';
+						return '<button id="btnEdit" class="btn-info" type="button" onclick="find(' + data + ')">Edit</button>';
 					}	
 				}],
 				columnDefs: [{ type: 'date-dd/mm/yyyy', targets: 0 }],
@@ -254,12 +254,15 @@ $(document).ready(function() {
 	
 	$( "#btnAdd" ).click(function() {
 		$('#modalSaveHeaderLabelFunction').html("เพิ่ม");
+		$("#modalSave").find('input,textarea,select').each(function() {
+	        $(this).val("");
+	    });  
+		changeSelJobStatus(0);
+		setOptionSelJobStatus(-1);
 		$("#modalSave").find("#selJobStatus").prop('disabled', true);
-		$("#modalSave").find("#txtFollowRemark").attr('readonly','readonly');
-		$("#modalSave").find("#txtCloseRemark").attr('readonly','readonly');
-		$("#modalSave").find("#txtCancelRemark").attr('readonly','readonly');
 		$("#modalSave").find("#txtJobDate").val(moment().format('DD/MM/') +( parseInt( moment().format('YYYY')) + 543));
 		$("#modalSave").find("#txtClaimId").val("");
+		$("#btnSave").show();
 		
 		$('#modalSave').modal(
 			{
@@ -273,6 +276,42 @@ function search(){
 	delay(function(){
 		tblClaimDt.fnDraw();
 	}, 1000 );
+}
+
+function find(id){
+	$.ajax({
+		url : '${pageContext.request.contextPath}/claim/find/' + id,
+		dataType: 'json',
+		type : "GET",
+		contentType: 'application/json',
+	    mimeType: 'application/json',
+		success : function(data) {
+			if(data.message !=  ""){			
+				alert(data.message);
+			}
+			
+			if(data.error == false){
+				setOptionSelJobStatus(-1);
+				
+				$.each( data.result, function( key, value ) {
+					  $("#modalSave").find("#" + key).val(value);
+				});
+				
+				$('#modalSaveHeaderLabelFunction').html("แก้ไข");			
+				$("#modalSave").find("#selJobStatus").prop('disabled', false);			
+				var selJobStatus = $("#modalSave").find("#selJobStatus").val();			
+				setOptionSelJobStatus(selJobStatus);
+				
+				if(selJobStatus == 2 || selJobStatus == 3){
+					$("#btnSave").hide();
+				}else{
+					$("#btnSave").show();
+				}
+
+				$('#modalSave').modal({backdrop:'static'});
+			}
+		}
+	});
 }
 
 function save(){
@@ -304,8 +343,10 @@ function save(){
 				
 				setOptionSelJobStatus(selJobStatus);
 				
-				if(selJobStatus == 3 || selJobStatus == 4){
+				if(selJobStatus == 2 || selJobStatus == 3){
 					$("#btnSave").hide();
+				}else{
+					$("#btnSave").show();
 				}
 			}
 		}
@@ -315,11 +356,11 @@ function save(){
 function setOptionSelJobStatus(jobStatusVal){
 	$("#modalSave").find("#selJobStatus").html("");
 	$.each(selJobStatusOptions, function(val, text) {
-		if(
-				(jobStatusVal == 1 && (val == 1 || val == 2 || val == 4)) || 
-				(jobStatusVal == 2 && (val == 2 || val == 3 || val == 4)) ||
-				(jobStatusVal == 3 && (val == 3)) ||
-				(jobStatusVal == 4 && (val == 4))){
+		if(		 jobStatusVal == -1 ||
+				(jobStatusVal == 0 && (val == 0 || val == 1 || val == 2)) || 
+				(jobStatusVal == 1 && (val == 1 || val == 2 || val == 3)) ||
+				(jobStatusVal == 2 && (val == 2)) ||
+				(jobStatusVal == 3 && (val == 3))){
 			$("#modalSave").find("#selJobStatus").append(
 				     $('<option></option>').val(val).html(text)
 				);
@@ -332,16 +373,16 @@ function changeSelJobStatus(jobStatusVal){
 	$("#modalSave").find("#txtFollowRemark").attr('readonly','readonly');
 	$("#modalSave").find("#txtCloseRemark").attr('readonly','readonly');
 	$("#modalSave").find("#txtCancelRemark").attr('readonly','readonly');
-	if(jobStatusVal == 1){
+	if(jobStatusVal == 0){
 		$("#modalSave").find("#txtReceiveRemark").removeAttr('readonly');
 		$('.nav-tabs li:eq(0) a').tab('show'); 
-	}else if(jobStatusVal == 2){
+	}else if(jobStatusVal == 1){
 		$("#modalSave").find("#txtFollowRemark").removeAttr('readonly');
 		$('.nav-tabs li:eq(1) a').tab('show'); 
-	}else if(jobStatusVal == 3){
+	}else if(jobStatusVal == 2){
 		$("#modalSave").find("#txtCloseRemark").removeAttr('readonly');
 		$('.nav-tabs li:eq(2) a').tab('show'); 
-	}else if(jobStatusVal == 4){
+	}else if(jobStatusVal == 3){
 		$("#modalSave").find("#txtCancelRemark").removeAttr('readonly');
 		$('.nav-tabs li:eq(3) a').tab('show'); 
 	}
