@@ -901,7 +901,7 @@ blockquote,blockquote.pull-right{
 
 .navbar{margin-bottom:0}
 
-.navbar{margin-left:0;margin-right:0;border:0;-webkit-box-shadow:none;box-shadow:none;border-radius:0;margin:0;padding-left:0;padding-right:0;min-height:45px;position:relative;background: linear-gradient(to right, white 50%, #438eb9);}
+.navbar{margin-left:0;margin-right:0;border:0;-webkit-box-shadow:none;box-shadow:none;border-radius:0;margin:0;padding-left:0;padding-right:0;min-height:45px;position:relative;background: linear-gradient(to right, white 30%, rgba(215, 79, 20, 0.88));}
 
 .navbar>.container{padding-left:0;padding-right:0}
 
