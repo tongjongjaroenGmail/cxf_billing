@@ -14,7 +14,7 @@ public class ClaimSaveVo {
 	private String txtRequestAmount;
 	private String txtClaimAmount;
 	private String selPartyInsurance;
-	private String txtPartylicenseNumber;
+	private String txtPartyLicenseNumber;
 	private String txtPartyClaimNumber;
 	private String txtPartyPolicyNo;
 	private String txtInvoiceNumber;
@@ -24,8 +24,33 @@ public class ClaimSaveVo {
 	private String txtCloseRemark;
 	private String selAgent;
 	private String txtClaimId;
-	
-	
+	private String txtFollowDate;
+	private String txtCancelDate;
+	private String txtCloseDate;
+
+	public String getTxtFollowDate() {
+		return txtFollowDate;
+	}
+
+	public void setTxtFollowDate(String txtFollowDate) {
+		this.txtFollowDate = txtFollowDate;
+	}
+
+	public String getTxtCancelDate() {
+		return txtCancelDate;
+	}
+
+	public void setTxtCancelDate(String txtCancelDate) {
+		this.txtCancelDate = txtCancelDate;
+	}
+
+	public String getTxtCloseDate() {
+		return txtCloseDate;
+	}
+
+	public void setTxtCloseDate(String txtCloseDate) {
+		this.txtCloseDate = txtCloseDate;
+	}
 
 	public String getTxtClaimId() {
 		return txtClaimId;
@@ -139,12 +164,12 @@ public class ClaimSaveVo {
 		this.selPartyInsurance = selPartyInsurance;
 	}
 
-	public String getTxtPartylicenseNumber() {
-		return txtPartylicenseNumber;
+	public String getTxtPartyLicenseNumber() {
+		return txtPartyLicenseNumber;
 	}
 
-	public void setTxtPartylicenseNumber(String txtPartylicenseNumber) {
-		this.txtPartylicenseNumber = txtPartylicenseNumber;
+	public void setTxtPartyLicenseNumber(String txtPartyLicenseNumber) {
+		this.txtPartyLicenseNumber = txtPartyLicenseNumber;
 	}
 
 	public String getTxtPartyClaimNumber() {

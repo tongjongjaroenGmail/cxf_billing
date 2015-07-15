@@ -10,7 +10,7 @@ package com.metasoft.claim.model;
  */
 public enum ReceiveMoneyType
 {
-    KFK(1, "KFK"), BILLING(2, "วางบิล"), DEBIT(3, "ตัดบัญชี");
+    KFK(0, "KFK"), BILLING(1, "วางบิล"), DEBIT(2, "ตัดบัญชี");
 
     private int id;
     private String name;

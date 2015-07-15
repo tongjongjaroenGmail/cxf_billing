@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,6 +66,19 @@ public class ClaimAjaxController extends BaseAjaxController {
 		return json;
 	}
 	
+	@RequestMapping(value = "/claim/find/{id}", method = RequestMethod.GET)
+    public @ResponseBody String find(Model model,  @PathVariable("id") int  id,HttpSession session) throws ParseException
+    {
+		ResultVo resultVo = new ResultVo();
+    	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    	
+    	ClaimSaveVo claimVo = claimService.findById(id , (SecUser)session.getAttribute("loginUser"));		
+    	resultVo.setResult(claimVo);
+
+    	String json = gson.toJson(resultVo);
+		return json;
+    }
+	
 	@RequestMapping(value = "/claim/save", method = RequestMethod.POST,headers = { "Content-type=application/json" })
     public @ResponseBody String save(Model model,  @RequestBody ClaimSaveVo saveVo,HttpSession session) throws ParseException
     {
@@ -73,7 +87,7 @@ public class ClaimAjaxController extends BaseAjaxController {
     	
     	if(StringUtils.isNotBlank(saveVo.getTxtClaimId())){
     		TblClaimRecovery claim = claimService.findById(Integer.parseInt(saveVo.getTxtClaimId()));
-    		if(claim.getJobStatus().getId() == 3 || claim.getJobStatus().getId() == 4){
+    		if(claim.getJobStatus().getId() == 2 || claim.getJobStatus().getId() == 3){
     			resultVo.setMessage("ไม่สามารถบันทึกข้อมูลได้เนื่องจากสถานะเป็นปิดงานหรือยกเลิกแล้ว");
     			resultVo.setError(true);
     		}

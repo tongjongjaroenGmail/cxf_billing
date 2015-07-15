@@ -23,4 +23,6 @@ public interface ClaimService extends ModelBasedService<ClaimDao, TblClaimRecove
 			ClaimType claimType, String claimNumber, JobStatus jobStatus, int start, int length);
 	
 	public TblClaimRecovery save(ClaimSaveVo claimSaveVo,SecUser user);
+	
+	public ClaimSaveVo findById(Integer id,SecUser user);
 }
