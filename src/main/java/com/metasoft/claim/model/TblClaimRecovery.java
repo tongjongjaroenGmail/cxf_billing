@@ -92,25 +92,19 @@ public class TblClaimRecovery extends BaseModel {
 	@Column(name = "update_date")
 	private Date updateDate;
 
-	// bi-directional many-to-one association to StdReceiveType
-	@ManyToOne
-	@JoinColumn(name = "receive_type")
-	private StdReceiveType stdReceiveType;
+	@Enumerated(EnumType.ORDINAL)
+	private ReceiveMoneyType receiveMoneyType;
 
 	// bi-directional many-to-one association to StdInsurance
 	@ManyToOne
 	@JoinColumn(name = "insurance_id")
 	private StdInsurance stdInsurance;
 
-	// bi-directional many-to-one association to ConJobStatus
-	@ManyToOne
-	@JoinColumn(name = "job_status")
-	private ConJobStatus conJobStatus;
+	@Enumerated(EnumType.ORDINAL)
+	private JobStatus jobStatus = JobStatus.RECEIVED;
 
-	// bi-directional many-to-one association to ConClaimType
-	@ManyToOne
-	@JoinColumn(name = "claim_type")
-	private ConClaimType conClaimType;
+	@Enumerated(EnumType.ORDINAL)
+	private ClaimType claimType;
 
 	// bi-directional many-to-one association to TblInvoice
 	@OneToMany(mappedBy = "tblClaimRecovery")
@@ -304,12 +298,12 @@ public class TblClaimRecovery extends BaseModel {
 		this.updateDate = updateDate;
 	}
 
-	public StdReceiveType getStdReceiveType() {
-		return stdReceiveType;
+	public ReceiveMoneyType getReceiveMoneyType() {
+		return receiveMoneyType;
 	}
 
-	public void setStdReceiveType(StdReceiveType stdReceiveType) {
-		this.stdReceiveType = stdReceiveType;
+	public void setReceiveMoneyType(ReceiveMoneyType receiveMoneyType) {
+		this.receiveMoneyType = receiveMoneyType;
 	}
 
 	public StdInsurance getStdInsurance() {
@@ -320,20 +314,20 @@ public class TblClaimRecovery extends BaseModel {
 		this.stdInsurance = stdInsurance;
 	}
 
-	public ConJobStatus getConJobStatus() {
-		return conJobStatus;
+	public JobStatus getJobStatus() {
+		return jobStatus;
 	}
 
-	public void setConJobStatus(ConJobStatus conJobStatus) {
-		this.conJobStatus = conJobStatus;
+	public void setJobStatus(JobStatus jobStatus) {
+		this.jobStatus = jobStatus;
 	}
 
-	public ConClaimType getConClaimType() {
-		return conClaimType;
+	public ClaimType getClaimType() {
+		return claimType;
 	}
 
-	public void setConClaimType(ConClaimType conClaimType) {
-		this.conClaimType = conClaimType;
+	public void setClaimType(ClaimType claimType) {
+		this.claimType = claimType;
 	}
 
 	public List<TblInvoice> getTblInvoices() {
@@ -355,7 +349,5 @@ public class TblClaimRecovery extends BaseModel {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	
 
 }
