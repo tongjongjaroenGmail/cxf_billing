@@ -2,15 +2,15 @@ package com.metasoft.claim.controller.vo;
 
 public class ClaimSearchResultVo {
 	private int claimId;
-	private String jobDate;
-	private String claimNumber;
-	private String jobNo;
-	private String insuranceName;
-	private String claimType;
-	private String requestAmount;
-	private String jobStatus;
-	private String agentName;
-	private String maturityDate;
+	private String jobDate = "";
+	private String claimNumber = "";
+	private String jobNo = "";
+	private String insuranceName = "";
+	private String claimType = "";
+	private String requestAmount = "";
+	private String jobStatus = "";
+	private String agentName = "";
+	private String maturityDate = "";
 
 	public int getClaimId() {
 		return claimId;

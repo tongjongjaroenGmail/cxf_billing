@@ -10,7 +10,7 @@ package com.metasoft.claim.model;
  */
 public enum JobStatus
 {
-    RECEIVED(0, "รับงาน"), FOLLOWED(1, "ออกหนังสือติดตาม"), CLOSED(2, "ปิดงาน"), CANCELLED(3, "ยกเลิก");
+    RECEIVED(1, "รับงาน"), FOLLOWED(2, "ออกหนังสือติดตาม"), CLOSED(3, "ปิดงาน"), CANCELLED(4, "ยกเลิก");
 
     private int id;
     private String name;

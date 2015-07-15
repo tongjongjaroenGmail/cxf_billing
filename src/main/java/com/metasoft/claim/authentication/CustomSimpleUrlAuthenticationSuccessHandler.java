@@ -69,8 +69,9 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
         session.setAttribute("receiveMoneyTypes", ReceiveMoneyType.values());
         session.setAttribute("insurances", insuranceDao.findAll());
         session.setAttribute("positions", positionDao.findAll());
-        
-        
+        session.setAttribute("positions", positionDao.findAll());
+        session.setAttribute("agents", userService.findAll());
+         
     	SecUser secUser = userService.findByUserName(authentication.getName());
     	session.setAttribute("loginUser", secUser);
  

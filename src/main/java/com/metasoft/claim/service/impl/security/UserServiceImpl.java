@@ -11,7 +11,7 @@ import com.metasoft.claim.model.SecUser;
 import com.metasoft.claim.service.impl.ModelBasedServiceImpl;
 import com.metasoft.claim.service.security.UserService;
 
-@Service
+@Service("userService")
 public class UserServiceImpl extends ModelBasedServiceImpl<UserDao, SecUser, Integer> implements UserService
 {
     private UserDao userDao;

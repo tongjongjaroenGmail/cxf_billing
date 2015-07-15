@@ -10,7 +10,7 @@ package com.metasoft.claim.model;
  */
 public enum ClaimType
 {
-    KFK(0, "KFK"), FAST_TRACK(1, "fast track"), REQUEST(2, "เรียกร้อง");
+    KFK(1, "KFK"), FAST_TRACK(2, "fast track"), REQUEST(3, "เรียกร้อง");
 
     private int id;
     private String name;

@@ -1,11 +1,18 @@
 package com.metasoft.claim.dao.claim;
 
+import java.util.Date;
+
+import com.metasoft.claim.bean.paging.ClaimPaging;
 import com.metasoft.claim.bean.paging.ClaimSearchResultVoPaging;
 import com.metasoft.claim.dao.AbstractDao;
+import com.metasoft.claim.model.ClaimType;
+import com.metasoft.claim.model.JobStatus;
+import com.metasoft.claim.model.StdInsurance;
 import com.metasoft.claim.model.TblClaimRecovery;
 
 public interface ClaimDao extends AbstractDao<TblClaimRecovery, Integer>{
-	public ClaimSearchResultVoPaging searchPaging(String jobDateStart,String jobDateEnd,String insuranceId,
-			String totalDayOfMaturity,String claimTypeId, String claimNumber,String jobStatusId, int start,int length);
+	public ClaimPaging searchPaging(Date jobDateStart,Date jobDateEnd,StdInsurance partyInsurance,
+			Date maturityDate,ClaimType claimType, String claimNumber,JobStatus jobStatus, int start,int length);
+	
 	   
 }
