@@ -1,16 +1,16 @@
-package com.metasoft.claim.dao.impl;
+package com.metasoft.claim.dao.impl.standard;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.metasoft.claim.dao.AbstractDaoImpl;
-import com.metasoft.claim.dao.StdInsuranceDao;
+import com.metasoft.claim.dao.standard.InsuranceDao;
 import com.metasoft.claim.model.StdInsurance;
 
-@Repository("stdInsuranceDao")
+@Repository("insuranceDao")
 @Transactional
-public class StdInsuranceDaoImpl extends AbstractDaoImpl<StdInsurance, Integer> implements StdInsuranceDao {
-	public StdInsuranceDaoImpl() {
+public class InsuranceDaoImpl extends AbstractDaoImpl<StdInsurance, Integer> implements InsuranceDao {
+	public InsuranceDaoImpl() {
 		super(StdInsurance.class);
 	}
 }

@@ -3,10 +3,7 @@
  */
 package com.metasoft.claim.controller;
 
-import java.security.Principal;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -21,8 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.metasoft.claim.model.SecUser;
-import com.metasoft.claim.service.SecUserService;
+import com.metasoft.claim.service.security.UserService;
 
 /**
  * @author 
@@ -32,7 +28,7 @@ import com.metasoft.claim.service.SecUserService;
 public class SiteController extends BaseController
 {
 	 @Autowired
-	 private SecUserService secUserService;
+	 private UserService userService;
 	 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,

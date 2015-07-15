@@ -4,6 +4,7 @@
 package com.metasoft.claim.controller.ajax;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.metasoft.claim.bean.paging.ClaimSearchResultVoPaging;
 import com.metasoft.claim.controller.vo.ClaimSearchResultVo;
-import com.metasoft.claim.service.TblClaimRecoveryService;
+import com.metasoft.claim.service.claim.ClaimService;
+import com.metasoft.claim.util.DateUtil;
 
 @Controller
 public class ClaimAjaxController extends BaseAjaxController {
 	@Autowired
-	private TblClaimRecoveryService tblClaimRecoveryService;
+	private ClaimService claimService;
 
 	@RequestMapping(value = "/claim/search", method = RequestMethod.POST)
 	public @ResponseBody
@@ -47,6 +49,11 @@ public class ClaimAjaxController extends BaseAjaxController {
 			resultVoPaging.setRecordsTotal(0L);
 			resultVoPaging.setData(new ArrayList<ClaimSearchResultVo>());
 		}else{
+			SimpleDateFormat sf = new SimpleDateFormat(DateUtil.DATE_PATTERN_VIEW_DDMMYYYY + " HH:mm:ss");
+			SimpleDateFormat sfShort = new SimpleDateFormat(DateUtil.DATE_PATTERN_VIEW_DDMMYYYY);
+			
+//			resultVoPaging = tblClaimRecoveryService.searchPaging(jobDateStart, jobDateEnd, insuranceId,
+//					totalDayOfMaturity,claimTypeId,claimNumber,jobStatusId, start, length);
 			
 		}
 
@@ -54,5 +61,4 @@ public class ClaimAjaxController extends BaseAjaxController {
 		String json = gson.toJson(resultVoPaging);
 		return json;
 	}
-
 }

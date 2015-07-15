@@ -11,20 +11,19 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.metasoft.claim.dao.ConClaimTypeDao;
-import com.metasoft.claim.dao.ConJobStatusDao;
-import com.metasoft.claim.dao.StdInsuranceDao;
-import com.metasoft.claim.dao.StdPositionDao;
-import com.metasoft.claim.dao.StdReceiveTypeDao;
+import com.metasoft.claim.dao.standard.InsuranceDao;
+import com.metasoft.claim.dao.standard.PositionDao;
+import com.metasoft.claim.model.ClaimType;
+import com.metasoft.claim.model.JobStatus;
+import com.metasoft.claim.model.ReceiveMoneyType;
 import com.metasoft.claim.model.SecUser;
-import com.metasoft.claim.service.SecUserService;
+import com.metasoft.claim.service.security.UserService;
 
 /**
  * @author 
@@ -35,24 +34,15 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
 //    protected Log logger = LogFactory.getLog(this.getClass());
  
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+    @Autowired
+    private InsuranceDao insuranceDao;
     
     @Autowired
-    private ConClaimTypeDao conClaimTypeDao;
-    
+    private PositionDao positionDao;
+
     @Autowired
-    private ConJobStatusDao conJobStatusDao;
-    
-    @Autowired
-    private StdInsuranceDao stdInsuranceDao;
-    
-    @Autowired
-    private StdPositionDao stdPositionDao;
-    
-    @Autowired
-    private StdReceiveTypeDao stdReceiveTypeDao;
-    
-    @Autowired
-	 private SecUserService secUserService;
+	 private UserService userService;
  
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, 
@@ -73,13 +63,15 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
         // TODO if has standard screen. You must search every time for redirect  to that page
         // create comboBox
         HttpSession session = request.getSession();
-        session.setAttribute("claimTypes", conClaimTypeDao.findAll());
-        session.setAttribute("jobStatuses", conJobStatusDao.findAll());
-        session.setAttribute("insurances", stdInsuranceDao.findAll());
-        session.setAttribute("positions", stdPositionDao.findAll());
-        session.setAttribute("receiveTypes", stdReceiveTypeDao.findAll());
         
-    	SecUser secUser = secUserService.findByUserName(authentication.getName());
+        session.setAttribute("claimTypes", ClaimType.values());
+        session.setAttribute("jobStatuses", JobStatus.values());
+        session.setAttribute("receiveMoneyTypes", ReceiveMoneyType.values());
+        session.setAttribute("insurances", insuranceDao.findAll());
+        session.setAttribute("positions", positionDao.findAll());
+        
+        
+    	SecUser secUser = userService.findByUserName(authentication.getName());
     	session.setAttribute("loginUser", secUser);
  
         redirectStrategy.sendRedirect(request, response, targetUrl);
