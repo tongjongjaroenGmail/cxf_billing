@@ -5,7 +5,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>Login Page - Leave Management</title>
+		<title>Login Page - Claim Recovery</title>
 
 		<meta name="description" content="User login page" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -53,10 +53,10 @@
 							<div class="center">
 								<h1>
 					
-									<span class="red">Leave</span>
+									<span class="red">Claim Recovery</span>
 									<span class="white">Application</span>
 								</h1>
-								<h4 class="blue">&copy; BRED it</h4>
+								<h4 class="blue">&copy; DP survey & law co.,th</h4>
 							</div>
 
 							<div class="space-6"></div>

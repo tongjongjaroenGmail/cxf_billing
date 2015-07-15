@@ -9,7 +9,7 @@
 
 	<div class="navbar-container" id="navbar-container">
 		<div class="navbar-header pull-left">
-			<a href="#" class="navbar-brand"> <small> <img alt="" src="img/logo.png"> Claim Application
+			<a href="#" class="navbar-brand"> <small> <img alt="" src="img/logo.png"> Claim Recovery Application
 			</small>
 			</a>
 			<!-- /.brand -->
@@ -18,7 +18,7 @@
 
 		<div class="navbar-header pull-right" role="navigation">
 			<ul class="nav ace-nav">
-				<li class="light-blue"><a data-toggle="dropdown" href="#" class="dropdown-toggle"> 
+				<li class="light-orange"><a data-toggle="dropdown" href="#" class="dropdown-toggle"> 
 					<%-- <img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo" /> --%>
 					<span class="user-info"> 
 					<small>Welcome,</small>

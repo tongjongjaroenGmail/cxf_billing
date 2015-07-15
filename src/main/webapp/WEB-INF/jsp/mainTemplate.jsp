@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+<style>
+.datepicker{z-index:1151 !important;}
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="description" content="Static &amp; Dynamic Tables" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -84,6 +86,7 @@
 <script src="js/date-dd-MMM-yyyy.js"></script>
 <script src="js/dataTables.fixedColumns.js"></script>
 <script src="js/fnStandingRedraw.js"></script>
+<script src="js/allfunction.js"></script>
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 <!--[if lt IE 9]>
