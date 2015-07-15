@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 	<div class="modal fade" id="modalSave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-		style="overflow-x: hidden; overflow-y: auto;">
+		style="overflow-x: auto; overflow-y: auto;">
 		<div class="modal-dialog" style="width: 1100px">
 			<div class="modal-content" >
 				<div class="modal-header">
@@ -12,6 +12,7 @@
 					<h5 class="modal-title" id="modalSaveHeaderLabel">เรื่องเรียกร้อง --> <span id="modalSaveHeaderLabelFunction"></span></h5>
 				</div>
 				<div class="modal-body">
+					<input type="hidden" id="txtClaimId">
 					
 					<div class="row">
 						<div class="col-sm-12">
@@ -50,7 +51,7 @@
 								
 								<div class="col-sm-3 no-padding-left">	
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
-										<select class="col-sm-12" id="selJobStatus">
+										<select class="col-sm-12" id="selJobStatus" onchange="changeSelJobStatus(this.value);">
 											<c:forEach var="jobStatus" items="${jobStatuses}" varStatus="index">		
 												<option value="${jobStatus.id}">${jobStatus.name}</option>					
 											</c:forEach>
@@ -312,8 +313,54 @@
 										<b>หมายเหตุ : </b> 
 									</div>
 								</div>
-								<div class="col-sm-2 no-padding-left">		
+								<div class="col-sm-4 no-padding-left">		
 									
+									<div class="tabbable">
+										<ul class="nav nav-tabs" id="myTab3">
+											<li class="active">
+												<a data-toggle="tab" href="#jobStatusRemark1">
+													รับงาน
+												</a>
+											</li>
+
+											<li>
+												<a data-toggle="tab" href="#jobStatusRemark2">
+													ออกหนังสือติดตาม
+												</a>
+											</li>
+
+											<li>
+												<a data-toggle="tab" href="#jobStatusRemark3">
+													ปิดงาน
+												</a>
+											</li>
+											
+											<li>
+												<a data-toggle="tab" href="#jobStatusRemark4">
+													ยกเลิก
+												</a>
+											</li>
+										</ul>
+
+										<div class="tab-content">
+											<div id="jobStatusRemark1" class="tab-pane in active">
+												<textarea class="form-control" id="txtReceiveRemark" cols="50" rows="5"></textarea>
+											</div>
+
+											<div id="jobStatusRemark2" class="tab-pane">
+												<textarea class="form-control" id="txtFollowRemark" cols="50" rows="5"></textarea>
+											</div>
+
+											<div id="jobStatusRemark3" class="tab-pane">
+												<textarea class="form-control" id="txtCloseRemark" cols="50" rows="5"></textarea>
+											</div>
+											
+											<div id="jobStatusRemark4" class="tab-pane">
+												<textarea class="form-control" id="txtCancelRemark" cols="50" rows="5"></textarea>
+											</div>
+										</div>
+									</div>
+
 								</div>	
 							</div>
 						</div>		
@@ -331,7 +378,7 @@
 								</div>
 								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
-										<select class="col-sm-12" id="selPartyInsurance">
+										<select class="col-sm-12" id="selAgent">
 											<c:forEach var="agent" items="${agents}" varStatus="index">		
 												<option value="${agent.id}">${agent.name}&nbsp;&nbsp;${agent.lastName}</option>					
 											</c:forEach>
@@ -345,6 +392,7 @@
 				</div>
 				
 				<div class="modal-footer">
+					<button type="button" class="btn btn-success" id="btnSave" onclick="save();">บันทึก</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
 				</div>
 			</div>

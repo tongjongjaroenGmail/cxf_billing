@@ -5,15 +5,18 @@
 
 <div class="page-content col-xs-12">
 	<div class="page-header">
-		<h1>เรื่องเรียกร้อง</h1>
+		<h1>เรื่องเรียกร้อง
+			<button class="btn btn-success btn-xs" id="btnAdd">
+				<I class="icon-plus  bigger-110 icon-only"></I>
+			</button>
+		</h1>
 	</div>
 	<!-- /.page-header -->
 
-
+<div id="divParamSearch">
 	<!-- PAGE CONTENT BEGINS -->
-
 	<div class="row">
-		<div class="col-sm-10">
+		<div class="col-sm-12">
 			<div class="table-responsive">
 				<div class="col-sm-2">		
 					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
@@ -49,7 +52,7 @@
 	<div class="space-4"></div>
 
 	<div class="row">
-		<div class="col-sm-10">
+		<div class="col-sm-12">
 			<div class="table-responsive">
 				<div class="col-sm-2">		
 					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
@@ -74,7 +77,7 @@
 				<div class="col-sm-2">	
 					<div class="input-group col-sm-12 no-padding-left">
 						
-						<input class="form-control input-mask-number" id="txtTotalDayOfMaturity" type="text" maxlength="3" style="text-align: right"/> 
+						<input class="form-control" id="txtTotalDayOfMaturity" type="text" maxlength="3" style="text-align: right" onkeypress="return inputNum(event);"/> 
 						
 					</div>
 				</div>
@@ -91,7 +94,7 @@
 	<div class="space-4"></div>
 	
 	<div class="row">
-		<div class="col-sm-10">
+		<div class="col-sm-12">
 			<div class="table-responsive">
 				<div class="col-sm-2">		
 					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
@@ -128,7 +131,7 @@
 	<div class="space-4"></div>
 	
 	<div class="row">
-		<div class="col-sm-10">
+		<div class="col-sm-12">
 			<div class="table-responsive">
 				<div class="col-sm-2">		
 					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
@@ -149,7 +152,7 @@
 			</div>
 		</div>		
 	</div>
-	
+</div>	
 	<div class="space-4"></div>
 	
 	<div class="row">
@@ -166,32 +169,32 @@
 		<!-- /span -->
 	</div>
 	<!-- /row -->
-	
+
 	<div class="table-responsive">
-				<br> <br>
-				<table id="tblClaim" class="table table-striped table-bordered table-hover" style="width: 100%;">
-					<thead>
-						<tr>
-							<th>วันที่รับงาน</th>
-							<th>เลขเคลม</th>
-							<th>เลขเรียกร้อง</th>
-							<th>บริษัทประกัน</th>
-							<th>ประเภทเคลม</th>
-							<th>จำนวนเงินเรียกร้อง</th>
-							<th>สถานะ</th>
-							<th>ผู้รับผิดชอบ</th>
-							<th>อายุความ</th>
-							<th>แก้ไข</th>
-							<th>แสดง</th>
-						</tr>
-					</thead>
+		<br> <br>
+		<table id="tblClaim" class="table table-striped table-bordered table-hover" style="width: 100%;">
+			<thead>
+				<tr>
+					<th>วันที่รับงาน</th>
+					<th>เลขเคลม</th>
+					<th>เลขเรียกร้อง</th>
+					<th>บริษัทประกัน</th>
+					<th>ประเภทเคลม</th>
+					<th>จำนวนเงินเรียกร้อง</th>
+					<th>สถานะ</th>
+					<th>ผู้รับผิดชอบ</th>
+					<th>อายุความ</th>
+					<th>แก้ไข</th>
+				</tr>
+			</thead>
 
-					<tbody>
+			<tbody>
 
-					</tbody>
-				</table>
-			</div>
+			</tbody>
+		</table>
+	</div>
 	
+	<jsp:include page = "modalClaimSave.jsp" flush="false"/>
 </div>
 <!-- /.page-content -->
 
@@ -200,13 +203,17 @@ $('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, functi
 	$(this).prev().focus();
 });
 
-$('.input-mask-number').mask('9,999');
-
-var tblClaim;
+var tblClaimDt;
 var firstTime = true;
+var selJobStatusOptions = {
+		<c:forEach var="jobStatus" items="${jobStatuses}" varStatus="index">		
+			${jobStatus.id} : '${jobStatus.name}',		
+		</c:forEach>
+	};
+
 
 $(document).ready(function() {
-	tblClaim = $("#tblClaim").dataTable({
+	tblClaimDt = $("#tblClaim").dataTable({
 			"aoColumns"   : [
 				{ "mData" : "jobDate" },
 				{ "mData" : "claimNumber"  },
@@ -222,40 +229,122 @@ $(document).ready(function() {
 					"mRender" : function (data, type, full) {
 						return '<button id="btnEdit" class="btn-info" type="button">Edit</button>';
 					}	
-				},
-				{ "mData" : "",
-					"bSortable": false,
-					"mRender" : function (data, type, full) {
-						return '<button id="btnDetail" class="btn-info" type="button">Detail</button>';
-					}	
 				}],
-				columnDefs: [ { type: 'date-dd/mm/yyyy', targets: 3 }],
+				columnDefs: [{ type: 'date-dd/mm/yyyy', targets: 0 }],
 				"processing": true,
                 "serverSide": true,
                 "ajax": {
                     "url": '${pageContext.request.contextPath}/claim/search',
                     "type": "POST",
                     "data": function ( d ) {
-                         d.jobDateStart       =  $("#txtJobDateStart").val(),  
-                         d.jobDateEnd         =  $("#txtJobDateEnd").val(),  
-                         d.insuranceId        =  $("#selInsurance").val(),  
-                         d.totalDayOfMaturity =  $("#txtTotalDayOfMaturity").val(),  
-                         d.claimTypeId        =  $("#selClaimType").val(),  
-                         d.claimNumber        =  $("#txtClaimNumber").val(),  
-                         d.jobStatusId        =  $("#selJobStatus").val(),
-                         d.firstTime          =  firstTime
+                         d.paramJobDateStart       =  $("#divParamSearch").find("#txtJobDateStart").val(),  
+                         d.paramJobDateEnd         =  $("#divParamSearch").find("#txtJobDateEnd").val(),  
+                         d.paramPartyInsuranceId   =  $("#divParamSearch").find("#selInsurance").val(),  
+                         d.paramTotalDayOfMaturity =  $("#divParamSearch").find("#txtTotalDayOfMaturity").val(),  
+                         d.paramClaimTypeId        =  $("#divParamSearch").find("#selClaimType").val(),  
+                         d.paramClaimNumber        =  $("#divParamSearch").find("#txtClaimNumber").val(),  
+                         d.paramJobStatusId        =  $("#divParamSearch").find("#selJobStatus").val(),
+                         d.paramFirstTime          =  firstTime
                     }
                 },
-				"createdRow": function ( row, data, index ) {
-					firstTime = false;
-		        }
+                "fnDrawCallback" : function() {
+                	firstTime = false;
+                }
+	});
+	
+	$( "#btnAdd" ).click(function() {
+		$('#modalSaveHeaderLabelFunction').html("เพิ่ม");
+		$("#modalSave").find("#selJobStatus").prop('disabled', true);
+		$("#modalSave").find("#txtFollowRemark").attr('readonly','readonly');
+		$("#modalSave").find("#txtCloseRemark").attr('readonly','readonly');
+		$("#modalSave").find("#txtCancelRemark").attr('readonly','readonly');
+		$("#modalSave").find("#txtJobDate").val(moment().format('DD/MM/') +( parseInt( moment().format('YYYY')) + 543));
+		$("#modalSave").find("#txtClaimId").val("");
+		
+		$('#modalSave').modal(
+			{
+				backdrop:'static'
+			}
+		);
 	});
 });
 
 function search(){
 	delay(function(){
-		tblClaim.fnDraw();
+		tblClaimDt.fnDraw();
 	}, 1000 );
+}
+
+function save(){
+	var oJson = new Object();
+	
+	$("#modalSave").find('input,textarea,select').each(function() {
+        oJson[$(this).attr('id')] = $(this).val();
+    });  
+
+	$.ajax({
+		url : '${pageContext.request.contextPath}/claim/save',
+		dataType: 'json',
+		type : "POST",
+		data : JSON.stringify(oJson),
+		contentType: 'application/json',
+	    mimeType: 'application/json',
+		success : function(data) {
+			if(data.message !=  ""){			
+				alert(data.message);
+			}
+			
+			if(data.error == false){
+				$('#modalSaveHeaderLabelFunction').html("แก้ไข");
+				$("#modalSave").find("#txtClaimId").val(data.result.id);
+				$("#modalSave").find("#txtJobNo").val(data.result.jobNo);
+				$("#modalSave").find("#selJobStatus").prop('disabled', false);
+				
+				var selJobStatus = $("#modalSave").find("#selJobStatus").val();
+				
+				setOptionSelJobStatus(selJobStatus);
+				
+				if(selJobStatus == 3 || selJobStatus == 4){
+					$("#btnSave").hide();
+				}
+			}
+		}
+	});
+}
+
+function setOptionSelJobStatus(jobStatusVal){
+	$("#modalSave").find("#selJobStatus").html("");
+	$.each(selJobStatusOptions, function(val, text) {
+		if(
+				(jobStatusVal == 1 && (val == 1 || val == 2 || val == 4)) || 
+				(jobStatusVal == 2 && (val == 2 || val == 3 || val == 4)) ||
+				(jobStatusVal == 3 && (val == 3)) ||
+				(jobStatusVal == 4 && (val == 4))){
+			$("#modalSave").find("#selJobStatus").append(
+				     $('<option></option>').val(val).html(text)
+				);
+		}
+	});
+}
+
+function changeSelJobStatus(jobStatusVal){
+	$("#modalSave").find("#txtReceiveRemark").attr('readonly','readonly');
+	$("#modalSave").find("#txtFollowRemark").attr('readonly','readonly');
+	$("#modalSave").find("#txtCloseRemark").attr('readonly','readonly');
+	$("#modalSave").find("#txtCancelRemark").attr('readonly','readonly');
+	if(jobStatusVal == 1){
+		$("#modalSave").find("#txtReceiveRemark").removeAttr('readonly');
+		$('.nav-tabs li:eq(0) a').tab('show'); 
+	}else if(jobStatusVal == 2){
+		$("#modalSave").find("#txtFollowRemark").removeAttr('readonly');
+		$('.nav-tabs li:eq(1) a').tab('show'); 
+	}else if(jobStatusVal == 3){
+		$("#modalSave").find("#txtCloseRemark").removeAttr('readonly');
+		$('.nav-tabs li:eq(2) a').tab('show'); 
+	}else if(jobStatusVal == 4){
+		$("#modalSave").find("#txtCancelRemark").removeAttr('readonly');
+		$('.nav-tabs li:eq(3) a').tab('show'); 
+	}
 }
 </script>
 
