@@ -78,8 +78,8 @@
 				<b class="arrow icon-angle-down"></b>
 			</a>
 			<ul class="submenu">
-				<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/report1'}">class="active"</c:if>>
-					<a href="${pageContext.request.contextPath}/report1"> 
+				<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/trackingSearch'}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/trackingSearch"> 
 						<i class="icon-double-angle-right"></i> 
 						<span class="menu-text">ออกหนังสือติดตาม</span>
 					</a>

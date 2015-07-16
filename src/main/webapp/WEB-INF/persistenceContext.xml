@@ -8,7 +8,7 @@
       http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
 	<tx:annotation-driven />
-	
+               
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
     	<property name="jndiName" value="${dataSource.jndiName}"/>
 	</bean>
