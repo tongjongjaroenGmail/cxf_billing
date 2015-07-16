@@ -226,7 +226,7 @@
 								</div>
 								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
-										<select class="col-sm-12" id="selPartyInsurance">
+										<select class="col-sm-12" id="selPartyInsurance" onchange="changePartyInsurance(this.value);">
 											<c:forEach var="insurance" items="${insurances}" varStatus="index">		
 												<option value="${insurance.id}">${insurance.name}</option>					
 											</c:forEach>
@@ -285,14 +285,14 @@
 					<div class="space-4"></div>
 					
 					<div class="row">
-						<div class="col-sm-12">
+						<div class="col-sm-6">
 							<div class="table-responsive">
-								<div class="col-sm-2 no-padding-left">		
+								<div class="col-sm-4 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right" style="text-align: right;">
 										<b>เลขใบสำคัญจ่าย : </b> 
 									</div>
 								</div>
-								<div class="col-sm-4 no-padding-left">		
+								<div class="col-sm-7 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
 										<textarea class="form-control" id="txtInvoiceNumber" cols="50" rows="5"> 
 										</textarea>
@@ -300,20 +300,16 @@
 								</div>
 								
 							</div>
-						</div>		
-					</div>	
-					
-					<div class="space-4"></div>
-					
-					<div class="row">
-						<div class="col-sm-12">
+						</div>	
+						
+						<div class="col-sm-6">
 							<div class="table-responsive">
 								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right" style="text-align: right;">
 										<b>หมายเหตุ : </b> 
 									</div>
 								</div>
-								<div class="col-sm-4 no-padding-left">		
+								<div class="col-sm-9 no-padding-left">		
 									
 									<div class="tabbable">
 										<ul class="nav nav-tabs" id="myTab3">
@@ -363,11 +359,11 @@
 
 								</div>	
 							</div>
-						</div>		
+						</div>			
 					</div>	
 					
 					<div class="space-4"></div>
-					
+
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="table-responsive">
@@ -379,15 +375,82 @@
 								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
 										<select class="col-sm-12" id="selAgent">
-											<c:forEach var="agent" items="${agents}" varStatus="index">		
-												<option value="${agent.id}">${agent.name}&nbsp;&nbsp;${agent.lastName}</option>					
+											<option value=""></option>
+										</select>
+									</div>
+								</div>	
+								<div id="divReceiveMoneyType" style="display: none;">
+								<div class="col-sm-2 no-padding-left">		
+									<div class="input-group col-sm-12 no-padding-left no-padding-right" style="text-align: right;">
+										<b>ประเภทการรับเงิน : </b> 
+									</div>
+								</div>
+								<div class="col-sm-2 no-padding-left">		
+									<div class="input-group col-sm-12 no-padding-left no-padding-right">
+										<select class="col-sm-12" id="selReceiveMoneyType">
+											<option value=""></option>			
+											<c:forEach var="receiveMoneyType" items="${receiveMoneyTypes}" varStatus="index">		
+												<option value="${receiveMoneyType.id}">${receiveMoneyType.name}</option>					
 											</c:forEach>
 										</select>
 									</div>
 								</div>	
+								</div>
 							</div>
 						</div>		
 					</div>	
+					
+					<div class="space-4"></div>
+					
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="table-responsive">
+								<div class="col-sm-2 no-padding-left">		
+									<div class="input-group col-sm-12 no-padding-left no-padding-right" style="text-align: right;">
+										<b>วันที่ออกหนังสือติดตาม : </b> 
+									</div>
+								</div>
+								<div class="col-sm-2 no-padding-left">		
+									<div class="input-group col-sm-12 no-padding-left no-padding-right">
+										<input class="form-control" id="txtFollowDate" type="text" readonly="readonly"/> 
+										<span class="input-group-addon"> 
+											<i class="icon-calendar bigger-110"></i>
+										</span>
+									</div>
+								</div>
+								
+								<div class="col-sm-2 no-padding-left">		
+									<div class="input-group col-sm-12 no-padding-left no-padding-right" style="text-align: right;">
+										<b>วันที่ปิดงาน : </b> 
+									</div>
+								</div>
+								
+								<div class="col-sm-2 no-padding-left">	
+									<div class="input-group col-sm-12 no-padding-left no-padding-right">
+										<input class="form-control" id="txtCloseDate" type="text" readonly="readonly"/> 
+										<span class="input-group-addon"> 
+											<i class="icon-calendar bigger-110"></i>
+										</span>
+									</div>
+								</div>
+								
+								<div class="col-sm-1 no-padding-left">		
+									<div class="input-group col-sm-12 no-padding-left no-padding-right" style="text-align: right;">
+										<b>วันที่ยกเลิก : </b> 
+									</div>
+								</div>
+								
+								<div class="col-sm-2 no-padding-left">	
+									<div class="input-group col-sm-12 no-padding-left no-padding-right">
+										<input class="form-control" id="txtCancelDate" type="text" readonly="readonly"/> 
+										<span class="input-group-addon"> 
+											<i class="icon-calendar bigger-110"></i>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>		
+					</div>
 				
 				</div>
 				

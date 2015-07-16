@@ -233,6 +233,8 @@ $(document).ready(function() {
 				columnDefs: [{ type: 'date-dd/mm/yyyy', targets: 0 }],
 				"processing": true,
                 "serverSide": true,
+                "bSort" : false,
+                "bFilter": false,
                 "ajax": {
                     "url": '${pageContext.request.contextPath}/claim/search',
                     "type": "POST",
@@ -253,16 +255,7 @@ $(document).ready(function() {
 	});
 	
 	$( "#btnAdd" ).click(function() {
-		$('#modalSaveHeaderLabelFunction').html("เพิ่ม");
-		$("#modalSave").find('input,textarea,select').each(function() {
-	        $(this).val("");
-	    });  
-		changeSelJobStatus(0);
-		setOptionSelJobStatus(-1);
-		$("#modalSave").find("#selJobStatus").prop('disabled', true);
-		$("#modalSave").find("#txtJobDate").val(moment().format('DD/MM/') +( parseInt( moment().format('YYYY')) + 543));
-		$("#modalSave").find("#txtClaimId").val("");
-		$("#btnSave").show();
+		setPageForAdd();
 		
 		$('#modalSave').modal(
 			{
@@ -278,6 +271,46 @@ function search(){
 	}, 1000 );
 }
 
+function setPageForAdd(){
+	$('#modalSaveHeaderLabelFunction').html("เพิ่ม");
+	$("#modalSave").find('input,textarea,select').each(function() {
+        $(this).val("");
+    });  
+	changeSelJobStatus(0);
+	setOptionSelJobStatus(-1);
+	$("#modalSave").find("#selJobStatus").prop('disabled', true);
+	$("#modalSave").find("#txtJobDate").val(moment().format('DD/MM/') +( parseInt( moment().format('YYYY')) + 543));
+	$("#modalSave").find("#divReceiveMoneyType").hide();
+	$("#btnSave").show();
+	changePartyInsurance(0,"");
+}
+
+function setPageForEdit(selAgent){
+	var selJobStatus = $("#modalSave").find("#selJobStatus").val();		
+	var selPartyInsurance = $("#modalSave").find("#selPartyInsurance").val();		
+	changeSelJobStatus(0);
+	setOptionSelJobStatus(-1);
+	
+	$('#modalSaveHeaderLabelFunction').html("แก้ไข");			
+	$("#modalSave").find("#selJobStatus").prop('disabled', false);			
+	
+	setOptionSelJobStatus(selJobStatus);
+	changeSelJobStatus(selJobStatus)
+	
+	if(selJobStatus == 2 || selJobStatus == 3){
+		$("#btnSave").hide();
+	}else{
+		$("#btnSave").show();
+	}
+	if(selJobStatus == 2){
+		$("#modalSave").find("#divReceiveMoneyType").show();
+	}else{
+		$("#modalSave").find("#divReceiveMoneyType").hide();
+	}
+
+	changePartyInsurance(selPartyInsurance, selAgent );	
+}
+
 function find(id){
 	$.ajax({
 		url : '${pageContext.request.contextPath}/claim/find/' + id,
@@ -291,22 +324,12 @@ function find(id){
 			}
 			
 			if(data.error == false){
-				setOptionSelJobStatus(-1);
+				setPageForAdd();
 				
 				$.each( data.result, function( key, value ) {
 					  $("#modalSave").find("#" + key).val(value);
 				});
-				
-				$('#modalSaveHeaderLabelFunction').html("แก้ไข");			
-				$("#modalSave").find("#selJobStatus").prop('disabled', false);			
-				var selJobStatus = $("#modalSave").find("#selJobStatus").val();			
-				setOptionSelJobStatus(selJobStatus);
-				
-				if(selJobStatus == 2 || selJobStatus == 3){
-					$("#btnSave").hide();
-				}else{
-					$("#btnSave").show();
-				}
+				setPageForEdit(data.result.selAgent);
 
 				$('#modalSave').modal({backdrop:'static'});
 			}
@@ -334,20 +357,10 @@ function save(){
 			}
 			
 			if(data.error == false){
-				$('#modalSaveHeaderLabelFunction').html("แก้ไข");
 				$("#modalSave").find("#txtClaimId").val(data.result.id);
-				$("#modalSave").find("#txtJobNo").val(data.result.jobNo);
-				$("#modalSave").find("#selJobStatus").prop('disabled', false);
+				$("#modalSave").find("#txtJobNo").val(data.result.jobNo);		
 				
-				var selJobStatus = $("#modalSave").find("#selJobStatus").val();
-				
-				setOptionSelJobStatus(selJobStatus);
-				
-				if(selJobStatus == 2 || selJobStatus == 3){
-					$("#btnSave").hide();
-				}else{
-					$("#btnSave").show();
-				}
+				setPageForEdit($("#modalSave").find("#selAgent").val());
 			}
 		}
 	});
@@ -373,6 +386,7 @@ function changeSelJobStatus(jobStatusVal){
 	$("#modalSave").find("#txtFollowRemark").attr('readonly','readonly');
 	$("#modalSave").find("#txtCloseRemark").attr('readonly','readonly');
 	$("#modalSave").find("#txtCancelRemark").attr('readonly','readonly');
+	$("#modalSave").find("#divReceiveMoneyType").hide();
 	if(jobStatusVal == 0){
 		$("#modalSave").find("#txtReceiveRemark").removeAttr('readonly');
 		$('.nav-tabs li:eq(0) a').tab('show'); 
@@ -382,9 +396,41 @@ function changeSelJobStatus(jobStatusVal){
 	}else if(jobStatusVal == 2){
 		$("#modalSave").find("#txtCloseRemark").removeAttr('readonly');
 		$('.nav-tabs li:eq(2) a').tab('show'); 
+		$("#modalSave").find("#divReceiveMoneyType").show();
 	}else if(jobStatusVal == 3){
 		$("#modalSave").find("#txtCancelRemark").removeAttr('readonly');
 		$('.nav-tabs li:eq(3) a').tab('show'); 
+		
+	}
+}
+
+function changePartyInsurance(id , defaultValue){
+	$("#modalSave").find("#selAgent").val("");
+	$("#modalSave").find("#selAgent").html("");
+	$("#modalSave").find("#selAgent").append($('<option></option>').val("").html(""));
+	
+	if(id != null && id != "" && id != 0){
+		$.ajax({
+			url : '${pageContext.request.contextPath}/claim/searchUserFromInsurance/' + id,
+			dataType: 'json',
+			type : "GET",
+			contentType: 'application/json',
+		    mimeType: 'application/json',
+			success : function(data) {
+				if(data){		
+					
+					$.each(data, function(index, value) {
+						var name = value.name;
+						if(value.lastName){
+							name +=  " " + value.lastName;
+						}
+						$("#modalSave").find("#selAgent").append($('<option></option>').val(value.id).html(name));
+					});
+					
+					$("#modalSave").find("#selAgent").val(defaultValue);
+				}
+			}
+		});
 	}
 }
 </script>
