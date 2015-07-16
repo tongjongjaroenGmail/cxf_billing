@@ -21,6 +21,7 @@ import com.metasoft.claim.dao.security.UserDao;
 import com.metasoft.claim.dao.standard.InsuranceDao;
 import com.metasoft.claim.model.ClaimType;
 import com.metasoft.claim.model.JobStatus;
+import com.metasoft.claim.model.ReceiveMoneyType;
 import com.metasoft.claim.model.SecUser;
 import com.metasoft.claim.model.StdInsurance;
 import com.metasoft.claim.model.TblClaimRecovery;
@@ -78,7 +79,7 @@ public class ClaimServiceImpl extends ModelBasedServiceImpl<ClaimDao, TblClaimRe
 		if (StringUtils.isNotBlank(paramTotalDayOfMaturity)) {
 			int totalDayOfMaturity = NumberToolsUtil.parseToInteger(paramTotalDayOfMaturity);
 			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.DAY_OF_YEAR, -totalDayOfMaturity);
+			cal.add(Calendar.DAY_OF_YEAR, + totalDayOfMaturity);
 			maturityDate = cal.getTime();
 		}
 
@@ -209,6 +210,8 @@ public class ClaimServiceImpl extends ModelBasedServiceImpl<ClaimDao, TblClaimRe
 				if (entity.getCloseDate() == null) {
 					entity.setCloseDate(today);
 				}
+				
+				entity.setReceiveMoneyType(ReceiveMoneyType.getById(Integer.parseInt(claimSaveVo.getSelReceiveMoneyType())));
 			} else if (entity.getJobStatus().getId() == JobStatus.CANCELLED.getId()) {
 				entity.setCancelRemark(StringUtils.trimToNull(claimSaveVo.getTxtCancelRemark()));
 				if (entity.getCancelDate() == null) {
@@ -217,6 +220,7 @@ public class ClaimServiceImpl extends ModelBasedServiceImpl<ClaimDao, TblClaimRe
 			}
 			entity.setUpdateBy(user);
 			entity.setUpdateDate(today);
+			
 		}
 		super.save(entity);
 
@@ -278,7 +282,13 @@ public class ClaimServiceImpl extends ModelBasedServiceImpl<ClaimDao, TblClaimRe
 		if (entity.getCancelDate() != null) {
 			claimSaveVo.setTxtCancelDate(DateToolsUtil.convertToString(entity.getCancelDate(), DateToolsUtil.LOCALE_TH));
 		}
-
+		
+		if (entity.getReceiveMoneyType() != null) {
+			claimSaveVo.setSelReceiveMoneyType(String.valueOf(entity.getReceiveMoneyType().getId()));
+		}
+		
+		claimSaveVo.setTxtClaimId(String.valueOf(entity.getId()));
+		
 		return claimSaveVo;
 	}
 }

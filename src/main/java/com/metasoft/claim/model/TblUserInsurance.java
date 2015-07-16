@@ -1,6 +1,7 @@
 package com.metasoft.claim.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="tbl_user_insurance")
 @NamedQuery(name="TblUserInsurance.findAll", query="SELECT t FROM TblUserInsurance t")
-public class TblUserInsurance implements Serializable {
+public class TblUserInsurance extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId

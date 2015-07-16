@@ -1,32 +1,41 @@
 package com.metasoft.claim.controller.vo;
 
 public class ClaimSaveVo {
-	private String txtJobNo;
-	private String txtJobDate;
-	private String selJobStatus;
-	private String txtClaimNumber;
-	private String txtPolicyNo;
-	private String txtlicenseNumber;
-	private String txtAccidentDate;
-	private String txtMaturityDate;
-	private String selClaimType;
-	private String txtClaimInsuranceAmount;
-	private String txtRequestAmount;
-	private String txtClaimAmount;
-	private String selPartyInsurance;
-	private String txtPartyLicenseNumber;
-	private String txtPartyClaimNumber;
-	private String txtPartyPolicyNo;
-	private String txtInvoiceNumber;
-	private String txtReceiveRemark;
-	private String txtFollowRemark;
-	private String txtCancelRemark;
-	private String txtCloseRemark;
-	private String selAgent;
-	private String txtClaimId;
-	private String txtFollowDate;
-	private String txtCancelDate;
-	private String txtCloseDate;
+	private String txtJobNo = "";
+	private String txtJobDate = "";
+	private String selJobStatus = "";
+	private String txtClaimNumber = "";
+	private String txtPolicyNo = "";
+	private String txtlicenseNumber = "";
+	private String txtAccidentDate = "";
+	private String txtMaturityDate = "";
+	private String selClaimType = "";
+	private String txtClaimInsuranceAmount = "";
+	private String txtRequestAmount = "";
+	private String txtClaimAmount = "";
+	private String selPartyInsurance = "";
+	private String txtPartyLicenseNumber = "";
+	private String txtPartyClaimNumber = "";
+	private String txtPartyPolicyNo = "";
+	private String txtInvoiceNumber = "";
+	private String txtReceiveRemark = "";
+	private String txtFollowRemark = "";
+	private String txtCancelRemark = "";
+	private String txtCloseRemark = "";
+	private String selAgent = "";
+	private String txtClaimId = "";
+	private String txtFollowDate = "";
+	private String txtCancelDate = "";
+	private String txtCloseDate = "";
+	private String selReceiveMoneyType = "";
+
+	public String getSelReceiveMoneyType() {
+		return selReceiveMoneyType;
+	}
+
+	public void setSelReceiveMoneyType(String selReceiveMoneyType) {
+		this.selReceiveMoneyType = selReceiveMoneyType;
+	}
 
 	public String getTxtFollowDate() {
 		return txtFollowDate;

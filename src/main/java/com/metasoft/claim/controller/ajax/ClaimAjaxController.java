@@ -5,6 +5,7 @@ package com.metasoft.claim.controller.ajax;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,14 +27,23 @@ import com.metasoft.claim.controller.vo.ClaimSaveResultVo;
 import com.metasoft.claim.controller.vo.ClaimSaveVo;
 import com.metasoft.claim.controller.vo.ClaimSearchResultVo;
 import com.metasoft.claim.controller.vo.ResultVo;
+import com.metasoft.claim.dao.UserInsuranceDao;
+import com.metasoft.claim.dao.security.UserDao;
 import com.metasoft.claim.model.SecUser;
 import com.metasoft.claim.model.TblClaimRecovery;
+import com.metasoft.claim.model.TblUserInsurance;
 import com.metasoft.claim.service.claim.ClaimService;
 
 @Controller
 public class ClaimAjaxController extends BaseAjaxController {
 	@Autowired
 	private ClaimService claimService;
+	
+	@Autowired
+	private UserInsuranceDao userInsuranceDao;
+	
+	@Autowired
+	private UserDao userDao;
 
 	@RequestMapping(value = "/claim/search", method = RequestMethod.POST)
 	public @ResponseBody
@@ -76,6 +86,22 @@ public class ClaimAjaxController extends BaseAjaxController {
     	resultVo.setResult(claimVo);
 
     	String json = gson.toJson(resultVo);
+		return json;
+    }
+	
+	@RequestMapping(value = "/claim/searchUserFromInsurance/{id}", method = RequestMethod.GET)
+    public @ResponseBody String searchUserFromInsurance(Model model,  @PathVariable("id") int insuranceId) throws ParseException
+    {
+		List<SecUser> users = new ArrayList<SecUser>();
+    	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    	
+    	List<TblUserInsurance> tblUserInsurances = userInsuranceDao.searchByInsuranceId(insuranceId);		
+    	
+    	for (TblUserInsurance tblUserInsurance : tblUserInsurances) {
+    		users.add(userDao.findById(tblUserInsurance.getId().getUserId()));
+		}
+
+    	String json = gson.toJson(users);
 		return json;
     }
 	
