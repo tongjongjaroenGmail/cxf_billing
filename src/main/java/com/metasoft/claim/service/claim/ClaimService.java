@@ -17,10 +17,10 @@ import com.metasoft.claim.service.ModelBasedService;
 
 public interface ClaimService extends ModelBasedService<ClaimDao, TblClaimRecovery, Integer> {
 	public ClaimSearchResultVoPaging searchPaging(String paramJobDateStart, String paramJobDateEnd, String paramPartyInsuranceId,
-			String paramTotalDayOfMaturity, String paramClaimTypeId, String paramClaimNumber, String paramJobStatusId, int start, int length);
+			String paramTotalDayOfMaturity, String paramClaimTypeId, String paramClaimNumber, String paramJobStatusId, int start, int length,SecUser user);
 
 	public ClaimSearchResultVoPaging searchPaging(Date jobDateStart, Date jobDateEnd, StdInsurance partyInsurance, Date maturityDate,
-			ClaimType claimType, String claimNumber, JobStatus jobStatus, int start, int length);
+			ClaimType claimType, String claimNumber, JobStatus jobStatus, int start, int length,SecUser user);
 	
 	public TblClaimRecovery save(ClaimSaveVo claimSaveVo,SecUser user);
 	

@@ -9,6 +9,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,24 +18,34 @@ import com.metasoft.claim.bean.paging.ClaimSearchResultVoPaging;
 import com.metasoft.claim.controller.vo.ClaimSearchResultVo;
 import com.metasoft.claim.dao.AbstractDaoImpl;
 import com.metasoft.claim.dao.claim.ClaimDao;
+import com.metasoft.claim.dao.security.UserDao;
 import com.metasoft.claim.model.ClaimType;
 import com.metasoft.claim.model.JobStatus;
+import com.metasoft.claim.model.SecUser;
 import com.metasoft.claim.model.StdInsurance;
 import com.metasoft.claim.model.TblClaimRecovery;
 
 @Repository("claimDao")
 @Transactional
 public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> implements ClaimDao {
+	@Autowired
+	private UserDao userDao;
+	
 	public ClaimDaoImpl() {
 		super(TblClaimRecovery.class);
 	}
 
 	@Override
 	public ClaimPaging searchPaging(Date jobDateStart,Date jobDateEnd,StdInsurance partyInsurance,
-			Date maturityDate,ClaimType claimType, String claimNumber,JobStatus jobStatus, int start,int length){
+			Date maturityDate,ClaimType claimType, String claimNumber,JobStatus jobStatus, int start,int length,SecUser user){
 		ClaimPaging resultPaging = new ClaimPaging();
-
+		SecUser agent = userDao.findById(user.getId());
+			
 		Criteria criteriaRecordsTotal = getCurrentSession().createCriteria(entityClass);
+		if(user.getStdPosition().getId() == 2){
+			criteriaRecordsTotal.add(Restrictions.eq("agent", agent));
+		}
+		
 		criteriaRecordsTotal.setProjection(Projections.rowCount());
 		resultPaging.setRecordsTotal((Long) criteriaRecordsTotal.uniqueResult());
 
@@ -65,6 +76,9 @@ public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> imp
 		
 		if(jobStatus != null){
 			criteriaCount.add(Restrictions.eq("jobStatus", jobStatus));
+		}
+		if(user.getStdPosition().getId() == 2){
+			criteriaCount.add(Restrictions.eq("agent", agent));
 		}
 		criteriaCount.setProjection(Projections.rowCount());
 		resultPaging.setRecordsFiltered((Long) criteriaCount.uniqueResult());
@@ -97,6 +111,9 @@ public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> imp
 			
 			if(jobStatus != null){
 				criteria.add(Restrictions.eq("jobStatus", jobStatus));
+			}
+			if(user.getStdPosition().getId() == 2){
+				criteria.add(Restrictions.eq("agent", agent));
 			}
 
 			criteria.addOrder(Order.asc("maturityDate"));

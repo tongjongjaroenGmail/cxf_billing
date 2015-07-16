@@ -338,6 +338,9 @@ function find(id){
 }
 
 function save(){
+	if(!validate("modalSave")){
+		return;
+	}
 	var oJson = new Object();
 	
 	$("#modalSave").find('input,textarea,select').each(function() {
@@ -370,7 +373,7 @@ function setOptionSelJobStatus(jobStatusVal){
 	$("#modalSave").find("#selJobStatus").html("");
 	$.each(selJobStatusOptions, function(val, text) {
 		if(		 jobStatusVal == -1 ||
-				(jobStatusVal == 0 && (val == 0 || val == 1 || val == 2)) || 
+				(jobStatusVal == 0 && (val == 0 || val == 1 || val == 3)) || 
 				(jobStatusVal == 1 && (val == 1 || val == 2 || val == 3)) ||
 				(jobStatusVal == 2 && (val == 2)) ||
 				(jobStatusVal == 3 && (val == 3))){
@@ -386,7 +389,9 @@ function changeSelJobStatus(jobStatusVal){
 	$("#modalSave").find("#txtFollowRemark").attr('readonly','readonly');
 	$("#modalSave").find("#txtCloseRemark").attr('readonly','readonly');
 	$("#modalSave").find("#txtCancelRemark").attr('readonly','readonly');
+	
 	$("#modalSave").find("#divReceiveMoneyType").hide();
+	$("#modalSave").find("#selReceiveMoneyType").removeClass("require");
 	if(jobStatusVal == 0){
 		$("#modalSave").find("#txtReceiveRemark").removeAttr('readonly');
 		$('.nav-tabs li:eq(0) a').tab('show'); 
@@ -397,6 +402,7 @@ function changeSelJobStatus(jobStatusVal){
 		$("#modalSave").find("#txtCloseRemark").removeAttr('readonly');
 		$('.nav-tabs li:eq(2) a').tab('show'); 
 		$("#modalSave").find("#divReceiveMoneyType").show();
+		$("#modalSave").find("#selReceiveMoneyType").addClass("require");
 	}else if(jobStatusVal == 3){
 		$("#modalSave").find("#txtCancelRemark").removeAttr('readonly');
 		$('.nav-tabs li:eq(3) a').tab('show'); 

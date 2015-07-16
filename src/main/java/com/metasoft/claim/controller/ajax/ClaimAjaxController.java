@@ -59,7 +59,7 @@ public class ClaimAjaxController extends BaseAjaxController {
 			
 			@RequestParam(required = true) Integer draw,
 			@RequestParam(required = true) Integer start,
-			@RequestParam(required = true) Integer length) throws ParseException {
+			@RequestParam(required = true) Integer length,HttpSession session) throws ParseException {
 		ClaimSearchResultVoPaging resultPaging = new ClaimSearchResultVoPaging();
 		resultPaging.setDraw(++draw);
 		if(new Boolean(paramFirstTime)){		
@@ -68,7 +68,7 @@ public class ClaimAjaxController extends BaseAjaxController {
 			resultPaging.setData(new ArrayList<ClaimSearchResultVo>());
 		}else{
 			resultPaging = claimService.searchPaging(paramJobDateStart, paramJobDateEnd, paramPartyInsuranceId, paramTotalDayOfMaturity, paramClaimTypeId, 
-					paramClaimNumber, paramJobStatusId, start, length);	
+					paramClaimNumber, paramJobStatusId, start, length ,((SecUser)session.getAttribute("loginUser")));	
 		}
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();

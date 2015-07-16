@@ -74,7 +74,7 @@
 								</div>
 								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
-										<input class="form-control" id="txtClaimNumber" type="text" maxlength="20"/> 
+										<input class="form-control require" id="txtClaimNumber" type="text" maxlength="20" title="เลขเคลม"/> 
 									</div>
 								</div>
 								
@@ -86,7 +86,7 @@
 								
 								<div class="col-sm-2 no-padding-left">	
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
-										<input class="form-control" id="txtPolicyNo" type="text" maxlength="20"/> 
+										<input class="form-control require" id="txtPolicyNo" type="text" maxlength="20" title="เลขกรมธรรม์"/> 
 									</div>
 								</div>
 								
@@ -98,7 +98,7 @@
 								
 								<div class="col-sm-3 no-padding-left">	
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
-										<input class="form-control" id="txtlicenseNumber" type="text" maxlength="10"/> 
+										<input class="form-control require" id="txtlicenseNumber" type="text" maxlength="10" title="ทะเบียนรถ "/> 
 									</div>
 								</div>
 							</div>
@@ -117,7 +117,7 @@
 								</div>
 								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
-										<input class="form-control date-picker" id="txtAccidentDate" type="text" data-date-format="dd/mm/yyyy" data-date-language="th-th"/> 
+										<input class="form-control date-picker require" title="วันที่เกิดเหตุ" id="txtAccidentDate" type="text" data-date-format="dd/mm/yyyy" data-date-language="th-th"/> 
 										<span class="input-group-addon"> 
 											<i class="icon-calendar bigger-110"></i>
 										</span>
@@ -132,7 +132,7 @@
 								
 								<div class="col-sm-2 no-padding-left">	
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
-										<input class="form-control date-picker" id="txtMaturityDate" type="text" data-date-format="dd/mm/yyyy" data-date-language="th-th"/> 
+										<input class="form-control date-picker require" title="วันครบอายุความ" id="txtMaturityDate" type="text" data-date-format="dd/mm/yyyy" data-date-language="th-th"/> 
 										<span class="input-group-addon"> 
 											<i class="icon-calendar bigger-110"></i>
 										</span>
@@ -226,7 +226,8 @@
 								</div>
 								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
-										<select class="col-sm-12" id="selPartyInsurance" onchange="changePartyInsurance(this.value);">
+										<select class="col-sm-12 require" title="บริษัทประกัน" id="selPartyInsurance" onchange="changePartyInsurance(this.value);">
+											<option value=""></option>		
 											<c:forEach var="insurance" items="${insurances}" varStatus="index">		
 												<option value="${insurance.id}">${insurance.name}</option>					
 											</c:forEach>
@@ -386,8 +387,8 @@
 									</div>
 								</div>
 								<div class="col-sm-2 no-padding-left">		
-									<div class="input-group col-sm-12 no-padding-left no-padding-right">
-										<select class="col-sm-12" id="selReceiveMoneyType">
+									<div class="input-group col-sm-12 no-padding-left no-padding-right" >
+										<select class="col-sm-12" id="selReceiveMoneyType" title="ประเภทการรับเงิน">
 											<option value=""></option>			
 											<c:forEach var="receiveMoneyType" items="${receiveMoneyTypes}" varStatus="index">		
 												<option value="${receiveMoneyType.id}">${receiveMoneyType.name}</option>					

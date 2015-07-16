@@ -87,6 +87,7 @@
 <script src="js/dataTables.fixedColumns.js"></script>
 <script src="js/fnStandingRedraw.js"></script>
 <script src="js/allfunction.js"></script>
+<script src="js/validate-utils.js"></script>
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 <!--[if lt IE 9]>

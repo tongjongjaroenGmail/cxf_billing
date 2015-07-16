@@ -56,7 +56,7 @@ public class ClaimServiceImpl extends ModelBasedServiceImpl<ClaimDao, TblClaimRe
 
 	@Override
 	public ClaimSearchResultVoPaging searchPaging(String paramJobDateStart, String paramJobDateEnd, String paramPartyInsuranceId,
-			String paramTotalDayOfMaturity, String paramClaimTypeId, String paramClaimNumber, String paramJobStatusId, int start, int length) {
+			String paramTotalDayOfMaturity, String paramClaimTypeId, String paramClaimNumber, String paramJobStatusId, int start, int length,SecUser user) {
 
 		Date jobDateStart = null;
 		Date jobDateEnd = null;
@@ -91,14 +91,14 @@ public class ClaimServiceImpl extends ModelBasedServiceImpl<ClaimDao, TblClaimRe
 			jobStatus = JobStatus.getById(Integer.parseInt(paramJobStatusId));
 		}
 
-		return searchPaging(jobDateStart, jobDateEnd, partyInsurance, maturityDate, claimType, paramClaimNumber, jobStatus, start, length);
+		return searchPaging(jobDateStart, jobDateEnd, partyInsurance, maturityDate, claimType, paramClaimNumber, jobStatus, start, length, user);
 	}
 
 	@Override
 	public ClaimSearchResultVoPaging searchPaging(Date jobDateStart, Date jobDateEnd, StdInsurance partyInsurance, Date maturityDate,
-			ClaimType claimType, String claimNumber, JobStatus jobStatus, int start, int length) {
+			ClaimType claimType, String claimNumber, JobStatus jobStatus, int start, int length,SecUser user) {
 		ClaimPaging claimPaging = claimDao.searchPaging(jobDateStart, jobDateEnd, partyInsurance, maturityDate, claimType, claimNumber,
-				jobStatus, start, length);
+				jobStatus, start, length, user);
 
 		ClaimSearchResultVoPaging voPaging = new ClaimSearchResultVoPaging();
 		voPaging.setDraw(claimPaging.getDraw());
