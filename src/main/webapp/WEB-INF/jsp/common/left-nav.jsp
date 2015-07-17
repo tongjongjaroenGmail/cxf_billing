@@ -53,8 +53,8 @@
 			</a>
 			<ul class="submenu">
 				<c:if test="${loginUser.stdPosition.id == 1}">
-					<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/claimImport'}">class="active"</c:if>>
-						<a href="${pageContext.request.contextPath}/claimImport"> 
+					<li <c:if test="${fn:startsWith(currentUrl, '/claim/file')}">class="active"</c:if>>
+						<a href="${pageContext.request.contextPath}/claim/file"> 
 							<i class="icon-double-angle-right"></i> 
 							<span class="menu-text">นำเข้าไฟล์</span>
 						</a>
@@ -62,8 +62,8 @@
        			</c:if>
 				
 
-				<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/claim'}">class="active"</c:if>>
-					<a href="${pageContext.request.contextPath}/claimSearch"> 
+				<li <c:if test="${fn:startsWith(currentUrl, '/claim/claim')}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/claim/claim"> 
 						<i class="icon-double-angle-right"></i> 
 						<span class="menu-text">เรื่องเรียกร้อง</span>
 					</a>
