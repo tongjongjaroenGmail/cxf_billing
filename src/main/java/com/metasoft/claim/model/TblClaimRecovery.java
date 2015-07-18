@@ -25,6 +25,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "tbl_claim_recovery")
 @NamedQuery(name = "TblClaimRecovery.findAll", query = "SELECT t FROM TblClaimRecovery t")
+//@NamedQuery(name = "TblClaimRecovery.findByCriteria",query = "SELECT t FROM TblClaimRecovery t  WHERE t.follow_date =:follow_date ")
 public class TblClaimRecovery extends BaseModel {
 	private static final long serialVersionUID = 1L;
 

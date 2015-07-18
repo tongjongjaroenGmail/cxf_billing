@@ -78,7 +78,7 @@
 				<b class="arrow icon-angle-down"></b>
 			</a>
 			<ul class="submenu">
-				<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/trackingSearch'}">class="active"</c:if>>
+				<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/reportTracking'}">class="active"</c:if>>
 					<a href="${pageContext.request.contextPath}/trackingSearch"> 
 						<i class="icon-double-angle-right"></i> 
 						<span class="menu-text">ออกหนังสือติดตาม</span>
@@ -88,13 +88,13 @@
 				<c:if test="${loginUser.stdPosition.id == 1}">
 					<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/report2'}">class="active"</c:if>>
 						<a href="${pageContext.request.contextPath}/report2"> 
-							<i class="icon-double-angle-right"></i> 
+							<i class="icon-double-angle-righty"></i> 
 							<span class="menu-text">จ่ายค่าแรง</span>
 						</a>
 					</li>
 					
-					<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/report3'}">class="active"</c:if>>
-						<a href="${pageContext.request.contextPath}/report3"> 
+					<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/reportBilling'}">class="active"</c:if>>
+						<a href="${pageContext.request.contextPath}/billingSearch"> 
 							<i class="icon-double-angle-right"></i> 
 							<span class="menu-text">วางบิล</span>
 						</a>

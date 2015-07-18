@@ -60,6 +60,7 @@ public class ClaimAjaxController extends BaseAjaxController {
 			@RequestParam(required = true) Integer draw,
 			@RequestParam(required = true) Integer start,
 			@RequestParam(required = true) Integer length,HttpSession session) throws ParseException {
+		
 		ClaimSearchResultVoPaging resultPaging = new ClaimSearchResultVoPaging();
 		resultPaging.setDraw(++draw);
 		if(new Boolean(paramFirstTime)){		

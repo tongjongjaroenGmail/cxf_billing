@@ -97,6 +97,7 @@ public class ClaimServiceImpl extends ModelBasedServiceImpl<ClaimDao, TblClaimRe
 	@Override
 	public ClaimSearchResultVoPaging searchPaging(Date jobDateStart, Date jobDateEnd, StdInsurance partyInsurance, Date maturityDate,
 			ClaimType claimType, String claimNumber, JobStatus jobStatus, int start, int length,SecUser user) {
+		
 		ClaimPaging claimPaging = claimDao.searchPaging(jobDateStart, jobDateEnd, partyInsurance, maturityDate, claimType, claimNumber,
 				jobStatus, start, length, user);
 

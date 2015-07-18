@@ -91,4 +91,16 @@ public class SiteController extends BaseController
     {	
 		return "claimSearch";
     }
+    
+    @RequestMapping(value = "/trackingSearch", method = RequestMethod.GET)
+    public String trackingSearch()
+    {	
+		return "trackingSearch";
+    }
+    
+    @RequestMapping(value = "/billingSearch", method = RequestMethod.GET)
+    public String billingSearch()
+    {	
+		return "billingSearch";
+    }
 }

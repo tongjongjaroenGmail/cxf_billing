@@ -35,4 +35,10 @@
 		<put-attribute name="title" value=""></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/claim/report/trackingSearch.jsp"></put-attribute>
     </definition>
+    
+    <!--     billingSearch -->
+	<definition name="billingSearch" extends="base.definition">
+		<put-attribute name="title" value=""></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/claim/report/billingSearch.jsp"></put-attribute>
+    </definition>
 </tiles-definitions>

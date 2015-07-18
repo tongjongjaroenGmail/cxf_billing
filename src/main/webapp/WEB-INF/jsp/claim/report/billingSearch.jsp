@@ -5,7 +5,7 @@
 
 <div class="page-content col-xs-12">
 	<div class="page-header">
-		<h1>ออกหนังสือติดตาม
+		<h1>วางบิล
 			<button class="btn btn-success btn-xs" id="btnAdd">
 				<I class="icon-plus  bigger-110 icon-only"></I>
 			</button>
@@ -20,7 +20,7 @@
 			<div class="table-responsive">
 				<div class="col-sm-2">		
 					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
-						<b>วันที่ออกหนังสือติดตาม : </b> 
+						<b>วันที่ปิดงาน : </b> 
 					</div>
 				</div>
 				<div class="col-sm-3">		
@@ -48,7 +48,7 @@
 			</div>
 		</div>		
 	</div>
-	</div>
+	
 	<div class="space-4"></div>
 
 	<div class="row">
@@ -70,11 +70,11 @@
 					</div>
 				</div>
 				
+			</div>
 		</div>		
-				
-	</div>			
-	<div class="space-4"></div>
+	</div>
 	
+	<div class="space-4"></div>
 	
 	<div class="row">
 		<div class="col-sm-12">
@@ -95,14 +95,20 @@
 					</div>
 				</div>
 				
-			
-			</div>	
+				
+				
 			</div>
 		</div>		
 	</div>
 	
 	<div class="space-4"></div>
-
+	
+	<div class="row">
+		<div class="col-sm-12">
+			
+		</div>		
+	</div>
+</div>	
 	<div class="space-4"></div>
 	
 	<div class="row">
@@ -125,15 +131,10 @@
 		<table id="tblClaim" class="table table-striped table-bordered table-hover" style="width: 100%;">
 			<thead>
 				<tr>
-					<th>วันที่่ออกหนังสือ</th>
-					<th>วันที่เกิดเหตุ</th>
-					<th>เลขกรมธรรม์</th>
+					<th>วันที่ปิดงาน</th>
 					<th>เลขเคลม</th>
-					<th>เลขทะเบียน</th>
-					<th>จำนวนเงิน</th>
 					<th>บริษัทประกัน</th>
 					<th>ประเภทเคลม</th>
-		
 				</tr>
 			</thead>
 
@@ -143,7 +144,7 @@
 		</table>
 	</div>
 	
-<%-- 	<jsp:include page = "modalClaimSave.jsp" flush="false"/> --%>
+
 </div>
 <!-- /.page-content -->
 
@@ -154,25 +155,20 @@ $('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, functi
 
 var tblClaimDt;
 var firstTime = true;
-var pageName = "tracking"
-
+var pageName = "billing"
 
 $(document).ready(function() {
 	tblClaimDt = $("#tblClaim").dataTable({
 			"aoColumns"   : [
-				{ "mData" : "jobDate" },
-				{ "mData" : "accidentDate" },
-				{ "mData" : "policyNo" },
+				{ "mData" : "closeDate" },
 				{ "mData" : "claimNumber"  },
-				{ "mData" : "licenseNumber"  },
-				{ "mData" : "cliamAmount"},
 				{ "mData" : "insuranceName"    },
 				{ "mData" : "claimType"    }],
 				columnDefs: [{ type: 'date-dd/mm/yyyy', targets: 0 }],
 				"processing": true,
                 "serverSide": true,
                 "ajax": {
-                    "url": '${pageContext.request.contextPath}/tracking/search',
+                	"url": '${pageContext.request.contextPath}/tracking/search',
                     "type": "POST",
                     "data": function ( d ) {
                          d.paramJobDateStart       =  $("#divParamSearch").find("#txtJobDateStart").val(),  
@@ -189,6 +185,7 @@ $(document).ready(function() {
 	});
 	
 });
+	
 
 function search(){
 	delay(function(){
