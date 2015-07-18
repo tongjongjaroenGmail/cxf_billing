@@ -1,29 +1,41 @@
 package com.metasoft.claim.model;
 
-import java.io.Serializable;
-
-import javax.persistence.*;
-
-import java.util.List;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the std_insurance database table.
  * 
  */
 @Entity
-@Table(name="std_insurance")
-@NamedQuery(name="StdInsurance.findAll", query="SELECT s FROM StdInsurance s")
+@Table(name = "std_insurance")
+@NamedQuery(name = "StdInsurance.findAll", query = "SELECT s FROM StdInsurance s ORDER BY s.name ASC ")
 public class StdInsurance extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@Column(name="name")
+	@Column(name = "name")
 	private String name;
+
+	@Column(name = "full_name")
+	private String fullName;
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
 
 	public Integer getId() {
 		return id;
@@ -45,5 +57,4 @@ public class StdInsurance extends BaseModel {
 		return serialVersionUID;
 	}
 
-	
 }
