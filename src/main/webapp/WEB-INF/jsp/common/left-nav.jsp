@@ -87,14 +87,15 @@
 
 				<c:if test="${loginUser.stdPosition.id == 1}">
 					<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/reportLaborPay'}">class="active"</c:if>>
-						<a href="${pageContext.request.contextPath}/laborPaySearch.jsp"> 
+						<a href="${pageContext.request.contextPath}/laborPaySearch"> 
 							<i class="icon-double-angle-righty"></i> 
 							<span class="menu-text">จ่ายค่าแรง</span>
 						</a>
 					</li>
 					
 					<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/reportBilling'}">class="active"</c:if>>
-						<a href="${pageContext.request.contextPath}/reportBilling"> 
+<%-- 		<li <c:if test="${fn:startsWith(currentUrl, '/reportBilling')}">class="active"</c:if>> --%>
+						<a href="${pageContext.request.contextPath}/billingSearch"> 
 							<i class="icon-double-angle-right"></i> 
 							<span class="menu-text">วางบิล</span>
 						</a>
