@@ -88,7 +88,7 @@ public class ReportDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer>
 				} else if (jobDateEnd != null) {
 					criteriaCount.add(Restrictions.le("closeDate", jobDateEnd));
 				}
-				//criteriaCount.add(Restrictions.eq("jobStatus", "2"));
+				criteriaCount.add(Restrictions.eq("jobStatus",JobStatus.CLOSED));
 			}
 
 			criteriaCount.setProjection(Projections.rowCount());
@@ -127,7 +127,7 @@ public class ReportDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer>
 					} else if (jobDateEnd != null) {
 						criteria.add(Restrictions.le("closeDate", jobDateEnd));
 					}
-				//	criteria.add(Restrictions.eq("jobStatus", "2"));
+					criteria.add(Restrictions.eq("jobStatus", JobStatus.CLOSED));
 				}
 
 				criteria.setFirstResult(start);
@@ -144,5 +144,124 @@ public class ReportDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer>
 		}
 
 		return resultPaging;
+	}
+
+	@Override
+	public ReportPaging searchPaging(Date jobDateStart, Date jobDateEnd,
+			int agent, ClaimType claimType, int start, int length) {
+		System.out.println(">>>>> labor");
+		ReportPaging resultPaging = new ReportPaging();
+		
+			Criteria criteriaRecordsTotal = getCurrentSession().createCriteria(
+					entityClass);
+
+			criteriaRecordsTotal.setProjection(Projections.rowCount());
+			resultPaging.setRecordsTotal((Long) criteriaRecordsTotal
+					.uniqueResult());
+
+			Criteria criteriaCount = getCurrentSession().createCriteria(
+					entityClass);
+
+			if (agent != 0) {
+				criteriaCount.add(Restrictions.eq("agent",
+						agent));
+			}
+
+			if (claimType != null) {
+				criteriaCount.add(Restrictions.eq("claimType", claimType));
+			}
+
+			
+			if (jobDateStart != null && jobDateEnd != null) {
+					criteriaCount.add(Restrictions.between("closeDate",
+							jobDateStart, jobDateEnd));
+				} else if (jobDateStart != null) {
+					criteriaCount.add(Restrictions.ge("closeDate",
+							jobDateStart));
+				} else if (jobDateEnd != null) {
+					criteriaCount
+							.add(Restrictions.le("closeDate", jobDateEnd));
+				
+			}
+			
+			criteriaCount.setProjection(Projections.rowCount());
+			resultPaging.setRecordsFiltered((Long) criteriaCount.uniqueResult());
+
+			if (resultPaging.getRecordsFiltered() != 0) {
+				Criteria criteria = getCurrentSession().createCriteria(
+						entityClass);
+				if (agent != 0) {
+					criteria.add(Restrictions.eq("agent",
+							agent));
+				}
+
+				if (claimType != null) {
+					criteria.add(Restrictions.eq("claimType", claimType));
+				}
+
+	
+					if (jobDateStart != null && jobDateEnd != null) {
+						criteria.add(Restrictions.between("closeDate",
+								jobDateStart, jobDateEnd));
+					} else if (jobDateStart != null) {
+						criteria.add(Restrictions.ge("closeDate", jobDateStart));
+					} else if (jobDateEnd != null) {
+						criteria.add(Restrictions.le("closeDate", jobDateEnd));
+					}
+					criteria.add(Restrictions.eq("jobStatus", JobStatus.CLOSED));
+				
+
+				criteria.setFirstResult(start);
+				criteria.setMaxResults(length);
+				resultPaging.setData(criteria.list());
+				}
+
+			if (resultPaging.getData() == null) {
+				resultPaging.setData(new ArrayList<TblClaimRecovery>());
+			}
+
+		
+		return resultPaging;
+		
+	}
+
+	@Override
+	public ReportPaging searchPaging(Date jobDateStart, Date jobDateEnd,
+			int agent, ClaimType claimType) {
+		
+		return null;
+	}
+
+	@Override
+	public List<TblClaimRecovery> searchExport(Date jobDateStart,
+			Date jobDateEnd, int agent, ClaimType claimType) {
+		
+		List<TblClaimRecovery> results = new ArrayList<TblClaimRecovery>();
+
+		Criteria criteria = getCurrentSession().createCriteria(entityClass);
+		if (agent != 0) {
+			criteria.add(Restrictions.eq("agent",agent));}
+
+		if (claimType != null) {
+			criteria.add(Restrictions.eq("claimType", claimType));
+		}
+
+		if (jobDateStart != null && jobDateEnd != null) {
+				criteria.add(Restrictions.between("closeDate",
+						jobDateStart, jobDateEnd));
+			} else if (jobDateStart != null) {
+				criteria.add(Restrictions.ge("closeDate", jobDateStart));
+			} else if (jobDateEnd != null) {
+				criteria.add(Restrictions.le("closeDate", jobDateEnd));
+			}
+			criteria.add(Restrictions.eq("jobStatus", JobStatus.CLOSED));
+		
+
+			results = criteria.list();
+			if (results == null) {
+				results = new ArrayList<TblClaimRecovery>();
+			}
+			return results;
+
 	}
 }
