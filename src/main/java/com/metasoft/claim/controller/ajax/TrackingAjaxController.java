@@ -76,49 +76,35 @@ public class TrackingAjaxController extends BaseAjaxController {
 		return json;
 	}
 	
-	@RequestMapping(value = "/tracking/print", method = RequestMethod.POST)
-	public void print(Model model,
+	
+	@RequestMapping(value = "/tracking/labor", method = RequestMethod.POST)
+	public @ResponseBody
+	String searchLabor(Model model,
 			@RequestParam(required = false) String paramJobDateStart,
 			@RequestParam(required = false) String paramJobDateEnd,
-			@RequestParam(required = false) String paramPartyInsuranceId,
+			@RequestParam(required = false) String agentName,
 			@RequestParam(required = false) String paramClaimTypeId,
 			@RequestParam(required = false) String paramPageName,
 			@RequestParam(required = false) String paramFirstTime,
 			
-			@RequestParam(required = false) Integer draw,
-			@RequestParam(required = false) Integer start,
-			@RequestParam(required = false) Integer length,
-			HttpSession session,
-			HttpServletResponse response ) throws ParseException, ServletException, IOException {
+			@RequestParam(required = true) Integer draw,
+			@RequestParam(required = true) Integer start,
+			@RequestParam(required = true) Integer length) throws ParseException {
 		
-		try{
-			
-		   List<TrackingSearchResultVo> dataList = new ArrayList<TrackingSearchResultVo>();
-		   
-		   dataList = trackingService.trackingPrint(paramJobDateStart, paramJobDateEnd, paramPartyInsuranceId, paramClaimTypeId, "tracking");
-		   
-		   System.out.println(">>>>> dataList.size() = "+dataList.size());
-		   
-//		   String contentType = "application/vnd.ms-excel";
-//		   req.setAttribute("rowCount", dataList.size());
-//           req.setAttribute("vo", dataList);
-//
-//           String headerName = "attachment; filename=\"" + "Follow" + "\"";
-//           headerName = new String(headerName.getBytes("TIS620"), "ISO8859-1");
-//           resp.setContentType(contentType);
-//           //resp.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-//           resp.addHeader("Content-Disposition", headerName);
-//           RequestDispatcher view = req.getServletContext().getRequestDispatcher("/report/trackingRPT.jsp");
-//           view.forward( req, resp);
-		}catch (Exception e){
-			e.printStackTrace();
+		TrackingSearchResultVoPaging resultPaging = new TrackingSearchResultVoPaging();
+		resultPaging.setDraw(++draw);
+		if(new Boolean(paramFirstTime)){		
+			resultPaging.setRecordsFiltered(0L);
+			resultPaging.setRecordsTotal(0L);
+			resultPaging.setData(new ArrayList<TrackingSearchResultVo>());;
+		}else{
+			resultPaging = trackingService.searchPagingLabor(paramJobDateStart, paramJobDateEnd, agentName, paramClaimTypeId, start, length);
 		}
-		
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String json = gson.toJson(resultPaging);
+		return json;
 	}
-	
-	
-	
-	
-	
+		
 	
 }

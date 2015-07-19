@@ -104,4 +104,33 @@ public class ReportAjaxController {
 				token, 
 				response);
 	}
+	
+	@RequestMapping(value="/labor")
+	public void labor(
+			
+			@RequestParam(required = false) String paramJobDateStart,
+			@RequestParam(required = false) String paramJobDateEnd,
+			@RequestParam(required = false) String agentName,
+			@RequestParam(required = false) String paramClaimTypeId,
+			@RequestParam(required = false) String paramPageName,
+			@RequestParam(required = false) String paramFirstTime,
+			@RequestParam(required = false) String token,
+			
+			HttpSession session,
+			HttpServletResponse response) throws ParseException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+		
+//		List<ClaimSearchResultVo> results = reportService.searchExport(txtJobDateStart, txtJobDateEnd, selInsurance, txtTotalDayOfMaturity, selClaimType, 
+//				txtClaimNumber, selJobStatus);
+				List<TrackingSearchResultVo> results = reportService.laborPrint(paramJobDateStart, paramJobDateEnd, agentName, paramClaimTypeId);
+
+		
+		downloadService.download(
+				ExporterService.EXTENSION_TYPE_EXCEL, 
+				"labor", 
+				session.getServletContext().getRealPath("/report/labor"), 
+				new HashMap(), 
+				results,
+				token, 
+				response);
+	}
 }
