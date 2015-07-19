@@ -6,6 +6,7 @@ package com.metasoft.claim.service.impl.claim;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -291,5 +292,86 @@ public class ClaimServiceImpl extends ModelBasedServiceImpl<ClaimDao, TblClaimRe
 		claimSaveVo.setTxtClaimId(String.valueOf(entity.getId()));
 		
 		return claimSaveVo;
+	}
+
+	@Override
+	public List<ClaimSearchResultVo> searchExport(String paramJobDateStart, String paramJobDateEnd, String paramPartyInsuranceId,
+			String paramTotalDayOfMaturity, String paramClaimTypeId, String paramClaimNumber, String paramJobStatusId) {
+		Date jobDateStart = null;
+		Date jobDateEnd = null;
+		StdInsurance partyInsurance = null;
+		Date maturityDate = null;
+		ClaimType claimType = null;
+		JobStatus jobStatus = null;
+		if (StringUtils.isNotBlank(paramJobDateStart)) {
+			jobDateStart = DateToolsUtil.convertStringToDate(paramJobDateStart, DateToolsUtil.LOCALE_TH);
+		}
+
+		if (StringUtils.isNotBlank(paramJobDateEnd)) {
+			jobDateEnd = DateToolsUtil.convertStringToDate(paramJobDateEnd, DateToolsUtil.LOCALE_TH);
+		}
+
+		if (StringUtils.isNotBlank(paramPartyInsuranceId)) {
+			partyInsurance = insuranceService.findById(Integer.parseInt(paramPartyInsuranceId));
+		}
+
+		if (StringUtils.isNotBlank(paramTotalDayOfMaturity)) {
+			int totalDayOfMaturity = NumberToolsUtil.parseToInteger(paramTotalDayOfMaturity);
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DAY_OF_YEAR, + totalDayOfMaturity);
+			maturityDate = cal.getTime();
+		}
+
+		if (StringUtils.isNotBlank(paramClaimTypeId)) {
+			claimType = ClaimType.getById(Integer.parseInt(paramClaimTypeId));
+		}
+
+		if (StringUtils.isNotBlank(paramJobStatusId)) {
+			jobStatus = JobStatus.getById(Integer.parseInt(paramJobStatusId));
+		}
+
+		return searchExport(jobDateStart, jobDateEnd, partyInsurance, maturityDate, claimType, paramClaimNumber, jobStatus);
+	}
+
+	@Override
+	public List<ClaimSearchResultVo> searchExport(Date jobDateStart, Date jobDateEnd, StdInsurance partyInsurance, Date maturityDate,
+			ClaimType claimType, String claimNumber, JobStatus jobStatus) {
+		List<TblClaimRecovery> claims = claimDao.searchExport(jobDateStart, jobDateEnd, partyInsurance, maturityDate, claimType, claimNumber,
+				jobStatus);
+
+		List<ClaimSearchResultVo> vos = new ArrayList<ClaimSearchResultVo>();
+		if (vos != null) {
+			for (TblClaimRecovery claim : claims) {
+				ClaimSearchResultVo vo = new ClaimSearchResultVo();
+				if (claim.getAgent() != null) {
+					vo.setAgentName(StringUtils.trimToEmpty(claim.getAgent().getName()) + " "
+							+ (StringUtils.trimToEmpty(claim.getAgent().getLastName())));
+				}
+				vo.setClaimId(claim.getId().intValue());
+				vo.setClaimNumber(StringUtils.trimToEmpty(claim.getClaimNumber()));
+				if (claim.getClaimType() != null) {
+					vo.setClaimType(claim.getClaimType().getName());
+				}
+				if (claim.getPartyInsurance() != null) {
+					vo.setInsuranceName(claim.getPartyInsurance().getName());
+				}
+				if (claim.getJobDate() != null) {
+					vo.setJobDate(DateToolsUtil.convertToString(claim.getJobDate(), DateToolsUtil.LOCALE_TH));
+				}
+				vo.setJobNo(StringUtils.trimToEmpty(claim.getJobNo()));
+				if (claim.getJobStatus() != null) {
+					vo.setJobStatus(claim.getJobStatus().getName());
+				}
+				if (claim.getMaturityDate() != null) {
+					vo.setMaturityDate(DateToolsUtil.convertToString(claim.getMaturityDate(), DateToolsUtil.LOCALE_TH));
+				}
+				if (claim.getRequestAmount() != null) {
+					vo.setRequestAmount(NumberToolsUtil.decimalFormat(claim.getRequestAmount()));
+				}
+				vos.add(vo);
+			}
+		}
+
+		return vos;
 	}
 }

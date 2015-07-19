@@ -1,6 +1,7 @@
 package com.metasoft.claim.dao.claim;
 
 import java.util.Date;
+import java.util.List;
 
 import com.metasoft.claim.bean.paging.ClaimPaging;
 import com.metasoft.claim.dao.AbstractDao;
@@ -15,5 +16,8 @@ public interface ClaimDao extends AbstractDao<TblClaimRecovery, Integer>{
 			Date maturityDate,ClaimType claimType, String claimNumber,JobStatus jobStatus, int start,int length,SecUser user);
 	
 	public boolean checkDupClaimNumber(String claimNumber);
+	
+	public List<TblClaimRecovery> searchExport(Date jobDateStart,Date jobDateEnd,StdInsurance partyInsurance,
+			Date maturityDate,ClaimType claimType, String claimNumber,JobStatus jobStatus);
 	   
 }

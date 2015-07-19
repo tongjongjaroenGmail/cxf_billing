@@ -2,6 +2,7 @@ package com.metasoft.claim.dao.impl.claim;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
@@ -27,58 +28,101 @@ import com.metasoft.claim.model.TblClaimRecovery;
 public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> implements ClaimDao {
 	@Autowired
 	private UserDao userDao;
-	
+
 	public ClaimDaoImpl() {
 		super(TblClaimRecovery.class);
 	}
 
 	@Override
-	public ClaimPaging searchPaging(Date jobDateStart,Date jobDateEnd,StdInsurance partyInsurance,
-			Date maturityDate,ClaimType claimType, String claimNumber,JobStatus jobStatus, int start,int length,SecUser user){
+	public List<TblClaimRecovery> searchExport(Date jobDateStart, Date jobDateEnd, StdInsurance partyInsurance, Date maturityDate,
+			ClaimType claimType, String claimNumber, JobStatus jobStatus) {
+		List<TblClaimRecovery> results = new ArrayList<TblClaimRecovery>();
+
+		Criteria criteria = getCurrentSession().createCriteria(entityClass);
+		if (jobDateStart != null && jobDateEnd != null) {
+			criteria.add(Restrictions.between("jobDate", jobDateStart, jobDateEnd));
+		} else if (jobDateStart != null) {
+			criteria.add(Restrictions.ge("jobDate", jobDateStart));
+		} else if (jobDateEnd != null) {
+			criteria.add(Restrictions.le("jobDate", jobDateEnd));
+		}
+
+		if (partyInsurance != null) {
+			criteria.add(Restrictions.eq("partyInsurance", partyInsurance));
+		}
+
+		if (maturityDate != null) {
+			criteria.add(Restrictions.le("maturityDate", maturityDate));
+		}
+
+		if (claimType != null) {
+			criteria.add(Restrictions.eq("claimType", claimType));
+		}
+
+		if (StringUtils.isNotBlank(claimNumber)) {
+			criteria.add(Restrictions.ilike("claimNumber", claimNumber + "%"));
+		}
+
+		if (jobStatus != null) {
+			criteria.add(Restrictions.eq("jobStatus", jobStatus));
+		}
+
+		criteria.addOrder(Order.asc("maturityDate"));
+
+		results = criteria.list();
+		if (results == null) {
+			results = new ArrayList<TblClaimRecovery>();
+		}
+		return results;
+	}
+
+	@Override
+	public ClaimPaging searchPaging(Date jobDateStart, Date jobDateEnd, StdInsurance partyInsurance, Date maturityDate,
+			ClaimType claimType, String claimNumber, JobStatus jobStatus, int start, int length, SecUser user) {
 		ClaimPaging resultPaging = new ClaimPaging();
-		
+
 		SecUser agent = null;
-		if(user != null){
+		if (user != null) {
 			agent = userDao.findById(user.getId());
 		}
-				
+
 		Criteria criteriaRecordsTotal = getCurrentSession().createCriteria(entityClass);
-		if(agent != null && agent.getStdPosition().getId() == 2){
+		if (agent != null && agent.getStdPosition().getId() == 2) {
 			criteriaRecordsTotal.add(Restrictions.eq("agent", agent));
 		}
-		
+
 		criteriaRecordsTotal.setProjection(Projections.rowCount());
 		resultPaging.setRecordsTotal((Long) criteriaRecordsTotal.uniqueResult());
 
 		Criteria criteriaCount = getCurrentSession().createCriteria(entityClass);
 		if (jobDateStart != null && jobDateEnd != null) {
 			criteriaCount.add(Restrictions.between("jobDate", jobDateStart, jobDateEnd));
-		}else if (jobDateStart != null) {
+		} else if (jobDateStart != null) {
 			criteriaCount.add(Restrictions.ge("jobDate", jobDateStart));
-		}else if (jobDateEnd != null) {
+		} else if (jobDateEnd != null) {
 			criteriaCount.add(Restrictions.le("jobDate", jobDateEnd));
 		}
-		
-		if(partyInsurance != null){
+
+		if (partyInsurance != null) {
 			criteriaCount.add(Restrictions.eq("partyInsurance", partyInsurance));
 		}
-		
-		if(maturityDate != null){
+
+		if (maturityDate != null) {
 			criteriaCount.add(Restrictions.le("maturityDate", maturityDate));
 		}
-		
-		if(claimType != null){
+
+		if (claimType != null) {
 			criteriaCount.add(Restrictions.eq("claimType", claimType));
 		}
-		
-		if(StringUtils.isNotBlank(claimNumber)){
+
+		if (StringUtils.isNotBlank(claimNumber)) {
 			criteriaCount.add(Restrictions.ilike("claimNumber", claimNumber + "%"));
 		}
-		
-		if(jobStatus != null){
+
+		if (jobStatus != null) {
 			criteriaCount.add(Restrictions.eq("jobStatus", jobStatus));
 		}
-		if(agent != null && agent.getStdPosition().getId() == 2){
+		if (agent != null && agent.getStdPosition().getId() == 2) {
 			criteriaCount.add(Restrictions.eq("agent", agent));
 		}
 		criteriaCount.setProjection(Projections.rowCount());
@@ -88,32 +132,32 @@ public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> imp
 			Criteria criteria = getCurrentSession().createCriteria(entityClass);
 			if (jobDateStart != null && jobDateEnd != null) {
 				criteria.add(Restrictions.between("jobDate", jobDateStart, jobDateEnd));
-			}else if (jobDateStart != null) {
+			} else if (jobDateStart != null) {
 				criteria.add(Restrictions.ge("jobDate", jobDateStart));
-			}else if (jobDateEnd != null) {
+			} else if (jobDateEnd != null) {
 				criteria.add(Restrictions.le("jobDate", jobDateEnd));
 			}
-			
-			if(partyInsurance != null){
+
+			if (partyInsurance != null) {
 				criteria.add(Restrictions.eq("partyInsurance", partyInsurance));
 			}
-			
-			if(maturityDate != null){
+
+			if (maturityDate != null) {
 				criteria.add(Restrictions.le("maturityDate", maturityDate));
 			}
-			
-			if(claimType != null){
+
+			if (claimType != null) {
 				criteria.add(Restrictions.eq("claimType", claimType));
 			}
-			
-			if(StringUtils.isNotBlank(claimNumber)){
+
+			if (StringUtils.isNotBlank(claimNumber)) {
 				criteria.add(Restrictions.ilike("claimNumber", claimNumber + "%"));
 			}
-			
-			if(jobStatus != null){
+
+			if (jobStatus != null) {
 				criteria.add(Restrictions.eq("jobStatus", jobStatus));
 			}
-			if(agent != null && agent.getStdPosition().getId() == 2){
+			if (agent != null && agent.getStdPosition().getId() == 2) {
 				criteria.add(Restrictions.eq("agent", agent));
 			}
 
@@ -122,22 +166,22 @@ public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> imp
 			criteria.setMaxResults(length);
 			resultPaging.setData(criteria.list());
 		}
-		
-		if(resultPaging.getData() == null){
+
+		if (resultPaging.getData() == null) {
 			resultPaging.setData(new ArrayList<TblClaimRecovery>());
 		}
 		return resultPaging;
 	}
-	
+
 	@Override
-	public boolean checkDupClaimNumber(String claimNumber){
+	public boolean checkDupClaimNumber(String claimNumber) {
 		Criteria criteriaCount = getCurrentSession().createCriteria(entityClass);
-	
-		if(StringUtils.isNotBlank(claimNumber)){
+
+		if (StringUtils.isNotBlank(claimNumber)) {
 			criteriaCount.add(Restrictions.eq("claimNumber", claimNumber));
 		}
 		criteriaCount.setProjection(Projections.rowCount());
-		
-		return ((Long) criteriaCount.uniqueResult() > 0)?true:false;
+
+		return ((Long) criteriaCount.uniqueResult() > 0) ? true : false;
 	}
 }
