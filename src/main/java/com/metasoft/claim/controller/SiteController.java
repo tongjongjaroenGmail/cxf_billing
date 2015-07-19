@@ -104,6 +104,19 @@ public class SiteController extends BaseController
 		return "billingSearch";
     }
     
+    @RequestMapping(value = "/laborPaySearch", method = RequestMethod.GET)
+    public String laborPaySearch()
+    {	
+		return "laborPaySearch";
+    }
+    
+    @RequestMapping(value = "/operationSearch", method = RequestMethod.GET)
+    public String operationSearch()
+    {	
+		return "operationSearch";
+    }
+
+    
     @RequestMapping(value = "/claimImport", method = RequestMethod.GET)
     public String claimImport()
     {	

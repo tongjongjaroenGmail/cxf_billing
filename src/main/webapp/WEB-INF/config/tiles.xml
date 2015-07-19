@@ -4,9 +4,8 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-	<definition name="login" template="/WEB-INF/jsp/login.jsp">
-
-    </definition>
+	<definition name="login" template="/WEB-INF/jsp/login.jsp"></definition>
+    <definition name="reportTracking" template="/WEB-INF/jsp/claim/report/trackingRPT.jsp"></definition>
     
     <definition name="403" template="/WEB-INF/jsp/403.jsp">
 
@@ -39,4 +38,30 @@
 		<put-attribute name="title" value=""></put-attribute>
 		<put-attribute name="body" value="/WEB-INF/jsp/report/workSearch.jsp"></put-attribute>
     </definition>
+    
+     <!--     laborPaySearch -->
+	<definition name="laborPaySearch" extends="base.definition">
+		<put-attribute name="title" value=""></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/claim/report/laborPaySearch.jsp"></put-attribute>
+    </definition>
+    
+      <!--     operationSearch -->
+	<definition name="operationSearch" extends="base.definition">
+		<put-attribute name="title" value=""></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/claim/report/operationSearch.jsp"></put-attribute>
+    </definition>
+    
+    
+      <!--     trackingSearch -->
+	<definition name="trackingSearch" extends="base.definition">
+		<put-attribute name="title" value=""></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/claim/report/trackingSearch.jsp"></put-attribute>
+    </definition>
+    
+       <!--     billingSearch -->
+	<definition name="billingSearch" extends="base.definition">
+		<put-attribute name="title" value=""></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/claim/report/billingSearch.jsp"></put-attribute>
+    </definition>
+    
 </tiles-definitions>

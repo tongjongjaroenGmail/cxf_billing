@@ -42,53 +42,20 @@ public class ReportDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer>
 	public ReportPaging searchPaging(Date jobDateStart, Date jobDateEnd,
 			StdInsurance partyInsurance, ClaimType claimType, int start,
 			int length, String pageName) {
+		System.out.println(">>>>>> pageName = " + pageName);
+
 		ReportPaging resultPaging = new ReportPaging();
+		try {
+			Criteria criteriaRecordsTotal = getCurrentSession().createCriteria(
+					entityClass);
 
-		Criteria criteriaRecordsTotal = getCurrentSession().createCriteria(
-				entityClass);
+			criteriaRecordsTotal.setProjection(Projections.rowCount());
+			resultPaging.setRecordsTotal((Long) criteriaRecordsTotal
+					.uniqueResult());
 
-		criteriaRecordsTotal.setProjection(Projections.rowCount());
-		resultPaging
-				.setRecordsTotal((Long) criteriaRecordsTotal.uniqueResult());
+			Criteria criteriaCount = getCurrentSession().createCriteria(
+					entityClass);
 
-		Criteria criteriaCount = getCurrentSession()
-				.createCriteria(entityClass);
-
-		if (partyInsurance != null) {
-			criteriaCount
-					.add(Restrictions.eq("partyInsurance", partyInsurance));
-		}
-
-		if (claimType != null) {
-			criteriaCount.add(Restrictions.eq("claimType", claimType));
-		}
-
-		if (pageName.equals("tracking")) {
-			if (jobDateStart != null && jobDateEnd != null) {
-				criteriaCount.add(Restrictions.between("jobDate", jobDateStart,
-						jobDateEnd));
-			} else if (jobDateStart != null) {
-				criteriaCount.add(Restrictions.ge("jobDate", jobDateStart));
-			} else if (jobDateEnd != null) {
-				criteriaCount.add(Restrictions.le("jobDate", jobDateEnd));
-			}
-		} else if (pageName.equals("billing")) {
-			if (jobDateStart != null && jobDateEnd != null) {
-				criteriaCount.add(Restrictions.between("closeDate",
-						jobDateStart, jobDateEnd));
-			} else if (jobDateStart != null) {
-				criteriaCount.add(Restrictions.ge("closeDate", jobDateStart));
-			} else if (jobDateEnd != null) {
-				criteriaCount.add(Restrictions.le("closeDate", jobDateEnd));
-			}
-			criteriaCount.add(Restrictions.eq("jobStatus", "2"));
-		}
-
-		criteriaCount.setProjection(Projections.rowCount());
-		resultPaging.setRecordsFiltered((Long) criteriaCount.uniqueResult());
-
-		if (resultPaging.getRecordsFiltered() != 0) {
-			Criteria criteria = getCurrentSession().createCriteria(entityClass);
 			if (partyInsurance != null) {
 				criteriaCount.add(Restrictions.eq("partyInsurance",
 						partyInsurance));
@@ -100,14 +67,18 @@ public class ReportDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer>
 
 			if (pageName.equals("tracking")) {
 				if (jobDateStart != null && jobDateEnd != null) {
-					criteriaCount.add(Restrictions.between("jobDate",
+					criteriaCount.add(Restrictions.between("followDate",
 							jobDateStart, jobDateEnd));
 				} else if (jobDateStart != null) {
-					criteriaCount.add(Restrictions.ge("jobDate", jobDateStart));
+					criteriaCount.add(Restrictions.ge("followDate",
+							jobDateStart));
 				} else if (jobDateEnd != null) {
-					criteriaCount.add(Restrictions.le("jobDate", jobDateEnd));
+					criteriaCount
+							.add(Restrictions.le("followDate", jobDateEnd));
 				}
-			} else if (pageName.equals("billing")) {
+			}
+			if (pageName.equals("billing")) {
+				System.out.println(">>>>>> billing");
 				if (jobDateStart != null && jobDateEnd != null) {
 					criteriaCount.add(Restrictions.between("closeDate",
 							jobDateStart, jobDateEnd));
@@ -117,17 +88,61 @@ public class ReportDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer>
 				} else if (jobDateEnd != null) {
 					criteriaCount.add(Restrictions.le("closeDate", jobDateEnd));
 				}
-				criteriaCount.add(Restrictions.eq("jobStatus", 2));
+				//criteriaCount.add(Restrictions.eq("jobStatus", "2"));
 			}
 
-			criteria.setFirstResult(start);
-			criteria.setMaxResults(length);
-			resultPaging.setData(criteria.list());
+			criteriaCount.setProjection(Projections.rowCount());
+			resultPaging
+					.setRecordsFiltered((Long) criteriaCount.uniqueResult());
+
+			if (resultPaging.getRecordsFiltered() != 0) {
+				Criteria criteria = getCurrentSession().createCriteria(
+						entityClass);
+				if (partyInsurance != null) {
+					criteria.add(Restrictions.eq("partyInsurance",
+							partyInsurance));
+				}
+
+				if (claimType != null) {
+					criteria.add(Restrictions.eq("claimType", claimType));
+				}
+
+				if (pageName.equals("tracking")) {
+					if (jobDateStart != null && jobDateEnd != null) {
+						criteria.add(Restrictions.between("followDate",
+								jobDateStart, jobDateEnd));
+					} else if (jobDateStart != null) {
+						criteria.add(Restrictions
+								.ge("followDate", jobDateStart));
+					} else if (jobDateEnd != null) {
+						criteria.add(Restrictions.le("followDate", jobDateEnd));
+					}
+				}
+				if (pageName.equals("billing")) {
+					if (jobDateStart != null && jobDateEnd != null) {
+						criteria.add(Restrictions.between("closeDate",
+								jobDateStart, jobDateEnd));
+					} else if (jobDateStart != null) {
+						criteria.add(Restrictions.ge("closeDate", jobDateStart));
+					} else if (jobDateEnd != null) {
+						criteria.add(Restrictions.le("closeDate", jobDateEnd));
+					}
+				//	criteria.add(Restrictions.eq("jobStatus", "2"));
+				}
+
+				criteria.setFirstResult(start);
+				criteria.setMaxResults(length);
+				resultPaging.setData(criteria.list());
+			}
+
+			if (resultPaging.getData() == null) {
+				resultPaging.setData(new ArrayList<TblClaimRecovery>());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		if (resultPaging.getData() == null) {
-			resultPaging.setData(new ArrayList<TblClaimRecovery>());
-		}
 		return resultPaging;
 	}
 }

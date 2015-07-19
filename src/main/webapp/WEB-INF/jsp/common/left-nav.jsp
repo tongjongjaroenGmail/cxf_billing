@@ -86,8 +86,8 @@
 				</li>
 
 				<c:if test="${loginUser.stdPosition.id == 1}">
-					<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/report2'}">class="active"</c:if>>
-						<a href="${pageContext.request.contextPath}/report2"> 
+					<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/reportLaborPay'}">class="active"</c:if>>
+						<a href="${pageContext.request.contextPath}/laborPaySearch.jsp"> 
 							<i class="icon-double-angle-righty"></i> 
 							<span class="menu-text">จ่ายค่าแรง</span>
 						</a>

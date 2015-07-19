@@ -34,6 +34,9 @@ public class TrackingSearchResultVo {
 	 private String insuranceName;
 	 private String closeDate;
 	 private String invoiceNumber;
+	 private int no;
+	 private String jobStaus;
+
 	
 	 
 	public int getId() {
@@ -221,5 +224,17 @@ public class TrackingSearchResultVo {
 	}
 	public void setInvoiceNumber(String invoiceNumber) {
 		this.invoiceNumber = invoiceNumber;
+	}
+	public int getNo() {
+		return no;
+	}
+	public void setNo(int no) {
+		this.no = no;
+	}
+	public String getJobStaus() {
+		return jobStaus;
+	}
+	public void setJobStaus(String jobStaus) {
+		this.jobStaus = jobStaus;
 	}
 }

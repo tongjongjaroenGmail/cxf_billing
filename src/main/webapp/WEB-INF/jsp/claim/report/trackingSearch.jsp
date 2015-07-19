@@ -3,6 +3,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:url value="/report/download/token" var="downloadTokenUrl"/>
+<c:url value="/report/download/progress" var="downloadProgressUrl"/>
 
 <div class="page-content col-xs-12">
 	<div class="page-header">
@@ -121,10 +123,9 @@
 							onclick="search();">
 							<i class="icon-search"></i> ค้นหา
 						</button>
-						<button class="btn btn-info" type="button" id="btnPrint"
-							onclick="print();">
-							<i class="icon-print"></i> พิมพ์
-						</button>
+						<button class="btn btn-success" type="button" id="btnExport" onclick="download();">
+						<i class="icon-file"></i> พิมพ์
+					</button>
 					</div>					
 				</div>
 				<!-- /.table-responsive -->
@@ -162,6 +163,22 @@
 		<%-- 	<jsp:include page = "modalClaimSave.jsp" flush="false"/> --%>
 	</div>
 	<!-- /.page-content -->
+	<div class="modal fade" id="modalDownload" tabindex="-1" role="dialog" aria-labelledby="modalDownload"
+	aria-hidden="true" style="overflow-x: hidden; overflow-y: hidden;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				
+			</div>
+			<div class="modal-body">
+				Processing download...
+			</div>
+			<div class="modal-footer">
+				
+			</div>
+		</div>
+	</div>
+</div>
 
 	<script type="text/javascript">
 		$('.date-picker').datepicker({
@@ -220,31 +237,43 @@
 			}, 1000);
 		}
 		
-		function print(token){
-// 			var param = "employeeName=" + $("#txtEmployeeName").val() +
-// 			"&leaveDate=" + $("#txtLeaveDate").val() +   
-// 			"&leaveTypeId=" + $("#selLeaveType").val()  +  
-// 			"&leaveStatus=" + $("#selLeaveStatus").val()  +  
-// 			"&type=" + $("input[name='rdoTypeFile']:checked").val() +
-// 			"&token=" + token;
-			window.location = '${pageContext.request.contextPath}/report/trackingRTP.jsp}'
-		}
-		
-// 		function print(){
-// 			$.ajax({
-// 						"url" : '${pageContext.request.contextPath}/tracking/print',
-// 						"type" : "POST",
-// 						"data" : function(d) {
-// 									d.paramJobDateStart = $("#txtJobDateStart").val(),
-// 									d.paramJobDateEnd = $("#txtJobDateEnd").val(),
-// 									d.paramPartyInsuranceId = $("#selInsurance").val(),
-// 									d.paramClaimTypeId = $("#selClaimType").val(),
-// 									d.paramFirstTime = firstTime,
-// 									d.paramPageName = "tracking"
-// 						} });
-// 					}
+		function download() {
+			// Retrieve download token
+			// When token is received, proceed with download
+			$.get('${downloadTokenUrl}', function(response) {
+				// Store token
+				var token = response.message[0];
+				
+				// Show progress dialog
+				$('#modalDownload').modal('show');
+				
+				// Start download
+				exportFile(token);
 
-		
-	</script>
+				// Check periodically if download has started
+				var frequency = 1000;
+				var timer = setInterval(function() {
+					$.get('${downloadProgressUrl}', {token: token}, 
+							function(response) {
+								// If token is not returned, download has started
+								// Close progress dialog if started
+								if (response.message[0] != token) {
+									$('#modalDownload').modal('hide');
+									clearInterval(timer);
+								}
+						});
+				}, frequency);
+				
+			});
+		}
+
+		function exportFile(token){
+			var param = "token=" + token;
+			$("#divParamSearch").find('input,textarea,select').each(function() {
+				param += "&" + $(this).attr('id') + "=" + $(this).val();
+		    });  
+			window.location = '${pageContext.request.contextPath}/report/tracking?' + param;
+		}
+		</script>
 
 	<div id='msgbox' title='' style='display: none'></div>

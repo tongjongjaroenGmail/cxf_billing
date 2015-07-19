@@ -164,7 +164,7 @@
 					</button>
 					
 					<button class="btn btn-success" type="button" id="btnExport" onclick="download();">
-						<i class="icon-file"></i> Export
+						<i class="icon-file"></i> พิมพ์
 					</button>
 				</div>
 			</div>

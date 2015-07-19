@@ -1,7 +1,12 @@
 package com.metasoft.claim.service.impl;
 
 import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.net.URI;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRException;
@@ -13,7 +18,12 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
+
+import com.metasoft.claim.controller.vo.TrackingSearchResultVo;
 
 @Service
 public class ExporterService {
@@ -21,6 +31,7 @@ public class ExporterService {
 	public static final String MEDIA_TYPE_EXCEL = "application/vnd.ms-excel";
 	public static final String MEDIA_TYPE_PDF = "application/pdf";
 	public static final String EXTENSION_TYPE_EXCEL = "xls";
+	public static final String EXTENSION_TYPE_EXCEL_XML = "xls";
 	public static final String EXTENSION_TYPE_PDF = "pdf";
 
 	public HttpServletResponse export(String type, String fileName, JasperPrint jp, HttpServletResponse response,
@@ -56,6 +67,7 @@ public class ExporterService {
 			return response;
 
 		}
+		
 		throw new RuntimeException("No type set for type " + type);
 	}
 
@@ -101,5 +113,9 @@ public class ExporterService {
 			throw new RuntimeException(e);
 		}
 	}
+	
+
+		 
+	
 
 }
