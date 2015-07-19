@@ -17,9 +17,16 @@ public interface ReportService extends ModelBasedService<ReportDao, TblClaimReco
 	public TrackingSearchResultVoPaging searchPaging(String paramJobDateStart, String paramJobDateEnd, String paramPartyInsuranceId,
 			String paramClaimTypeId, int start, int length,String pageName);
 	
+	public TrackingSearchResultVoPaging searchPagingLabor(String paramJobDateStart, String paramJobDateEnd, String agentName,
+			String paramClaimTypeId, int start, int length);
+	
 	public List<TrackingSearchResultVo> trackingPrint(String paramJobDateStart, String paramJobDateEnd, String paramPartyInsuranceId,
 			//String paramClaimTypeId, int start, int length,String pageName);
 			String paramClaimTypeId,String pageName);
+	
+	public List<TrackingSearchResultVo> laborPrint(String paramJobDateStart, String paramJobDateEnd, String agentName,
+			String paramClaimTypeId);
+	
 
 	 
 }
