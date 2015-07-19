@@ -36,7 +36,8 @@ public class TrackingSearchResultVo {
 	 private String invoiceNumber;
 	 private int no;
 	 private String jobStaus;
-
+	 private String laborPrice;
+	 private String totalPrice;
 	
 	 
 	public int getId() {
@@ -236,5 +237,17 @@ public class TrackingSearchResultVo {
 	}
 	public void setJobStaus(String jobStaus) {
 		this.jobStaus = jobStaus;
+	}
+	public String getLaborPrice() {
+		return laborPrice;
+	}
+	public void setLaborPrice(String laborPrice) {
+		this.laborPrice = laborPrice;
+	}
+	public String getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(String totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 }
