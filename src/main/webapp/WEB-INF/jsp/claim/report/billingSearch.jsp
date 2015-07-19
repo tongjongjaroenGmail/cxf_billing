@@ -128,7 +128,7 @@
 
 	<div class="table-responsive">
 		<br> <br>
-		<table id="tblClaim" class="table table-striped table-bordered table-hover" style="width: 100%;">
+		<table id="tblClaimBill" class="table table-striped table-bordered table-hover" style="width: 100%;">
 			<thead>
 				<tr>
 					<th>วันที่ปิดงาน</th>
@@ -153,17 +153,17 @@ $('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, functi
 	$(this).prev().focus();
 });
 
-var tblClaimDt;
+var tblClaimBill;
 var firstTime = true;
 var pageName = "billing"
 
 $(document).ready(function() {
-	tblClaimDt = $("#tblClaim").dataTable({
-			"aoColumns"   : [
-				{ "mData" : "closeDate" },
-				{ "mData" : "claimNumber"  },
-				{ "mData" : "insuranceName"    },
-				{ "mData" : "claimType"    }],
+	tblClaimBill = $("#tblClaimBill").dataTable(
+				{"aoColumns" : [{ "mData" : "closeDate" },
+								{ "mData" : "claimNumber"  },
+								{ "mData" : "insuranceName" },
+								{ "mData" : "claimType" }
+							   ],
 				columnDefs: [{ type: 'date-dd/mm/yyyy', targets: 0 }],
 				"processing": true,
                 "serverSide": true,
@@ -189,7 +189,7 @@ $(document).ready(function() {
 
 function search(){
 	delay(function(){
-		tblClaimDt.fnDraw();
+		tblClaimBill.fnDraw();
 	}, 1000 );
 }
 

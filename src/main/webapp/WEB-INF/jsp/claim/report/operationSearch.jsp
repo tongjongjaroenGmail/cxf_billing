@@ -5,7 +5,7 @@
 
 <div class="page-content col-xs-12">
 	<div class="page-header">
-		<h1>เรื่องเรียกร้อง
+		<h1>รายงานการปฏิบัติงาน
 			<button class="btn btn-success btn-xs" id="btnAdd">
 				<I class="icon-plus  bigger-110 icon-only"></I>
 			</button>
@@ -194,7 +194,7 @@
 		</table>
 	</div>
 	
-	<jsp:include page = "modalClaimSave.jsp" flush="false"/>
+	
 </div>
 <!-- /.page-content -->
 
