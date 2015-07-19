@@ -135,11 +135,11 @@ public class DownloadService {
 
 			rptFile = new File(fileJasper + ".jasper");
 			
-			parameterMap.put(JRParameter.REPORT_LOCALE, DateToolsUtil.LOCALE_TH); 
+			
 
 			JasperReport rtfReport = (JasperReport) JRLoader.loadObject(rptFile);
 			JasperPrint rtfPrint = null;
-
+			parameterMap.put(JRParameter.REPORT_LOCALE, DateToolsUtil.LOCALE_TH); 
 			parameterMap.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.TRUE);
 			if (lstData == null) {
 				rtfPrint = JasperFillManager.fillReport(rtfReport, parameterMap, conn);
