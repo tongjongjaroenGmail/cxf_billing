@@ -420,6 +420,7 @@ function changeSelJobStatus(jobStatusVal){
 	
 	$("#modalSave").find("#divReceiveMoneyType").hide();
 	$("#modalSave").find("#selReceiveMoneyType").removeClass("require");
+	$("#modalSave").find("#selClaimType").removeClass("require");
 	if(jobStatusVal == 0){
 		$("#modalSave").find("#txtReceiveRemark").removeAttr('readonly');
 		$('.nav-tabs li:eq(0) a').tab('show'); 
@@ -431,6 +432,7 @@ function changeSelJobStatus(jobStatusVal){
 		$('.nav-tabs li:eq(2) a').tab('show'); 
 		$("#modalSave").find("#divReceiveMoneyType").show();
 		$("#modalSave").find("#selReceiveMoneyType").addClass("require");
+		$("#modalSave").find("#selClaimType").addClass("require");
 	}else if(jobStatusVal == 3){
 		$("#modalSave").find("#txtCancelRemark").removeAttr('readonly');
 		$('.nav-tabs li:eq(3) a').tab('show'); 

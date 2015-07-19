@@ -184,4 +184,94 @@ public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> imp
 
 		return ((Long) criteriaCount.uniqueResult() > 0) ? true : false;
 	}
+
+	@Override
+	public ClaimPaging searchBillingPaging(Date closeDateStart, Date closeDateEnd, StdInsurance partyInsurance, ClaimType claimType,
+			int start, int length) {
+		ClaimPaging resultPaging = new ClaimPaging();
+
+		Criteria criteriaRecordsTotal = getCurrentSession().createCriteria(entityClass);
+
+		criteriaRecordsTotal.add(Restrictions.ge("jobStatus", JobStatus.CLOSED));
+		
+		criteriaRecordsTotal.setProjection(Projections.rowCount());
+		resultPaging.setRecordsTotal((Long) criteriaRecordsTotal.uniqueResult());
+
+		Criteria criteriaCount = getCurrentSession().createCriteria(entityClass);
+		criteriaCount.add(Restrictions.ge("jobStatus", JobStatus.CLOSED));
+		
+		if (closeDateStart != null && closeDateEnd != null) {
+			criteriaCount.add(Restrictions.between("closeDate", closeDateStart, closeDateEnd));
+		} else if (closeDateStart != null) {
+			criteriaCount.add(Restrictions.ge("closeDate", closeDateStart));
+		} else if (closeDateEnd != null) {
+			criteriaCount.add(Restrictions.le("closeDate", closeDateEnd));
+		}
+
+		if (partyInsurance != null) {
+			criteriaCount.add(Restrictions.eq("partyInsurance", partyInsurance));
+		}
+
+		if (claimType != null) {
+			criteriaCount.add(Restrictions.eq("claimType", claimType));
+		}
+
+		criteriaCount.setProjection(Projections.rowCount());
+		resultPaging.setRecordsFiltered((Long) criteriaCount.uniqueResult());
+
+		if (resultPaging.getRecordsFiltered() != 0) {
+			Criteria criteria = getCurrentSession().createCriteria(entityClass);
+			criteria.add(Restrictions.ge("jobStatus", JobStatus.CLOSED));
+			if (closeDateStart != null && closeDateEnd != null) {
+				criteria.add(Restrictions.between("closeDate", closeDateStart, closeDateEnd));
+			} else if (closeDateStart != null) {
+				criteria.add(Restrictions.ge("closeDate", closeDateStart));
+			} else if (closeDateEnd != null) {
+				criteria.add(Restrictions.le("closeDate", closeDateEnd));
+			}
+
+			if (partyInsurance != null) {
+				criteria.add(Restrictions.eq("partyInsurance", partyInsurance));
+			}
+
+			if (claimType != null) {
+				criteria.add(Restrictions.eq("claimType", claimType));
+			}
+
+			criteria.addOrder(Order.asc("claimNumber"));
+			criteria.setFirstResult(start);
+			criteria.setMaxResults(length);
+			resultPaging.setData(criteria.list());
+		}
+
+		if (resultPaging.getData() == null) {
+			resultPaging.setData(new ArrayList<TblClaimRecovery>());
+		}
+		return resultPaging;
+	}
+
+	@Override
+	public List<TblClaimRecovery> searchBilling(Date closeDateStart, Date closeDateEnd, StdInsurance partyInsurance, ClaimType claimType) {
+		Criteria criteria = getCurrentSession().createCriteria(entityClass);
+		criteria.add(Restrictions.ge("jobStatus", JobStatus.CLOSED));
+		if (closeDateStart != null && closeDateEnd != null) {
+			criteria.add(Restrictions.between("closeDate", closeDateStart, closeDateEnd));
+		} else if (closeDateStart != null) {
+			criteria.add(Restrictions.ge("closeDate", closeDateStart));
+		} else if (closeDateEnd != null) {
+			criteria.add(Restrictions.le("closeDate", closeDateEnd));
+		}
+
+		if (partyInsurance != null) {
+			criteria.add(Restrictions.eq("partyInsurance", partyInsurance));
+		}
+
+		if (claimType != null) {
+			criteria.add(Restrictions.eq("claimType", claimType));
+		}
+
+		criteria.addOrder(Order.asc("claimNumber"));
+		
+		return criteria.list();
+	}
 }

@@ -20,4 +20,9 @@ public interface ClaimDao extends AbstractDao<TblClaimRecovery, Integer>{
 	public List<TblClaimRecovery> searchExport(Date jobDateStart,Date jobDateEnd,StdInsurance partyInsurance,
 			Date maturityDate,ClaimType claimType, String claimNumber,JobStatus jobStatus);
 	   
+	public ClaimPaging searchBillingPaging(Date closeDateStart,Date closeDateEnd,StdInsurance partyInsurance,
+			ClaimType claimType, int start,int length);
+	
+	public List<TblClaimRecovery> searchBilling(Date closeDateStart,Date closeDateEnd,StdInsurance partyInsurance,
+			ClaimType claimType);
 }

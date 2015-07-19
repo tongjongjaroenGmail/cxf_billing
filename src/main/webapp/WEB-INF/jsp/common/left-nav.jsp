@@ -94,7 +94,7 @@
 					</li>
 					
 					<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/reportBilling'}">class="active"</c:if>>
-						<a href="${pageContext.request.contextPath}/billingSearch"> 
+						<a href="${pageContext.request.contextPath}/reportBilling"> 
 							<i class="icon-double-angle-right"></i> 
 							<span class="menu-text">วางบิล</span>
 						</a>

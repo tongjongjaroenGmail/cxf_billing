@@ -3,12 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<c:url value="/report/download/token" var="downloadTokenUrl"/>
+<c:url value="/report/download/progress" var="downloadProgressUrl"/>
+
 <div class="page-content col-xs-12">
 	<div class="page-header">
 		<h1>วางบิล
-			<button class="btn btn-success btn-xs" id="btnAdd">
-				<I class="icon-plus  bigger-110 icon-only"></I>
-			</button>
 		</h1>
 	</div>
 	<!-- /.page-header -->
@@ -25,7 +25,7 @@
 				</div>
 				<div class="col-sm-3">		
 					<div class="input-group col-sm-12 no-padding-left">
-						<input class="form-control date-picker" id="txtJobDateStart" type="text" data-date-format="dd/mm/yyyy" data-date-language="th-th"/> 
+						<input class="form-control date-picker" id="txtCloseDateStart" type="text" data-date-format="dd/mm/yyyy" data-date-language="th-th"/> 
 						<span class="input-group-addon"> 
 							<i class="icon-calendar bigger-110"></i>
 						</span>
@@ -39,7 +39,7 @@
 				
 				<div class="col-sm-3">	
 					<div class="input-group col-sm-12 no-padding-left">
-						<input class="form-control date-picker" id="txtJobDateEnd" type="text" data-date-format="dd/mm/yyyy" data-date-language="th-th"/> 
+						<input class="form-control date-picker" id="txtCloseDateEnd" type="text" data-date-format="dd/mm/yyyy" data-date-language="th-th"/> 
 						<span class="input-group-addon"> 
 							<i class="icon-calendar bigger-110"></i>
 						</span>
@@ -103,13 +103,7 @@
 	
 	<div class="space-4"></div>
 	
-	<div class="row">
-		<div class="col-sm-12">
-			
-		</div>		
-	</div>
 </div>	
-	<div class="space-4"></div>
 	
 	<div class="row">
 		<div class="col-sm-offset-1 col-sm-10" style="text-align: right;">
@@ -117,6 +111,10 @@
 				<div class="col-sm-12">
 					<button class="btn btn-info" type="button" id="btnSearch" onclick="search();">
 						<i class="icon-search"></i> ค้นหา
+					</button>
+					
+					<button class="btn btn-success" type="button" id="btnExport" onclick="download();">
+						<i class="icon-file"></i> พิมพ์
 					</button>
 				</div>
 			</div>
@@ -132,9 +130,12 @@
 			<thead>
 				<tr>
 					<th>วันที่ปิดงาน</th>
+					<th>เลขร้องเรียน</th>
 					<th>เลขเคลม</th>
+					<th>เลขทะเบียน</th>
 					<th>บริษัทประกัน</th>
 					<th>ประเภทเคลม</th>
+					<th>ค่าแรง</th>
 				</tr>
 			</thead>
 
@@ -148,6 +149,23 @@
 </div>
 <!-- /.page-content -->
 
+<div class="modal fade" id="modalDownload" tabindex="-1" role="dialog" aria-labelledby="modalDownload"
+	aria-hidden="true" style="overflow-x: hidden; overflow-y: hidden;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				
+			</div>
+			<div class="modal-body">
+				Processing download...
+			</div>
+			<div class="modal-footer">
+				
+			</div>
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript">    
 $('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
 	$(this).prev().focus();
@@ -160,23 +178,27 @@ var pageName = "billing"
 $(document).ready(function() {
 	tblClaimBill = $("#tblClaimBill").dataTable(
 				{"aoColumns" : [{ "mData" : "closeDate" },
+				                { "mData" : "jobNo"  },
 								{ "mData" : "claimNumber"  },
+								{ "mData" : "licenseNumber"  },
 								{ "mData" : "insuranceName" },
-								{ "mData" : "claimType" }
+								{ "mData" : "claimType" },
+								{ "mData" : "wage" }
 							   ],
 				columnDefs: [{ type: 'date-dd/mm/yyyy', targets: 0 }],
 				"processing": true,
                 "serverSide": true,
+                "bSort" : false,
+                "bFilter": false,
                 "ajax": {
-                	"url": '${pageContext.request.contextPath}/tracking/search',
+                	"url": '${pageContext.request.contextPath}/report/billing/search',
                     "type": "POST",
                     "data": function ( d ) {
-                         d.paramJobDateStart       =  $("#divParamSearch").find("#txtJobDateStart").val(),  
-                         d.paramJobDateEnd         =  $("#divParamSearch").find("#txtJobDateEnd").val(),  
+                         d.paramCloseDateStart       =  $("#divParamSearch").find("#txtCloseDateStart").val(),  
+                         d.paramCloseDateEnd         =  $("#divParamSearch").find("#txtCloseDateEnd").val(),  
                          d.paramPartyInsuranceId   =  $("#divParamSearch").find("#selInsurance").val(),   
                          d.paramClaimTypeId        =  $("#divParamSearch").find("#selClaimType").val(),  
-                         d.paramFirstTime          =  firstTime,
-                         d.paramPageName		   =  pageName
+                         d.paramFirstTime          =  firstTime
                     }
                 },
                 "fnDrawCallback" : function() {
@@ -194,6 +216,44 @@ function search(){
 }
 
 
+function download() {
+	// Retrieve download token
+	// When token is received, proceed with download
+	$.get('${downloadTokenUrl}', function(response) {
+		// Store token
+		var token = response.message[0];
+		
+		// Show progress dialog
+		$('#modalDownload').modal('show');
+		
+		// Start download
+		exportFile(token);
+
+		// Check periodically if download has started
+		var frequency = 1000;
+		var timer = setInterval(function() {
+			$.get('${downloadProgressUrl}', {token: token}, 
+					function(response) {
+						// If token is not returned, download has started
+						// Close progress dialog if started
+						if (response.message[0] != token) {
+							$('#modalDownload').modal('hide');
+							clearInterval(timer);
+						}
+				});
+		}, frequency);
+		
+	});
+}
+
+function exportFile(token){
+	var param = "token=" + token;
+	$("#divParamSearch").find('input,textarea,select').each(function() {
+		param += "&" + $(this).attr('id') + "=" + $(this).val();
+    });  
+     
+	window.location = '${pageContext.request.contextPath}/report/billing/export?' + param;
+}
 </script>
 
 <div id='msgbox' title='' style='display:none'></div>

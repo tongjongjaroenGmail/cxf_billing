@@ -98,10 +98,10 @@ public class SiteController extends BaseController
 		return "trackingSearch";
     }
     
-    @RequestMapping(value = "/billingSearch", method = RequestMethod.GET)
+    @RequestMapping(value = "/reportBilling", method = RequestMethod.GET)
     public String billingSearch()
     {	
-		return "billingSearch";
+		return "reportBilling";
     }
     
     @RequestMapping(value = "/laborPaySearch", method = RequestMethod.GET)
