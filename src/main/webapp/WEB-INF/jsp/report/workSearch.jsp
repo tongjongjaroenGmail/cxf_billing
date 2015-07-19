@@ -3,12 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<c:url value="/report/download/token" var="downloadTokenUrl"/>
+<c:url value="/report/download/progress" var="downloadProgressUrl"/>
+
 <div class="page-content col-xs-12">
 	<div class="page-header">
-		<h1>เรื่องเรียกร้อง
-			<button class="btn btn-success btn-xs" id="btnAdd">
-				<I class="icon-plus  bigger-110 icon-only"></I>
-			</button>
+		<h1>รายงานการปฏิบัติงาน
 		</h1>
 	</div>
 	<!-- /.page-header -->
@@ -162,6 +162,10 @@
 					<button class="btn btn-info" type="button" id="btnSearch" onclick="search();">
 						<i class="icon-search"></i> ค้นหา
 					</button>
+					
+					<button class="btn btn-success" type="button" id="btnExport" onclick="download();">
+						<i class="icon-file"></i> Export
+					</button>
 				</div>
 			</div>
 			<!-- /.table-responsive -->
@@ -184,7 +188,6 @@
 					<th>สถานะ</th>
 					<th>ผู้รับผิดชอบ</th>
 					<th>อายุความ</th>
-					<th>แก้ไข</th>
 				</tr>
 			</thead>
 
@@ -194,9 +197,25 @@
 		</table>
 	</div>
 	
-	<jsp:include page = "modalClaimSave.jsp" flush="false"/>
 </div>
 <!-- /.page-content -->
+
+<div class="modal fade" id="modalDownload" tabindex="-1" role="dialog" aria-labelledby="modalDownload"
+	aria-hidden="true" style="overflow-x: hidden; overflow-y: hidden;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				
+			</div>
+			<div class="modal-body">
+				Processing download...
+			</div>
+			<div class="modal-footer">
+				
+			</div>
+		</div>
+	</div>
+</div>
 
 <script type="text/javascript">    
 $('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, function(){
@@ -205,12 +224,6 @@ $('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, functi
 
 var tblClaimDt;
 var firstTime = true;
-var selJobStatusOptions = {
-		<c:forEach var="jobStatus" items="${jobStatuses}" varStatus="index">		
-			${jobStatus.id} : '${jobStatus.name}',		
-		</c:forEach>
-	};
-
 
 $(document).ready(function() {
 	tblClaimDt = $("#tblClaim").dataTable({
@@ -224,13 +237,8 @@ $(document).ready(function() {
 				{ "mData" : "jobStatus"    },
 				{ "mData" : "agentName"    },
 				{ "mData" : "maturityDate"    },
-				{ "mData" : "claimId",
-					"bSortable": false,
-					"mRender" : function (data, type, full) {
-						return '<button id="btnEdit" class="btn-info" type="button" onclick="find(' + data + ')">Edit</button>';
-					}	
-				}],
-				columnDefs: [{ type: 'date-dd/mm/yyyy', targets:  [0,8]}],
+				],
+				columnDefs: [{ type: 'date-dd/mm/yyyy', targets: [0,8] }],
 				"processing": true,
                 "serverSide": true,
                 "bSort" : false,
@@ -253,16 +261,6 @@ $(document).ready(function() {
                 	firstTime = false;
                 }
 	});
-	
-	$( "#btnAdd" ).click(function() {
-		setPageForAdd();
-		
-		$('#modalSave').modal(
-			{
-				backdrop:'static'
-			}
-		);
-	});
 });
 
 function search(){
@@ -271,205 +269,43 @@ function search(){
 	}, 1000 );
 }
 
-function setPageForAdd(){
-	$('#modalSaveHeaderLabelFunction').html("เพิ่ม");
-	$("#modalSave").find('input,textarea,select').each(function() {
-        $(this).val("");
-    });  
-	changeSelJobStatus(0);
-	setOptionSelJobStatus(-1);
-	$("#modalSave").find("#selJobStatus").prop('disabled', true);
-	$("#modalSave").find("#txtJobDate").val(moment().format('DD/MM/') +( parseInt( moment().format('YYYY')) + 543));
-	$("#modalSave").find("#divReceiveMoneyType").hide();
-	$("#btnSave").show();
-	changePartyInsurance(0,"");
-}
-
-function setPageForEdit(selAgent){
-	var selJobStatus = $("#modalSave").find("#selJobStatus").val();		
-	var selPartyInsurance = $("#modalSave").find("#selPartyInsurance").val();		
-	changeSelJobStatus(0);
-	setOptionSelJobStatus(-1);
-	
-	$('#modalSaveHeaderLabelFunction').html("แก้ไข");			
-	$("#modalSave").find("#selJobStatus").prop('disabled', false);			
-	
-	setOptionSelJobStatus(selJobStatus);
-	changeSelJobStatus(selJobStatus)
-	
-	if(selJobStatus == 2 || selJobStatus == 3){
-		$("#btnSave").hide();
-	}else{
-		$("#btnSave").show();
-	}
-	if(selJobStatus == 2){
-		$("#modalSave").find("#divReceiveMoneyType").show();
-	}else{
-		$("#modalSave").find("#divReceiveMoneyType").hide();
-	}
-	
-	if($("#modalSave").find("#txtAccidentDate").val() != ""){
-		var txtAccidentDate = $("#modalSave").find("#txtAccidentDate").val(),
-	    dateParts = txtAccidentDate.match(/(\d+)/g)
-	    accidentDate = new Date((parseInt(dateParts[2],10) - 543) , dateParts[1] - 1, dateParts[0]);  
-	                                    // months are 0-based!	                                    
-		$("#modalSave").find("#txtAccidentDate").datepicker("setDate", accidentDate);   
-		$("#modalSave").find("#txtAccidentDate").datepicker('update');
-	}else{
-		$("#modalSave").find("#txtAccidentDate").datepicker("setDate", new Date());   
-		$("#modalSave").find("#txtAccidentDate").datepicker('update');
-		$("#modalSave").find("#txtAccidentDate").val("");
-	}
-	
-	if($("#modalSave").find("#txtMaturityDate").val() != ""){
-		var txtMaturityDate = $("#modalSave").find("#txtMaturityDate").val(),
-	    dateParts = txtMaturityDate.match(/(\d+)/g)
-	    maturityDate = new Date((parseInt(dateParts[2],10) - 543) , dateParts[1] - 1, dateParts[0]);  
-	                                    // months are 0-based!   
-		$("#modalSave").find("#txtMaturityDate").datepicker("setDate", maturityDate);       
-		$("#modalSave").find("#txtMaturityDate").datepicker('update');
-	}else{
-		$("#modalSave").find("#txtMaturityDate").datepicker("setDate", new Date());   
-		$("#modalSave").find("#txtMaturityDate").datepicker('update');
-		$("#modalSave").find("#txtMaturityDate").val("");
-	}
-	
-
-	changePartyInsurance(selPartyInsurance, selAgent );	
-}
-
-function find(id){
-	$.ajax({
-		url : '${pageContext.request.contextPath}/claim/find/' + id,
-		dataType: 'json',
-		type : "GET",
-		contentType: 'application/json',
-	    mimeType: 'application/json',
-		success : function(data) {
-			if(data.message !=  ""){			
-				alert(data.message);
-			}
-			
-			if(data.error == false){
-				setPageForAdd();
-				
-				$.each( data.result, function( key, value ) {
-					  $("#modalSave").find("#" + key).val(value);
-				});
-				setPageForEdit(data.result.selAgent);
-
-				$('#modalSave').modal({backdrop:'static'});
-			}
-		}
-	});
-}
-
-function save(){
-	if(!validate("modalSave")){
-		return;
-	}
-	
-	var oJson = new Object();
-	
-	$("#modalSave").find('input,textarea,select').each(function() {
-        oJson[$(this).attr('id')] = $(this).val();
-    });  
-
-	$.ajax({
-		url : '${pageContext.request.contextPath}/claim/save',
-		dataType: 'json',
-		type : "POST",
-		data : JSON.stringify(oJson),
-		contentType: 'application/json',
-	    mimeType: 'application/json',
-		success : function(data) {
-			if(data.message !=  ""){			
-				alert(data.message);
-			}
-			
-			if(data.error == false){
-				$("#modalSave").find("#txtClaimId").val(data.result.id);
-				$("#modalSave").find("#txtJobNo").val(data.result.jobNo);		
-				
-				setPageForEdit($("#modalSave").find("#selAgent").val());
-			}
-		}
-	});
-}
-
-function setOptionSelJobStatus(jobStatusVal){
-	$("#modalSave").find("#selJobStatus").html("");
-	$.each(selJobStatusOptions, function(val, text) {
-		if(		 jobStatusVal == -1 ||
-				(jobStatusVal == 0 && (val == 0 || val == 1 || val == 3)) || 
-				(jobStatusVal == 1 && (val == 1 || val == 2 || val == 3)) ||
-				(jobStatusVal == 2 && (val == 2)) ||
-				(jobStatusVal == 3 && (val == 3))){
-			$("#modalSave").find("#selJobStatus").append(
-				     $('<option></option>').val(val).html(text)
-				);
-		}
-	});
-}
-
-function changeSelJobStatus(jobStatusVal){
-	$("#modalSave").find("#txtReceiveRemark").attr('readonly','readonly');
-	$("#modalSave").find("#txtFollowRemark").attr('readonly','readonly');
-	$("#modalSave").find("#txtCloseRemark").attr('readonly','readonly');
-	$("#modalSave").find("#txtCancelRemark").attr('readonly','readonly');
-	
-	$("#modalSave").find("#divReceiveMoneyType").hide();
-	$("#modalSave").find("#selReceiveMoneyType").removeClass("require");
-	if(jobStatusVal == 0){
-		$("#modalSave").find("#txtReceiveRemark").removeAttr('readonly');
-		$('.nav-tabs li:eq(0) a').tab('show'); 
-	}else if(jobStatusVal == 1){
-		$("#modalSave").find("#txtFollowRemark").removeAttr('readonly');
-		$('.nav-tabs li:eq(1) a').tab('show'); 
-	}else if(jobStatusVal == 2){
-		$("#modalSave").find("#txtCloseRemark").removeAttr('readonly');
-		$('.nav-tabs li:eq(2) a').tab('show'); 
-		$("#modalSave").find("#divReceiveMoneyType").show();
-		$("#modalSave").find("#selReceiveMoneyType").addClass("require");
-	}else if(jobStatusVal == 3){
-		$("#modalSave").find("#txtCancelRemark").removeAttr('readonly');
-		$('.nav-tabs li:eq(3) a').tab('show'); 
+function download() {
+	// Retrieve download token
+	// When token is received, proceed with download
+	$.get('${downloadTokenUrl}', function(response) {
+		// Store token
+		var token = response.message[0];
 		
-	}
+		// Show progress dialog
+		$('#modalDownload').modal('show');
+		
+		// Start download
+		exportFile(token);
+
+		// Check periodically if download has started
+		var frequency = 1000;
+		var timer = setInterval(function() {
+			$.get('${downloadProgressUrl}', {token: token}, 
+					function(response) {
+						// If token is not returned, download has started
+						// Close progress dialog if started
+						if (response.message[0] != token) {
+							$('#modalDownload').modal('hide');
+							clearInterval(timer);
+						}
+				});
+		}, frequency);
+		
+	});
 }
 
-function changePartyInsurance(id , defaultValue){
-	$("#modalSave").find("#selAgent").val("");
-	$("#modalSave").find("#selAgent").html("");
-	$("#modalSave").find("#selAgent").append($('<option></option>').val("").html(""));
-	
-	if(id != null && id != "" && id != 0){
-		$.ajax({
-			url : '${pageContext.request.contextPath}/claim/searchUserFromInsurance/' + id,
-			dataType: 'json',
-			type : "GET",
-			contentType: 'application/json',
-		    mimeType: 'application/json',
-			success : function(data) {
-				if(data){		
-					
-					$.each(data, function(index, value) {
-						var name = value.name;
-						if(value.lastName){
-							name +=  " " + value.lastName;
-						}
-						$("#modalSave").find("#selAgent").append($('<option></option>').val(value.id).html(name));
-					});
-					
-					if(defaultValue != null && defaultValue != "" && defaultValue != 0){
-						$("#modalSave").find("#selAgent").val(defaultValue);
-					}else{
-						$("#modalSave").find("#selAgent").val($("#modalSave #selAgent option:eq(1)").val());
-					}
-				}
-			}
-		});
-	}
+function exportFile(token){
+	var param = "token=" + token;
+	$("#divParamSearch").find('input,textarea,select').each(function() {
+		param += "&" + $(this).attr('id') + "=" + $(this).val();
+    });  
+     
+	window.location = '${pageContext.request.contextPath}/report/work?' + param;
 }
 </script>
 

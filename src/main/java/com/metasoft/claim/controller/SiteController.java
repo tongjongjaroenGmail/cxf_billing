@@ -109,4 +109,10 @@ public class SiteController extends BaseController
     {	
 		return "claimImport";
     }
+    
+    @RequestMapping(value = "/reportWork", method = RequestMethod.GET)
+    public String reportWork()
+    {	
+		return "reportWork";
+    }
 }

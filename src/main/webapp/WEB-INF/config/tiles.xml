@@ -35,15 +35,8 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/claim/import/import.jsp"></put-attribute>
     </definition>
     
-<!--     trackingRPT -->
-	<definition name="trackingSearch" extends="base.definition">
+     <definition name="reportWork" extends="base.definition">
 		<put-attribute name="title" value=""></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/jsp/claim/report/trackingSearch.jsp"></put-attribute>
-    </definition>
-    
-    <!--     billingSearch -->
-	<definition name="billingSearch" extends="base.definition">
-		<put-attribute name="title" value=""></put-attribute>
-		<put-attribute name="body" value="/WEB-INF/jsp/claim/report/billingSearch.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/jsp/report/workSearch.jsp"></put-attribute>
     </definition>
 </tiles-definitions>

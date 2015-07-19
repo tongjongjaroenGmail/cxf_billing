@@ -53,7 +53,7 @@
 			</a>
 			<ul class="submenu">
 				<c:if test="${loginUser.stdPosition.id == 1}">
-					<li <c:if test="${fn:startsWith(currentUrl, '/claim/import')}">class="active"</c:if>>
+					<li <c:if test="${fn:startsWith(currentUrl, '/claimImport')}">class="active"</c:if>>
 						<a href="${pageContext.request.contextPath}/claimImport"> 
 							<i class="icon-double-angle-right"></i> 
 							<span class="menu-text">นำเข้าไฟล์</span>
@@ -62,7 +62,7 @@
        			</c:if>
 				
 
-				<li <c:if test="${fn:startsWith(currentUrl, '/claim/claim')}">class="active"</c:if>>
+				<li <c:if test="${fn:startsWith(currentUrl, '/claimSearch')}">class="active"</c:if>>
 					<a href="${pageContext.request.contextPath}/claimSearch"> 
 						<i class="icon-double-angle-right"></i> 
 						<span class="menu-text">เรื่องเรียกร้อง</span>
@@ -101,8 +101,8 @@
 					</li>
 				</c:if>
 				
-				<li <c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/report4'}">class="active"</c:if>>
-					<a href="${pageContext.request.contextPath}/report4"> 
+				<li <c:if test="${fn:startsWith(currentUrl, '/reportWork')}">class="active"</c:if>>
+					<a href="${pageContext.request.contextPath}/reportWork"> 
 						<i class="icon-double-angle-right"></i> 
 						<span class="menu-text">รายงานการปฏิบัติงาน</span>
 					</a>

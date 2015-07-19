@@ -36,10 +36,14 @@ public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> imp
 	public ClaimPaging searchPaging(Date jobDateStart,Date jobDateEnd,StdInsurance partyInsurance,
 			Date maturityDate,ClaimType claimType, String claimNumber,JobStatus jobStatus, int start,int length,SecUser user){
 		ClaimPaging resultPaging = new ClaimPaging();
-		SecUser agent = userDao.findById(user.getId());
-			
+		
+		SecUser agent = null;
+		if(user != null){
+			agent = userDao.findById(user.getId());
+		}
+				
 		Criteria criteriaRecordsTotal = getCurrentSession().createCriteria(entityClass);
-		if(user.getStdPosition().getId() == 2){
+		if(agent != null && agent.getStdPosition().getId() == 2){
 			criteriaRecordsTotal.add(Restrictions.eq("agent", agent));
 		}
 		
@@ -74,7 +78,7 @@ public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> imp
 		if(jobStatus != null){
 			criteriaCount.add(Restrictions.eq("jobStatus", jobStatus));
 		}
-		if(user.getStdPosition().getId() == 2){
+		if(agent != null && agent.getStdPosition().getId() == 2){
 			criteriaCount.add(Restrictions.eq("agent", agent));
 		}
 		criteriaCount.setProjection(Projections.rowCount());
@@ -109,7 +113,7 @@ public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> imp
 			if(jobStatus != null){
 				criteria.add(Restrictions.eq("jobStatus", jobStatus));
 			}
-			if(user.getStdPosition().getId() == 2){
+			if(agent != null && agent.getStdPosition().getId() == 2){
 				criteria.add(Restrictions.eq("agent", agent));
 			}
 
