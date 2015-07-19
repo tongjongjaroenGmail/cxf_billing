@@ -205,9 +205,9 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="31" height="20" isPrintWhenDetailOverflows="true" uuid="77f52265-c7c9-4449-ab88-ffc80785d283"/>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="31" height="22" isPrintWhenDetailOverflows="true" uuid="77f52265-c7c9-4449-ab88-ffc80785d283"/>
 				<box leftPadding="3" rightPadding="3">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -219,8 +219,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{no}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="31" y="0" width="59" height="20" isPrintWhenDetailOverflows="true" uuid="ddec74c9-6919-450f-8604-2bd4980b2820"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="31" y="0" width="59" height="22" isPrintWhenDetailOverflows="true" uuid="ddec74c9-6919-450f-8604-2bd4980b2820"/>
 				<box leftPadding="3" rightPadding="3">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -230,10 +230,10 @@
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="AngsanaUPC" size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{closeDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy", new java.util.Locale("th","TH")).format($F{closeDate})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="90" y="0" width="79" height="20" isPrintWhenDetailOverflows="true" uuid="9a3eae2a-5424-4587-849e-52d7af5bd334"/>
+				<reportElement stretchType="RelativeToTallestObject" x="90" y="0" width="79" height="22" isPrintWhenDetailOverflows="true" uuid="9a3eae2a-5424-4587-849e-52d7af5bd334"/>
 				<box leftPadding="3" rightPadding="3">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -246,7 +246,7 @@
 				<textFieldExpression><![CDATA[$F{claimNumber}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="169" y="0" width="58" height="20" isPrintWhenDetailOverflows="true" uuid="01aac1cf-bf79-47d0-be97-3fe60f27d932"/>
+				<reportElement stretchType="RelativeToTallestObject" x="169" y="0" width="58" height="22" isPrintWhenDetailOverflows="true" uuid="01aac1cf-bf79-47d0-be97-3fe60f27d932"/>
 				<box leftPadding="3" rightPadding="3">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -259,7 +259,7 @@
 				<textFieldExpression><![CDATA[$F{claimAmount}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="227" y="0" width="89" height="20" isPrintWhenDetailOverflows="true" uuid="e7e46cbf-ed02-4fbe-acc3-fd9f77582fe0"/>
+				<reportElement stretchType="RelativeToTallestObject" x="227" y="0" width="89" height="22" isPrintWhenDetailOverflows="true" uuid="e7e46cbf-ed02-4fbe-acc3-fd9f77582fe0"/>
 				<box leftPadding="3" rightPadding="3">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -272,7 +272,7 @@
 				<textFieldExpression><![CDATA[$F{insuranceName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="316" y="0" width="47" height="20" isPrintWhenDetailOverflows="true" uuid="06e5fed2-43f6-4aee-8573-df67e6952d0b"/>
+				<reportElement stretchType="RelativeToTallestObject" x="316" y="0" width="47" height="22" isPrintWhenDetailOverflows="true" uuid="06e5fed2-43f6-4aee-8573-df67e6952d0b"/>
 				<box leftPadding="3" rightPadding="3">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -285,7 +285,7 @@
 				<textFieldExpression><![CDATA[$F{claimType} == 0?$F{wage}:null]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="363" y="0" width="47" height="20" isPrintWhenDetailOverflows="true" uuid="e64f40c0-5f96-4316-beb8-bf66b2a38c15"/>
+				<reportElement stretchType="RelativeToTallestObject" x="363" y="0" width="47" height="22" isPrintWhenDetailOverflows="true" uuid="e64f40c0-5f96-4316-beb8-bf66b2a38c15"/>
 				<box leftPadding="3" rightPadding="3">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -298,7 +298,7 @@
 				<textFieldExpression><![CDATA[$F{claimType} == 1?$F{wage}:null]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="410" y="0" width="47" height="20" isPrintWhenDetailOverflows="true" uuid="77429f13-857e-46e5-90aa-1155e77aec90"/>
+				<reportElement stretchType="RelativeToTallestObject" x="410" y="0" width="47" height="22" isPrintWhenDetailOverflows="true" uuid="77429f13-857e-46e5-90aa-1155e77aec90"/>
 				<box leftPadding="3" rightPadding="3">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -311,7 +311,7 @@
 				<textFieldExpression><![CDATA[$F{claimType} == 2?$F{wage}:null]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="457" y="0" width="67" height="20" isPrintWhenDetailOverflows="true" uuid="c28a66bb-0442-4683-92cd-41dd4a35c3ac"/>
+				<reportElement stretchType="RelativeToTallestObject" x="457" y="0" width="67" height="22" isPrintWhenDetailOverflows="true" uuid="c28a66bb-0442-4683-92cd-41dd4a35c3ac"/>
 				<box leftPadding="3" rightPadding="3">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -324,7 +324,7 @@
 				<textFieldExpression><![CDATA[$F{wage}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="524" y="0" width="71" height="20" isPrintWhenDetailOverflows="true" uuid="93d7c60c-3a67-40b1-b558-2ce3b26fec15"/>
+				<reportElement stretchType="RelativeToTallestObject" x="524" y="0" width="71" height="22" isPrintWhenDetailOverflows="true" uuid="93d7c60c-3a67-40b1-b558-2ce3b26fec15"/>
 				<box leftPadding="3" rightPadding="3">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
