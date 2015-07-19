@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.metasoft.claim.util.DateToolsUtil;
 import com.metasoft.claim.util.ZipUtil;
 import com.mysql.jdbc.Connection;
 
@@ -133,6 +134,8 @@ public class DownloadService {
 			JRDataSource jrDataSource;
 
 			rptFile = new File(fileJasper + ".jasper");
+			
+			parameterMap.put(JRParameter.REPORT_LOCALE, DateToolsUtil.LOCALE_TH); 
 
 			JasperReport rtfReport = (JasperReport) JRLoader.loadObject(rptFile);
 			JasperPrint rtfPrint = null;
