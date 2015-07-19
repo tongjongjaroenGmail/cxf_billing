@@ -3,13 +3,21 @@
  */
 package com.metasoft.claim.controller.ajax;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,6 +75,48 @@ public class TrackingAjaxController extends BaseAjaxController {
 		String json = gson.toJson(resultPaging);
 		return json;
 	}
+	
+	@RequestMapping(value = "/tracking/print", method = RequestMethod.POST)
+	public void print(Model model,
+			@RequestParam(required = false) String paramJobDateStart,
+			@RequestParam(required = false) String paramJobDateEnd,
+			@RequestParam(required = false) String paramPartyInsuranceId,
+			@RequestParam(required = false) String paramClaimTypeId,
+			@RequestParam(required = false) String paramPageName,
+			@RequestParam(required = false) String paramFirstTime,
+			
+			@RequestParam(required = false) Integer draw,
+			@RequestParam(required = false) Integer start,
+			@RequestParam(required = false) Integer length,
+			HttpSession session,
+			HttpServletResponse response ) throws ParseException, ServletException, IOException {
+		
+		try{
+			
+		   List<TrackingSearchResultVo> dataList = new ArrayList<TrackingSearchResultVo>();
+		   
+		   dataList = trackingService.trackingPrint(paramJobDateStart, paramJobDateEnd, paramPartyInsuranceId, paramClaimTypeId, "tracking");
+		   
+		   System.out.println(">>>>> dataList.size() = "+dataList.size());
+		   
+//		   String contentType = "application/vnd.ms-excel";
+//		   req.setAttribute("rowCount", dataList.size());
+//           req.setAttribute("vo", dataList);
+//
+//           String headerName = "attachment; filename=\"" + "Follow" + "\"";
+//           headerName = new String(headerName.getBytes("TIS620"), "ISO8859-1");
+//           resp.setContentType(contentType);
+//           //resp.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+//           resp.addHeader("Content-Disposition", headerName);
+//           RequestDispatcher view = req.getServletContext().getRequestDispatcher("/report/trackingRPT.jsp");
+//           view.forward( req, resp);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 	
 	
 	
