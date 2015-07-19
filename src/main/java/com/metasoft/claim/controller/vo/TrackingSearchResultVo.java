@@ -5,7 +5,7 @@ import java.sql.Date;
 public class TrackingSearchResultVo {
 	 private int id;
 	 private String  accidentDate;
-	 private float claimAmount;
+	 private String claimAmount;
 	 private float claimInsuranceAmount;
 	 private String  claimNumber;
 	 private int   createBy;
@@ -33,6 +33,8 @@ public class TrackingSearchResultVo {
 	 private int  receiveType;
 	 private String insuranceName;
 	 private String closeDate;
+	 private String invoiceNumber;
+	
 	 
 	public int getId() {
 		return id;
@@ -46,10 +48,10 @@ public class TrackingSearchResultVo {
 	public void setAccidentDate(String accidentDate) {
 		this.accidentDate = accidentDate;
 	}
-	public float getClaimAmount() {
+	public String getClaimAmount() {
 		return claimAmount;
 	}
-	public void setClaimAmount(float claimAmount) {
+	public void setClaimAmount(String claimAmount) {
 		this.claimAmount = claimAmount;
 	}
 	public float getClaimInsuranceAmount() {
@@ -213,5 +215,11 @@ public class TrackingSearchResultVo {
 	}
 	public void setCloseDate(String closeDate) {
 		this.closeDate = closeDate;
+	}
+	public String getInvoiceNumber() {
+		return invoiceNumber;
+	}
+	public void setInvoiceNumber(String invoiceNumber) {
+		this.invoiceNumber = invoiceNumber;
 	}
 }
