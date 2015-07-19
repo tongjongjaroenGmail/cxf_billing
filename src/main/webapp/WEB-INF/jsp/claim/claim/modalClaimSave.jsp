@@ -11,8 +11,10 @@
 					</button>
 					<h5 class="modal-title" id="modalSaveHeaderLabel">เรื่องเรียกร้อง --> <span id="modalSaveHeaderLabelFunction"></span></h5>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" style="padding: 5px;">
 					<input type="hidden" id="txtClaimId">
+					
+					<div class="well" style="padding: 5px;margin-bottom: 4px;">
 					
 					<div class="row">
 						<div class="col-sm-12">
@@ -69,7 +71,7 @@
 							<div class="table-responsive">
 								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right" style="text-align: right;">
-										<b>เลขเคลม : </b> 
+										<b>เลขเคลม * : </b> 
 									</div>
 								</div>
 								<div class="col-sm-2 no-padding-left">		
@@ -80,7 +82,7 @@
 								
 								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right" style="text-align: right;">
-										<b>เลขกรมธรรม์ : </b> 
+										<b>เลขกรมธรรม์  * : </b> 
 									</div>
 								</div>
 								
@@ -90,13 +92,13 @@
 									</div>
 								</div>
 								
-								<div class="col-sm-1 no-padding-left">		
+								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right" style="text-align: right;">
-										<b>ทะเบียนรถ : </b> 
+										<b>ทะเบียนรถ  * : </b> 
 									</div>
 								</div>
 								
-								<div class="col-sm-3 no-padding-left">	
+								<div class="col-sm-2 no-padding-left">	
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
 										<input class="form-control require" id="txtlicenseNumber" type="text" maxlength="10" title="ทะเบียนรถ "/> 
 									</div>
@@ -112,7 +114,7 @@
 							<div class="table-responsive">
 								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right" style="text-align: right;">
-										<b>วันที่เกิดเหตุ: </b> 
+										<b>วันที่เกิดเหตุ * : </b> 
 									</div>
 								</div>
 								<div class="col-sm-2 no-padding-left">		
@@ -126,7 +128,7 @@
 								
 								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right" style="text-align: right;">
-										<b>วันครบอายุความ : </b> 
+										<b>วันครบอายุความ * : </b> 
 									</div>
 								</div>
 								
@@ -159,7 +161,7 @@
 						</div>					
 					</div>	
 					
-					<div class="space-4"></div>
+					</div>
 				
 					<div class="row">
 						<div class="col-sm-12">
@@ -181,7 +183,7 @@
 								
 								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right" style="text-align: right;">
-										<b>จำนวนเงินที่เรียกร้อง : </b> 
+										<b>จำนวนเงินที่เรียกร้อง  : </b> 
 									</div>
 								</div>
 								
@@ -216,12 +218,14 @@
 					
 					<div class="space-4"></div>
 					
+					<div class="well" style="padding: 5px;margin-bottom: 4px;">
+					
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="table-responsive">
 								<div class="col-sm-2 no-padding-left">		
 									<div class="input-group col-sm-12 no-padding-left no-padding-right" style="text-align: right;">
-										<b>บริษัทประกัน : </b> 
+										<b>บริษัทประกัน * : </b> 
 									</div>
 								</div>
 								<div class="col-sm-2 no-padding-left">		
@@ -453,6 +457,7 @@
 						</div>		
 					</div>
 				
+					</div>
 				</div>
 				
 				<div class="modal-footer">

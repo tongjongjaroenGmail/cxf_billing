@@ -56,7 +56,7 @@
 									<span class="red">Claim Recovery</span>
 									<span class="white">Application</span>
 								</h1>
-								<h4 class="blue">&copy; DP survey & law co.,th</h4>
+								<h4 class="blue">&copy; Meta Soft</h4>
 							</div>
 
 							<div class="space-6"></div>

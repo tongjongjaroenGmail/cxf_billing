@@ -307,6 +307,33 @@ function setPageForEdit(selAgent){
 	}else{
 		$("#modalSave").find("#divReceiveMoneyType").hide();
 	}
+	
+	if($("#modalSave").find("#txtAccidentDate").val() != ""){
+		var txtAccidentDate = $("#modalSave").find("#txtAccidentDate").val(),
+	    dateParts = txtAccidentDate.match(/(\d+)/g)
+	    accidentDate = new Date((parseInt(dateParts[2],10) - 543) , dateParts[1] - 1, dateParts[0]);  
+	                                    // months are 0-based!	                                    
+		$("#modalSave").find("#txtAccidentDate").datepicker("setDate", accidentDate);   
+		$("#modalSave").find("#txtAccidentDate").datepicker('update');
+	}else{
+		$("#modalSave").find("#txtAccidentDate").datepicker("setDate", new Date());   
+		$("#modalSave").find("#txtAccidentDate").datepicker('update');
+		$("#modalSave").find("#txtAccidentDate").val("");
+	}
+	
+	if($("#modalSave").find("#txtMaturityDate").val() != ""){
+		var txtMaturityDate = $("#modalSave").find("#txtMaturityDate").val(),
+	    dateParts = txtMaturityDate.match(/(\d+)/g)
+	    maturityDate = new Date((parseInt(dateParts[2],10) - 543) , dateParts[1] - 1, dateParts[0]);  
+	                                    // months are 0-based!   
+		$("#modalSave").find("#txtMaturityDate").datepicker("setDate", maturityDate);       
+		$("#modalSave").find("#txtMaturityDate").datepicker('update');
+	}else{
+		$("#modalSave").find("#txtMaturityDate").datepicker("setDate", new Date());   
+		$("#modalSave").find("#txtMaturityDate").datepicker('update');
+		$("#modalSave").find("#txtMaturityDate").val("");
+	}
+	
 
 	changePartyInsurance(selPartyInsurance, selAgent );	
 }
@@ -341,6 +368,7 @@ function save(){
 	if(!validate("modalSave")){
 		return;
 	}
+	
 	var oJson = new Object();
 	
 	$("#modalSave").find('input,textarea,select').each(function() {
@@ -433,7 +461,11 @@ function changePartyInsurance(id , defaultValue){
 						$("#modalSave").find("#selAgent").append($('<option></option>').val(value.id).html(name));
 					});
 					
-					$("#modalSave").find("#selAgent").val(defaultValue);
+					if(defaultValue != null && defaultValue != "" && defaultValue != 0){
+						$("#modalSave").find("#selAgent").val(defaultValue);
+					}else{
+						$("#modalSave").find("#selAgent").val($("#modalSave #selAgent option:eq(1)").val());
+					}
 				}
 			}
 		});

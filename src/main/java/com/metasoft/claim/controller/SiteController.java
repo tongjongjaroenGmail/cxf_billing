@@ -103,4 +103,10 @@ public class SiteController extends BaseController
     {	
 		return "billingSearch";
     }
+    
+    @RequestMapping(value = "/claimImport", method = RequestMethod.GET)
+    public String claimImport()
+    {	
+		return "claimImport";
+    }
 }

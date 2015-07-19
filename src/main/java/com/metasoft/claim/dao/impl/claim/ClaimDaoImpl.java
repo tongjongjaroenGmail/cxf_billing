@@ -2,7 +2,6 @@ package com.metasoft.claim.dao.impl.claim;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
@@ -14,8 +13,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.metasoft.claim.bean.paging.ClaimPaging;
-import com.metasoft.claim.bean.paging.ClaimSearchResultVoPaging;
-import com.metasoft.claim.controller.vo.ClaimSearchResultVo;
 import com.metasoft.claim.dao.AbstractDaoImpl;
 import com.metasoft.claim.dao.claim.ClaimDao;
 import com.metasoft.claim.dao.security.UserDao;
@@ -63,7 +60,7 @@ public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> imp
 		}
 		
 		if(maturityDate != null){
-			criteriaCount.add(Restrictions.eq("maturityDate", maturityDate));
+			criteriaCount.add(Restrictions.le("maturityDate", maturityDate));
 		}
 		
 		if(claimType != null){
@@ -98,7 +95,7 @@ public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> imp
 			}
 			
 			if(maturityDate != null){
-				criteria.add(Restrictions.eq("maturityDate", maturityDate));
+				criteria.add(Restrictions.le("maturityDate", maturityDate));
 			}
 			
 			if(claimType != null){
@@ -126,5 +123,17 @@ public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> imp
 			resultPaging.setData(new ArrayList<TblClaimRecovery>());
 		}
 		return resultPaging;
+	}
+	
+	@Override
+	public boolean checkDupClaimNumber(String claimNumber){
+		Criteria criteriaCount = getCurrentSession().createCriteria(entityClass);
+	
+		if(StringUtils.isNotBlank(claimNumber)){
+			criteriaCount.add(Restrictions.eq("claimNumber", claimNumber));
+		}
+		criteriaCount.setProjection(Projections.rowCount());
+		
+		return ((Long) criteriaCount.uniqueResult() > 0)?true:false;
 	}
 }
