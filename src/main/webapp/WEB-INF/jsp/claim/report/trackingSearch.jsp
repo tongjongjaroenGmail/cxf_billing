@@ -59,57 +59,54 @@
 		<div class="space-4"></div>
 
 		<div class="row">
-			<div class="col-sm-12">
-				<div class="table-responsive">
-					<div class="col-sm-2">
-						<div class="input-group col-sm-12 no-padding-left"
-							style="text-align: right;">
-							<b>บริษัทประกัน : </b>
-						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="input-group col-sm-12 no-padding-left">
-							<select class="col-sm-12" id="selInsurance">
-								<option value="">ทั้งหมด</option>
-								<c:forEach var="insurance" items="${insurances}"
-									varStatus="index">
-									<option value="${insurance.id}">${insurance.name}</option>
-								</c:forEach>
-							</select>
-						</div>
-					</div>
-
-				</div>
-
-			</div>
-			<div class="space-4"></div>
-
-
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="table-responsive">
-						<div class="col-sm-2">
-							<div class="input-group col-sm-12 no-padding-left"
-								style="text-align: right;">
-								<b>ประเภทเคลม : </b>
-							</div>
-						</div>
-						<div class="col-sm-3">
-							<div class="input-group col-sm-12 no-padding-left">
-								<select class="col-sm-12" id="selClaimType">
-									<option value="">ทั้งหมด</option>
-									<c:forEach var="claimType" items="${claimTypes}"
-										varStatus="index">
-										<option value="${claimType.id}">${claimType.name}</option>
-									</c:forEach>
-								</select>
-							</div>
-						</div>
-
+		<div class="col-sm-12">
+			<div class="table-responsive">
+				<div class="col-sm-2">		
+					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
+						<b>บริษัทประกัน : </b> 
 					</div>
 				</div>
+				<div class="col-sm-3">		
+					<div class="input-group col-sm-12 no-padding-left">
+						<select class="col-sm-12" id="selInsurance">
+							<option value="">ทั้งหมด</option>
+							<c:forEach var="insurance" items="${insurances}" varStatus="index">		
+								<option value="${insurance.id}">${insurance.name}</option>					
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+				
 			</div>
-		</div>
+		</div>		
+	</div>
+	
+	<div class="space-4"></div>
+	
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="table-responsive">
+				<div class="col-sm-2">		
+					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
+						<b>ประเภทเคลม : </b> 
+					</div>
+				</div>
+				<div class="col-sm-3">		
+					<div class="input-group col-sm-12 no-padding-left">
+						<select class="col-sm-12" id="selClaimType">
+							<option value="">ทั้งหมด</option>
+							<c:forEach var="claimType" items="${claimTypes}" varStatus="index">		
+								<option value="${claimType.id}">${claimType.name}</option>					
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+				
+				
+				
+			</div>
+		</div>		
+	</div>
 
 		<div class="space-4"></div>
 
