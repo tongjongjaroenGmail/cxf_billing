@@ -23,5 +23,9 @@ public interface ReportDao extends AbstractDao<TblClaimRecovery, Integer>{
 	
 	public List<TblClaimRecovery> searchExport(Date jobDateStart,Date jobDateEnd,int agent,
 			ClaimType claimType);
+	
+	
+	public List<TblClaimRecovery> searchExportTracking(Date jobDateStart,Date jobDateEnd,StdInsurance partyInsurance,
+			ClaimType claimType,String pageName);
 	   
 }
