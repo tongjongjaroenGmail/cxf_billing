@@ -264,4 +264,51 @@ public class ReportDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer>
 			return results;
 
 	}
+
+	@Override
+	public List<TblClaimRecovery> searchExportTracking(Date jobDateStart,
+			Date jobDateEnd, StdInsurance partyInsurance, ClaimType claimType,
+			String pageName) {
+		List<TblClaimRecovery> results = new ArrayList<TblClaimRecovery>();
+
+		Criteria criteria = getCurrentSession().createCriteria(entityClass);
+
+			if (partyInsurance != null) {
+				criteria.add(Restrictions.eq("partyInsurance",
+						partyInsurance));
+			}
+
+			if (claimType != null) {
+				criteria.add(Restrictions.eq("claimType", claimType));
+			}
+
+			if (pageName.equals("tracking")) {
+				if (jobDateStart != null && jobDateEnd != null) {
+					criteria.add(Restrictions.between("followDate",
+							jobDateStart, jobDateEnd));
+				} else if (jobDateStart != null) {
+					criteria.add(Restrictions
+							.ge("followDate", jobDateStart));
+				} else if (jobDateEnd != null) {
+					criteria.add(Restrictions.le("followDate", jobDateEnd));
+				}
+			}
+			if (pageName.equals("billing")) {
+				if (jobDateStart != null && jobDateEnd != null) {
+					criteria.add(Restrictions.between("closeDate",
+							jobDateStart, jobDateEnd));
+				} else if (jobDateStart != null) {
+					criteria.add(Restrictions.ge("closeDate", jobDateStart));
+				} else if (jobDateEnd != null) {
+					criteria.add(Restrictions.le("closeDate", jobDateEnd));
+				}
+				criteria.add(Restrictions.eq("jobStatus", JobStatus.CLOSED));
+			}
+			results = criteria.list();
+			if (results == null) {
+				results = new ArrayList<TblClaimRecovery>();
+			}
+			return results;
+		}
+
 }
