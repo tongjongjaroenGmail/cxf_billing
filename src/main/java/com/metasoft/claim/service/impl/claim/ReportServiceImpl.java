@@ -260,7 +260,7 @@ public class ReportServiceImpl extends
 			String paramClaimTypeId, String pageName) {
 
 		List<TrackingSearchResultVo> dataList = null;
-
+		
 		Date jobDateStart = null;
 		Date jobDateEnd = null;
 		StdInsurance partyInsurance = null;
@@ -285,20 +285,12 @@ public class ReportServiceImpl extends
 			claimType = ClaimType.getById(Integer.parseInt(paramClaimTypeId));
 		}
 
-		ReportPaging reportPaging = reportDao.searchPaging(jobDateStart,
-				jobDateEnd, partyInsurance, claimType, 1, 10, pageName);
-		// TrackingSearchResultVoPaging voPaging = new
-		// TrackingSearchResultVoPaging();
-		//
-		// voPaging.setDraw(reportPaging.getDraw());
-		// voPaging.setRecordsFiltered(reportPaging.getRecordsFiltered());
-		// voPaging.setRecordsTotal(reportPaging.getRecordsTotal());
-		// voPaging.setData(new ArrayList<TrackingSearchResultVo>());
+		List<TblClaimRecovery> reportPaging = reportDao.searchExportTracking(jobDateStart, jobDateEnd, partyInsurance, claimType, pageName);
 		int i = 1;
-		if (reportPaging != null && reportPaging.getData() != null) {
+		if (reportPaging != null ) {
 			dataList = new ArrayList<TrackingSearchResultVo>();
 
-			for (TblClaimRecovery claim : reportPaging.getData()) {
+			for (TblClaimRecovery claim : reportPaging) {
 				i = i + 1;
 				TrackingSearchResultVo vo = new TrackingSearchResultVo();
 				vo.setNo(i);
@@ -360,6 +352,17 @@ public class ReportServiceImpl extends
 					vo.setJobStaus(claim.getJobStatus().getName());
 
 				}
+				if (claim.getFollowRemark() != null){
+					vo.setFollowRemark(claim.getFollowRemark());
+					
+				}
+				if (claim.getResponsibility()) {
+					vo.setResponseStatus("ตกลง");
+				} else {
+					vo.setResponseStatus("ไม่ตกลง");
+				}
+				
+				vo.setInsuranceFullName("");
 
 				dataList.add(vo);
 			}
