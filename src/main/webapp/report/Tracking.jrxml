@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="work" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" uuid="f47d0e5c-18a8-4682-8ca2-5d022141717e">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<field name="no" class="java.lang.Integer"/>
@@ -21,14 +21,16 @@
 	<variable name="sumRequestAmount" class="java.lang.Float" calculation="Sum">
 		<variableExpression><![CDATA[$F{requestAmount}]]></variableExpression>
 	</variable>
-	<variable name="countCol" class="java.lang.Integer" calculation="Count"/>
+	<variable name="countCol" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{no}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="30" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="581128d3-ba36-4e97-bab6-65ddd318cf32" x="0" y="0" width="842" height="30"/>
+				<reportElement x="0" y="0" width="842" height="30" uuid="581128d3-ba36-4e97-bab6-65ddd318cf32"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.0"/>
@@ -47,7 +49,7 @@
 	<pageHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="efa27e15-19ef-40fe-8ce1-760b6bf10382" x="1" y="0" width="466" height="20"/>
+				<reportElement x="0" y="0" width="467" height="20" uuid="efa27e15-19ef-40fe-8ce1-760b6bf10382"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -61,7 +63,7 @@
 				<text><![CDATA[บริษัท ทิพยประกันภัย จำกัด(มหาชน) (ฝ่ายถูก)]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="a0102a4e-fe00-449c-bb5c-0d18c7b542c0" mode="Transparent" x="467" y="0" width="375" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="467" y="0" width="375" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="a0102a4e-fe00-449c-bb5c-0d18c7b542c0"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -80,7 +82,7 @@
 	<columnHeader>
 		<band height="21" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="5e48d3cb-9595-4c07-94ac-047124798efe" stretchType="RelativeToTallestObject" mode="Opaque" x="1" y="0" width="30" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="31" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="5e48d3cb-9595-4c07-94ac-047124798efe"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -95,7 +97,7 @@
 				<text><![CDATA[ลำดับ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="4d37bd18-f0eb-4699-9375-96abd873ffdb" stretchType="RelativeToTallestObject" mode="Opaque" x="158" y="0" width="71" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="158" y="0" width="71" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="4d37bd18-f0eb-4699-9375-96abd873ffdb"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -110,7 +112,7 @@
 				<text><![CDATA[เลขที่เคลม]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="7de71701-af9b-4ecb-89bb-0ba887bb970d" stretchType="RelativeToTallestObject" mode="Opaque" x="229" y="0" width="67" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="229" y="0" width="67" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="7de71701-af9b-4ecb-89bb-0ba887bb970d"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -125,7 +127,7 @@
 				<text><![CDATA[ทะเบียนรถ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="0a5d0ed2-5b8a-46a9-9fa1-f3633df51d34" stretchType="RelativeToTallestObject" mode="Opaque" x="296" y="0" width="90" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="296" y="0" width="90" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="0a5d0ed2-5b8a-46a9-9fa1-f3633df51d34"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -140,7 +142,7 @@
 				<text><![CDATA[จำนวนเงินที่จ่ายทรัพย์สิน]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="d7389da7-6422-4324-8bab-e94cb2df1417" stretchType="RelativeToTallestObject" mode="Opaque" x="386" y="0" width="81" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="386" y="0" width="81" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="d7389da7-6422-4324-8bab-e94cb2df1417"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -155,7 +157,7 @@
 				<text><![CDATA[เลขที่ใบสำคัญจ่าย]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="93db6b2c-9743-47a9-80e4-a40b4f9aa248" stretchType="RelativeToTallestObject" mode="Opaque" x="467" y="0" width="84" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="467" y="0" width="84" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="93db6b2c-9743-47a9-80e4-a40b4f9aa248"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -170,7 +172,7 @@
 				<text><![CDATA[เลขกรมธรรม์]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="5496af66-4125-4b9f-8af7-6f9a28d8336e" stretchType="RelativeToTallestObject" mode="Opaque" x="622" y="0" width="71" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="622" y="0" width="71" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="5496af66-4125-4b9f-8af7-6f9a28d8336e"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -185,7 +187,7 @@
 				<text><![CDATA[ทะเบียน]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="5496af66-4125-4b9f-8af7-6f9a28d8336e" stretchType="RelativeToTallestObject" mode="Opaque" x="693" y="0" width="78" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="693" y="0" width="78" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="5496af66-4125-4b9f-8af7-6f9a28d8336e"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -200,7 +202,7 @@
 				<text><![CDATA[สถานะรับผิดชอบ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="5496af66-4125-4b9f-8af7-6f9a28d8336e" stretchType="RelativeToTallestObject" mode="Opaque" x="771" y="0" width="71" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="771" y="0" width="71" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="5496af66-4125-4b9f-8af7-6f9a28d8336e"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -215,7 +217,7 @@
 				<text><![CDATA[หมายเหตุ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="5496af66-4125-4b9f-8af7-6f9a28d8336e" stretchType="RelativeToTallestObject" mode="Opaque" x="551" y="0" width="71" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="551" y="0" width="71" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="5496af66-4125-4b9f-8af7-6f9a28d8336e"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -230,7 +232,7 @@
 				<text><![CDATA[เลขที่เคลม]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="fa43a2ce-eaa6-40ba-adbd-0d79891b3978" stretchType="RelativeToTallestObject" mode="Opaque" x="31" y="0" width="56" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="31" y="0" width="56" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="fa43a2ce-eaa6-40ba-adbd-0d79891b3978"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -245,7 +247,7 @@
 				<text><![CDATA[ว/ด/ป เกิดเหตุ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="2b094875-db96-4459-9570-bf1851b1a0a2" stretchType="RelativeToTallestObject" mode="Opaque" x="87" y="0" width="71" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="87" y="0" width="71" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="2b094875-db96-4459-9570-bf1851b1a0a2"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -263,8 +265,8 @@
 	</columnHeader>
 	<detail>
 		<band height="21" splitType="Stretch">
-			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="7a58a4d0-0525-4a1f-af04-dc0c6e0d5943" mode="Opaque" x="1" y="0" width="30" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="0" y="0" width="31" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="7a58a4d0-0525-4a1f-af04-dc0c6e0d5943"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -276,10 +278,10 @@
 					<font fontName="Angsana New" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{no}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="0ece8e77-7125-47fc-b303-304c6fd3cd4c" mode="Opaque" x="31" y="0" width="56" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Opaque" x="31" y="0" width="56" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="0ece8e77-7125-47fc-b303-304c6fd3cd4c"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -294,7 +296,7 @@
 				<textFieldExpression><![CDATA[$F{accidentDate}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="79db803a-f08f-4951-b3c3-a387765d6a59" mode="Transparent" x="158" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="158" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="79db803a-f08f-4951-b3c3-a387765d6a59"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -309,7 +311,7 @@
 				<textFieldExpression><![CDATA[$F{claimNumber}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="8756fdf8-9f83-498c-9b43-e453f464f499" mode="Transparent" x="229" y="0" width="67" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="229" y="0" width="67" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="8756fdf8-9f83-498c-9b43-e453f464f499"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -324,7 +326,7 @@
 				<textFieldExpression><![CDATA[$F{licenseNumber}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="d6262ebe-5ff7-4a3b-8190-6c51fa31a7d0" mode="Transparent" x="296" y="0" width="90" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="296" y="0" width="90" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="d6262ebe-5ff7-4a3b-8190-6c51fa31a7d0"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -339,7 +341,7 @@
 				<textFieldExpression><![CDATA[$F{requestAmount}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="411756f3-8ed3-4234-a0cd-fabc13fbaa1f" mode="Transparent" x="386" y="0" width="81" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="386" y="0" width="81" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="411756f3-8ed3-4234-a0cd-fabc13fbaa1f"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -354,7 +356,7 @@
 				<textFieldExpression><![CDATA[$F{invoiceNumber}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="5f9bf0e0-94b1-4d0b-8053-d5cc34a1d00f" mode="Transparent" x="467" y="0" width="84" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="467" y="0" width="84" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="5f9bf0e0-94b1-4d0b-8053-d5cc34a1d00f"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -369,7 +371,7 @@
 				<textFieldExpression><![CDATA[$F{partyPolicyNo}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="2a4b1387-ddde-4009-9f8c-16d6c4cb6303" mode="Transparent" x="551" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="551" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="2a4b1387-ddde-4009-9f8c-16d6c4cb6303"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -384,7 +386,7 @@
 				<textFieldExpression><![CDATA[$F{partyClaimNumber}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="3cd2dd09-f8e1-488d-ac6a-22c4f83f5c1f" mode="Transparent" x="622" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="622" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="3cd2dd09-f8e1-488d-ac6a-22c4f83f5c1f"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -399,7 +401,7 @@
 				<textFieldExpression><![CDATA[$F{partyLicenseNumber}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="ded5cbde-fbf2-463f-add1-c48c9414b084" mode="Transparent" x="87" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="87" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="ded5cbde-fbf2-463f-add1-c48c9414b084"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -414,22 +416,7 @@
 				<textFieldExpression><![CDATA[$F{policyNo}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="28e608e6-f926-495c-9870-071abbc7b85f" mode="Transparent" x="693" y="0" width="78" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="Angsana New" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{responseStatus}]]></textFieldExpression>
-			</textField>
-			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="58dfa4dd-162d-48a6-baba-b7c38729efcb" mode="Transparent" x="771" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="771" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="58dfa4dd-162d-48a6-baba-b7c38729efcb"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -443,143 +430,155 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{followRemark}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="693" y="0" width="78" height="21" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="00d24941-8564-4a89-a209-803ac7886c36"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Angsana New" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
 		</band>
 	</detail>
-	<lastPageFooter>
-		<band height="50"/>
-	</lastPageFooter>
 	<summary>
-		<band height="117">
+		<band height="84">
 			<staticText>
-				<reportElement uuid="06c23e6b-996e-43ac-a71a-d3019d136448" x="2" y="0" width="100" height="21"/>
+				<reportElement x="0" y="0" width="158" height="21" uuid="06c23e6b-996e-43ac-a71a-d3019d136448"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[รวมจำนวนเรื่องที่เรียกร้อง]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="55d69aaa-9c29-4a64-9602-d91080c8bd88" x="162" y="0" width="67" height="21"/>
+				<reportElement x="229" y="0" width="67" height="21" uuid="55d69aaa-9c29-4a64-9602-d91080c8bd88"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[เรื่อง       เป็นเงิน]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9095b6dc-797a-4e06-b2b9-6329ac195fbf" x="386" y="0" width="81" height="21"/>
+				<reportElement x="386" y="0" width="81" height="21" uuid="9095b6dc-797a-4e06-b2b9-6329ac195fbf"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[บาท]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="f0e9b7f1-0aea-43b2-8c1f-3d7b972681b3" x="468" y="0" width="83" height="21"/>
+				<reportElement x="467" y="0" width="84" height="21" uuid="f0e9b7f1-0aea-43b2-8c1f-3d7b972681b3"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[รวมจำนวนเรื่องที่ชดใช้]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="8f9c6ba4-e6c2-4d2b-a276-07009576932a" x="622" y="0" width="67" height="21"/>
+				<reportElement x="622" y="0" width="71" height="21" uuid="8f9c6ba4-e6c2-4d2b-a276-07009576932a"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[เรื่อง       เป็นเงิน]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="cdf13211-f3c8-4a2c-9495-ba6ea563bd75" x="805" y="0" width="37" height="21"/>
+				<reportElement x="771" y="0" width="71" height="21" uuid="cdf13211-f3c8-4a2c-9495-ba6ea563bd75"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[บาท]]></text>
 			</staticText>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="760d1fb2-0a87-475c-a3b3-c9041d8e6674" mode="Transparent" x="229" y="0" width="157" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="296" y="0" width="90" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="760d1fb2-0a87-475c-a3b3-c9041d8e6674"/>
 				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" markup="none">
 					<font fontName="Angsana New" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{sumRequestAmount}]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="64cf1d7c-ff8d-4ac4-85d4-60283f816da9" mode="Transparent" x="102" y="0" width="60" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+			<textField evaluationTime="Report" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="158" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="64cf1d7c-ff8d-4ac4-85d4-60283f816da9"/>
 				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" markup="none">
 					<font fontName="Angsana New" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{countCol}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="766b2ee9-2a1a-449e-abc0-81a2947a0a0e" x="2" y="43" width="160" height="21"/>
+				<reportElement x="0" y="42" width="158" height="21" uuid="766b2ee9-2a1a-449e-abc0-81a2947a0a0e"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[ลงชื่อ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="e872dfba-f34b-4756-b71b-7eb6599cb571" x="2" y="21" width="160" height="21"/>
+				<reportElement x="0" y="21" width="158" height="21" uuid="e872dfba-f34b-4756-b71b-7eb6599cb571"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[ลงชื่อ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="7624a027-1ffa-4656-aebe-2801bbd9f226" x="162" y="22" width="305" height="21"/>
+				<reportElement x="158" y="21" width="309" height="21" uuid="7624a027-1ffa-4656-aebe-2801bbd9f226"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[ผู้ดำเนินการเรียกร้อง]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="833b9443-db9a-485c-b9f6-5d2a9f3aa335" x="162" y="44" width="305" height="21"/>
+				<reportElement x="158" y="42" width="309" height="21" uuid="833b9443-db9a-485c-b9f6-5d2a9f3aa335"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[ผู้จัดการวฝ่ายสินไหมทดแทนยานยนต์(ฝ่ายถูก)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="8a1cde91-9b9c-42bc-9449-01c64e813a64" x="468" y="22" width="154" height="21"/>
+				<reportElement x="467" y="21" width="155" height="21" uuid="8a1cde91-9b9c-42bc-9449-01c64e813a64"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[ลงชื่อ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="581f4292-86e4-4716-b9d1-c253f9b62b41" x="468" y="44" width="155" height="21"/>
+				<reportElement x="467" y="42" width="155" height="21" uuid="581f4292-86e4-4716-b9d1-c253f9b62b41"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[ลงชื่อ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="0ca23f65-a7a3-4712-9df4-c92579058280" x="623" y="23" width="70" height="21"/>
+				<reportElement x="622" y="21" width="71" height="21" uuid="0ca23f65-a7a3-4712-9df4-c92579058280"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[ผู้ตรวจสอบ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="75fee4d9-8259-4030-95af-a926d98f488e" x="696" y="23" width="67" height="21"/>
+				<reportElement x="693" y="21" width="78" height="21" uuid="75fee4d9-8259-4030-95af-a926d98f488e"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[นัดรับเช็ควันที่]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="5d846148-fe67-44e7-8b6a-bb6d7b742bd0" x="623" y="45" width="160" height="21"/>
+				<reportElement x="622" y="42" width="220" height="21" uuid="5d846148-fe67-44e7-8b6a-bb6d7b742bd0"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[ผู้จัดการวฝ่ายสินไหมทดแทนยานยนต์(ฝ่ายผิด)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="2f85c86d-590f-40ba-b24e-3119ebff0779" x="701" y="66" width="62" height="24"/>
+				<reportElement x="693" y="63" width="78" height="21" uuid="2f85c86d-590f-40ba-b24e-3119ebff0779"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[ข้อมูล ณ วันที่]]></text>
 			</staticText>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="bdcf9142-4415-497d-a273-9a219938128a" mode="Transparent" x="689" y="1" width="116" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="693" y="0" width="78" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="bdcf9142-4415-497d-a273-9a219938128a"/>
 				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" markup="none">
 					<font fontName="Angsana New" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -587,7 +586,7 @@
 				<textFieldExpression><![CDATA[$V{sumRequestAmount}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="d5d0e840-9e0c-45c8-9964-18373c0d97ca" mode="Transparent" x="551" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="551" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="d5d0e840-9e0c-45c8-9964-18373c0d97ca"/>
 				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" markup="none">
 					<font fontName="Angsana New" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
