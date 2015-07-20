@@ -38,6 +38,9 @@ public class TrackingSearchResultVo {
 	 private String jobStaus;
 	 private String laborPrice;
 	 private String totalPrice;
+	 private String insuranceFullName;
+	 private String responseStatus;
+	 private String followRemark;
 	
 	 
 	public int getId() {
@@ -249,5 +252,23 @@ public class TrackingSearchResultVo {
 	}
 	public void setTotalPrice(String totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+	public String getInsuranceFullName() {
+		return insuranceFullName;
+	}
+	public void setInsuranceFullName(String insuranceFullName) {
+		this.insuranceFullName = insuranceFullName;
+	}
+	public String getResponseStatus() {
+		return responseStatus;
+	}
+	public void setResponseStatus(String responseStatus) {
+		this.responseStatus = responseStatus;
+	}
+	public String getFollowRemark() {
+		return followRemark;
+	}
+	public void setFollowRemark(String followRemark) {
+		this.followRemark = followRemark;
 	}
 }
