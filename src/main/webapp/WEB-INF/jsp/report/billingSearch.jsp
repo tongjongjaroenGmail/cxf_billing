@@ -6,6 +6,7 @@
 <c:url value="/report/download/token" var="downloadTokenUrl"/>
 <c:url value="/report/download/progress" var="downloadProgressUrl"/>
 
+<form action="${pageContext.request.contextPath}/report/billing/export" method="post">
 <div class="page-content col-xs-12">
 	<div class="page-header">
 		<h1>วางบิล
@@ -94,9 +95,6 @@
 						</select>
 					</div>
 				</div>
-				
-				
-				
 			</div>
 		</div>		
 	</div>
@@ -112,10 +110,6 @@
 					<button class="btn btn-info" type="button" id="btnSearch" onclick="search();">
 						<i class="icon-search"></i> ค้นหา
 					</button>
-					
-					<button class="btn btn-success" type="button" id="btnExport" onclick="download();">
-						<i class="icon-file"></i> พิมพ์
-					</button>
 				</div>
 			</div>
 			<!-- /.table-responsive -->
@@ -126,9 +120,12 @@
 
 	<div class="table-responsive">
 		<br> <br>
+		
+		
 		<table id="tblClaimBill" class="table table-striped table-bordered table-hover" style="width: 100%;">
 			<thead>
 				<tr>
+					<th><label><input name="chkAll" class="ace" type="checkbox" onclick="checkSelect(this,document.getElementsByName('chk'));countTotalSelect();"><span class="lbl"></span></label></th>
 					<th>วันที่ปิดงาน</th>
 					<th>เลขร้องเรียน</th>
 					<th>เลขเคลม</th>
@@ -145,7 +142,35 @@
 		</table>
 	</div>
 	
-
+	<div class="space-4"></div>
+	
+	<div class="row">
+		<div class="col-sm-offset-1 col-sm-10" style="text-align: right;">
+			<div class="table-responsive">
+				<div class="col-sm-12">
+					<b>จำนวนที่เลือก <label id="lblTotalSelect" style="font-size: 20px">0</label> รายการ</b>
+				</div>
+			</div>
+			<!-- /.table-responsive -->
+		</div>
+		<!-- /span -->
+	</div>
+	
+	<div class="space-4"></div>
+	
+	<div class="row">
+		<div class="col-sm-offset-1 col-sm-10" style="text-align: right;">
+			<div class="table-responsive">
+				<div class="col-sm-12">
+					<button class="btn btn-success" type="button" id="btnExport" onclick="download();">
+						<i class="icon-file"></i> พิมพ์
+					</button>
+				</div>
+			</div>
+			<!-- /.table-responsive -->
+		</div>
+		<!-- /span -->
+	</div>
 </div>
 <!-- /.page-content -->
 
@@ -177,7 +202,17 @@ var pageName = "billing"
 
 $(document).ready(function() {
 	tblClaimBill = $("#tblClaimBill").dataTable(
-				{"aoColumns" : [{ "mData" : "closeDate" },
+				{
+					'bAutoWidth': false , 
+					"aoColumns" : [
+								{ "mData" : "claimId",
+									"bSortable": false,
+									'sWidth': '30px',
+									"mRender" : function (data, type, full) {
+										return '<input name="chk" class="ace" type="checkbox" onclick="countTotalSelect();" value="' + data + '"><span class="lbl"></span></label>';
+									}	
+								},
+				                { "mData" : "closeDate" },
 				                { "mData" : "jobNo"  },
 								{ "mData" : "claimNumber"  },
 								{ "mData" : "licenseNumber"  },
@@ -185,7 +220,7 @@ $(document).ready(function() {
 								{ "mData" : "claimType" },
 								{ "mData" : "wage" }
 							   ],
-				columnDefs: [{ type: 'date-dd/mm/yyyy', targets: 0 }],
+				columnDefs: [{ type: 'date-dd/mm/yyyy', targets: 1 }],
 				"processing": true,
                 "serverSide": true,
                 "bSort" : false,
@@ -205,10 +240,13 @@ $(document).ready(function() {
                 	firstTime = false;
                 }
 	});
-	
 });
-	
 
+function countTotalSelect(chk)
+{
+	$("#lblTotalSelect").html($("[name='chk']:checked").size());
+}
+	
 function search(){
 	delay(function(){
 		tblClaimBill.fnDraw();
@@ -217,12 +255,16 @@ function search(){
 
 
 function download() {
+	if($("[name='chk']:checked").size() == 0){
+		alert("กรุณาเลือกข้อมูลอย่างน้อย 1 ค่า");
+		return;
+	}
+	
 	// Retrieve download token
 	// When token is received, proceed with download
 	$.get('${downloadTokenUrl}', function(response) {
 		// Store token
 		var token = response.message[0];
-		
 		// Show progress dialog
 		$('#modalDownload').modal('show');
 		
@@ -247,13 +289,15 @@ function download() {
 }
 
 function exportFile(token){
-	var param = "token=" + token;
-	$("#divParamSearch").find('input,textarea,select').each(function() {
-		param += "&" + $(this).attr('id') + "=" + $(this).val();
-    });  
-     
-	window.location = '${pageContext.request.contextPath}/report/billing/export?' + param;
+	$("#token").val(token);
+	
+	var form = document.forms[0];
+	form.submit();
 }
+
+
 </script>
 
 <div id='msgbox' title='' style='display:none'></div>
+<input type="hidden" id="token" name="token">
+</form>

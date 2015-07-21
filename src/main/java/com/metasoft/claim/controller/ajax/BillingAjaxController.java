@@ -8,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +37,6 @@ import com.metasoft.claim.service.impl.ExporterService;
 import com.metasoft.claim.service.impl.TokenService;
 import com.metasoft.claim.service.report.BillingService;
 import com.metasoft.claim.util.ThaiBaht;
-import com.metasoft.claim.util.ZipUtil;
 
 @Controller
 @RequestMapping("/report/billing")
@@ -54,7 +52,7 @@ public class BillingAjaxController extends BaseAjaxController {
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public @ResponseBody String search(Model model, @RequestParam(required = false) String paramCloseDateStart,
-			@RequestParam(required = false) String paramcloseDateEnd, @RequestParam(required = false) String paramPartyInsuranceId,
+			@RequestParam(required = false) String paramCloseDateEnd, @RequestParam(required = false) String paramPartyInsuranceId,
 			@RequestParam(required = false) String paramClaimTypeId, @RequestParam(required = true) String paramFirstTime,
 
 			@RequestParam(required = true) Integer draw, @RequestParam(required = true) Integer start,
@@ -67,7 +65,7 @@ public class BillingAjaxController extends BaseAjaxController {
 			resultPaging.setRecordsTotal(0L);
 			resultPaging.setData(new ArrayList<BillingSearchResultVo>());
 		} else {
-			resultPaging = billingService.searchPaging(paramCloseDateStart, paramcloseDateEnd, paramPartyInsuranceId, paramClaimTypeId,
+			resultPaging = billingService.searchPaging(paramCloseDateStart, paramCloseDateEnd, paramPartyInsuranceId, paramClaimTypeId,
 					start, length);
 		}
 
@@ -76,13 +74,12 @@ public class BillingAjaxController extends BaseAjaxController {
 		return json;
 	}
 
-	@RequestMapping(value = "/export")
-	public void work(@RequestParam(required = false) String txtCloseDateStart, @RequestParam(required = false) String txtCloseDateEnd,
-			@RequestParam(required = false) String selInsurance, @RequestParam(required = false) String selClaimType,
+	@RequestMapping(value = "/export", method = RequestMethod.POST)
+	public void export(@RequestParam(required = true) Integer[] chk,
 			@RequestParam(required = false) String token, HttpSession session, HttpServletResponse response) throws ServletException,
 			IOException, JRException, Exception {
 
-		List<BillingExportResult> results = billingService.searchExport(txtCloseDateStart, txtCloseDateEnd, selInsurance, selClaimType);
+		List<BillingExportResult> results = billingService.searchExport(chk);
 
 		if (!results.isEmpty()) {
 			List<String> fileList = new ArrayList<String>();

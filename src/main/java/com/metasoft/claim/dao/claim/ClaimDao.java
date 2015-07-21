@@ -22,7 +22,4 @@ public interface ClaimDao extends AbstractDao<TblClaimRecovery, Integer>{
 	   
 	public ClaimPaging searchBillingPaging(Date closeDateStart,Date closeDateEnd,StdInsurance partyInsurance,
 			ClaimType claimType, int start,int length);
-	
-	public List<TblClaimRecovery> searchBilling(Date closeDateStart,Date closeDateEnd,StdInsurance partyInsurance,
-			ClaimType claimType);
 }

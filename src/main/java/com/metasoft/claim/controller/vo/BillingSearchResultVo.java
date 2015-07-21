@@ -1,6 +1,7 @@
 package com.metasoft.claim.controller.vo;
 
 public class BillingSearchResultVo {
+	private String claimId = "";
 	private String closeDate = "";
 	private String jobNo = "";
 	private String claimNumber = "";
@@ -8,6 +9,14 @@ public class BillingSearchResultVo {
 	private String insuranceName = "";
 	private String claimType = "";
 	private String wage = "";
+	
+	
+	public String getClaimId() {
+		return claimId;
+	}
+	public void setClaimId(String claimId) {
+		this.claimId = claimId;
+	}
 	public String getCloseDate() {
 		return closeDate;
 	}

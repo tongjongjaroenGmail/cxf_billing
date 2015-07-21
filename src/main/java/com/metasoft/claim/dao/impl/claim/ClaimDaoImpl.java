@@ -249,29 +249,4 @@ public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> imp
 		}
 		return resultPaging;
 	}
-
-	@Override
-	public List<TblClaimRecovery> searchBilling(Date closeDateStart, Date closeDateEnd, StdInsurance partyInsurance, ClaimType claimType) {
-		Criteria criteria = getCurrentSession().createCriteria(entityClass);
-		criteria.add(Restrictions.ge("jobStatus", JobStatus.CLOSED));
-		if (closeDateStart != null && closeDateEnd != null) {
-			criteria.add(Restrictions.between("closeDate", closeDateStart, closeDateEnd));
-		} else if (closeDateStart != null) {
-			criteria.add(Restrictions.ge("closeDate", closeDateStart));
-		} else if (closeDateEnd != null) {
-			criteria.add(Restrictions.le("closeDate", closeDateEnd));
-		}
-
-		if (partyInsurance != null) {
-			criteria.add(Restrictions.eq("partyInsurance", partyInsurance));
-		}
-
-		if (claimType != null) {
-			criteria.add(Restrictions.eq("claimType", claimType));
-		}
-
-		criteria.addOrder(Order.asc("claimNumber"));
-		
-		return criteria.list();
-	}
 }

@@ -104,6 +104,8 @@ public class BillingServiceImpl extends ModelBasedServiceImpl<ClaimDao, TblClaim
 					vo.setWage("300");
 				}
 				
+				vo.setClaimId(claim.getId().toString());
+				
 				voPaging.getData().add(vo);
 			}
 		}
@@ -113,30 +115,8 @@ public class BillingServiceImpl extends ModelBasedServiceImpl<ClaimDao, TblClaim
 
 
 	@Override
-	public List<BillingExportResult> searchExport(String paramCloseDateStart, String paramCloseDateEnd, String paramPartyInsuranceId,
-			String paramClaimTypeId) {
-		Date closeDateStart = null;
-		Date closeDateEnd = null;
-		StdInsurance partyInsurance = null;
-		ClaimType claimType = null;
-		
-		if (StringUtils.isNotBlank(paramCloseDateStart)) {
-			closeDateStart = DateToolsUtil.convertStringToDate(paramCloseDateStart, DateToolsUtil.LOCALE_TH);
-		}
-
-		if (StringUtils.isNotBlank(paramCloseDateEnd)) {
-			closeDateEnd = DateToolsUtil.convertStringToDate(paramCloseDateEnd, DateToolsUtil.LOCALE_TH);
-		}
-
-		if (StringUtils.isNotBlank(paramPartyInsuranceId)) {
-			partyInsurance = insuranceService.findById(Integer.parseInt(paramPartyInsuranceId));
-		}
-		
-		if (StringUtils.isNotBlank(paramClaimTypeId)) {
-			claimType = ClaimType.getById(Integer.parseInt(paramClaimTypeId));
-		}
-
-		List<TblClaimRecovery> results = claimDao.searchBilling(closeDateStart, closeDateEnd, partyInsurance, claimType);
+	public List<BillingExportResult> searchExport(Integer[] ids) {
+		List<TblClaimRecovery> results = claimDao.findByIds(ids);
 
 		List<BillingExportResult> vos = new ArrayList<BillingExportResult>();
 		

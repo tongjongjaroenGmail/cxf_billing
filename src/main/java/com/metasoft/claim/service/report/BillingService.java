@@ -15,6 +15,5 @@ public interface BillingService extends ModelBasedService<ClaimDao, TblClaimReco
 	public BillingSearchResultVoPaging searchPaging(String paramCloseDateStart, String paramCloseDateEnd, String paramPartyInsuranceId,
 			String paramClaimTypeId, int start, int length);
 
-	public List<BillingExportResult> searchExport(String paramCloseDateStart, String paramCloseDateEnd, String paramPartyInsuranceId,
-			String paramClaimTypeId);
+	public List<BillingExportResult> searchExport(Integer[] ids);
 }
