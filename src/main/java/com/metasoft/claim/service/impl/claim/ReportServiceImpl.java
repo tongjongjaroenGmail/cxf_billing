@@ -19,8 +19,10 @@ import com.metasoft.claim.bean.paging.ClaimPaging;
 import com.metasoft.claim.bean.paging.ClaimSearchResultVoPaging;
 import com.metasoft.claim.bean.paging.ReportPaging;
 import com.metasoft.claim.bean.paging.TrackingSearchResultVoPaging;
+import com.metasoft.claim.bean.report.BillingExportResult;
 import com.metasoft.claim.controller.vo.ClaimSaveVo;
 import com.metasoft.claim.controller.vo.ClaimSearchResultVo;
+import com.metasoft.claim.controller.vo.LaborResultVo;
 import com.metasoft.claim.controller.vo.TrackingSearchCriteriaVo;
 import com.metasoft.claim.controller.vo.TrackingSearchResultVo;
 import com.metasoft.claim.dao.claim.ClaimDao;
@@ -52,6 +54,9 @@ public class ReportServiceImpl extends
 	private ReportDao reportDao;
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ClaimDao claimDao;
 
 	/**
 	 * 
@@ -144,6 +149,13 @@ public class ReportServiceImpl extends
 							claim.getCloseDate(), DateToolsUtil.LOCALE_TH));
 
 				}
+				if (claim.getFollowDate() != null ) {
+					vo.setFollowDate(DateToolsUtil.convertToString(
+							claim.getFollowDate(), DateToolsUtil.LOCALE_TH));
+				}
+				vo.setClaimId(String.valueOf(claim.getId()));
+				
+				
 				voPaging.getData().add(vo);
 			}
 
@@ -241,6 +253,7 @@ public class ReportServiceImpl extends
 				} else {
 					vo.setLaborPrice("0");
 				}
+				vo.setClaimId(String.valueOf(claim.getId()));
 
 				vo.setTotalPrice("");
 
@@ -361,6 +374,19 @@ public class ReportServiceImpl extends
 				} else {
 					vo.setResponseStatus("ไม่ตกลง");
 				}
+				if (claim.getPartyPolicyNo() != null) {
+					vo.setPartyPolicyNo(claim.getPartyPolicyNo());
+					
+				}
+				if (claim.getPartyClaimNumber() != null) {
+					vo.setPartyClaimNumber(claim.getPartyClaimNumber());
+					
+				}
+				if (claim.getPartyLicenseNumber() != null) {
+					vo.setPartyLicenseNumber(claim.getPartyLicenseNumber());
+					
+				}
+				vo.setClaimId(String.valueOf(claim.getId()));
 				
 				vo.setInsuranceFullName("");
 
@@ -462,6 +488,7 @@ public class ReportServiceImpl extends
 					}
 
 					vo.setTotalPrice("");
+					vo.setClaimId(String.valueOf(claim.getId()));
 					
 
 					dataList.add(vo);
@@ -476,4 +503,197 @@ public class ReportServiceImpl extends
 
 	}
 
+	@Override
+	public List<TrackingSearchResultVo> searchExport(Integer[] ids) {
+		
+		List<TblClaimRecovery> results = claimDao.findByIds(ids);
+
+		List<TrackingSearchResultVo> vos = new ArrayList<TrackingSearchResultVo>();
+		
+		if(results != null ){
+			int i = 1;
+			for (TblClaimRecovery claim : results) {
+				TrackingSearchResultVo  vo = new TrackingSearchResultVo();
+				
+				vo.setNo(i++);
+				vo.setClaimNumber(StringUtils.trimToEmpty(claim
+						.getClaimNumber()));
+
+				if (claim.getClaimType() != null) {
+					vo.setClaimType(claim.getClaimType().getName());
+				}
+				if (claim.getPartyInsurance() != null) {
+					vo.setInsuranceName(claim.getPartyInsurance().getName());
+				}
+				if (claim.getJobDate() != null) {
+					vo.setJobDate(DateToolsUtil.convertToString(
+							claim.getJobDate(), DateToolsUtil.LOCALE_TH));
+				}
+
+				if (claim.getMaturityDate() != null) {
+					vo.setMaturityDate(DateToolsUtil.convertToString(
+							claim.getMaturityDate(), DateToolsUtil.LOCALE_TH));
+				}
+
+				if (claim.getAccidentDate() != null) {
+					vo.setAccidentDate(DateToolsUtil.convertToString(
+							claim.getAccidentDate(), DateToolsUtil.LOCALE_TH));
+				}
+
+				if (claim.getLicenseNumber() != null) {
+					vo.setLicenseNumber(claim.getLicenseNumber());
+				}
+				if (claim.getClaimAmount() != null) {
+					vo.setClaimAmount(String.valueOf(claim.getClaimAmount()));
+				}
+				if (claim.getPolicyNo() != null) {
+					vo.setPolicyNo(claim.getPolicyNo());
+				}
+				if (claim.getCloseDate() != null) {
+					vo.setCloseDate(DateToolsUtil.convertToString(
+							claim.getCloseDate(), DateToolsUtil.LOCALE_TH));
+
+				}
+				if (claim.getPartyClaimNumber() != null) {
+					vo.setPartyClaimNumber(claim.getPartyClaimNumber());
+
+				}
+				if (claim.getPartyPolicyNo() != null) {
+					vo.setPartyPolicyNo(claim.getPartyPolicyNo());
+				}
+
+				if (claim.getInvoiceNumber() != null) {
+					vo.setInvoiceNumber(claim.getInvoiceNumber());
+				}
+
+				if (claim.getRequestAmount() != null) {
+					vo.setRequestAmount(claim.getRequestAmount());
+				}
+
+				if (claim.getJobStatus() != null) {
+					vo.setJobStaus(claim.getJobStatus().getName());
+
+				}
+				if (claim.getFollowRemark() != null){
+					vo.setFollowRemark(claim.getFollowRemark());
+					
+				}
+				if (claim.getPartyPolicyNo() != null) {
+					vo.setPartyPolicyNo(claim.getPartyPolicyNo());
+					
+				}
+				if (claim.getPartyClaimNumber() != null) {
+					vo.setPartyClaimNumber(claim.getPartyClaimNumber());
+					
+				}
+				if (claim.getPartyLicenseNumber() != null) {
+					vo.setPartyLicenseNumber(claim.getPartyLicenseNumber());
+					
+				}
+				System.out.println(">>>> claim.getClaimType() "+claim.getClaimType());
+				if (claim.getClaimType().equals(ClaimType.KFK)) {
+					vo.setTitleName("หนังสือสัญญา ตกลงไม่เรียกร้องค่าเสียหายซึ่งกันและกัน");
+				} else if (claim.getClaimType().equals(ClaimType.FAST_TRACK)) {
+					vo.setTitleName("หนังสือสัญญา เรียกร้องค่าสินไหมทดแทนรถยนต์แบบ Fast-Track");
+				} else if (claim.getClaimType().equals(ClaimType.REQUEST)) {
+					vo.setTitleName("หนังสือสัญญา รื่องเรียกร้องค่าเสียหาย");
+					
+				} else {
+					vo.setTitleName("หนังสือสัญญา");
+				}
+				
+				if (claim.getPartyInsurance()!=null ) {
+					vo.setInsuranceFullName(claim.getPartyInsurance().getFullName());
+				}
+				
+				if (claim.getAgent()!=null) {
+					vo.setAgent(claim.getAgent().getName()+" "+claim.getAgent().getLastName()+","+claim.getAgent().getEmail()+","+claim.getAgent().getTelNumber());
+					System.out.println(">>>> vo.getAgent() = "+vo.getAgent());
+				}
+				
+				
+				vos.add(vo);
+			}
+		}
+
+		return vos;
+	}
+
+	@Override
+	public List<LaborResultVo> searchExportLabor(Integer[] ids) {
+		System.out.println(">>>>>>>>>> searchExportLabor >>>>>>>>");
+		List<TblClaimRecovery> results = claimDao.findByIds(ids);
+
+		List<LaborResultVo> vos = new ArrayList<LaborResultVo>();
+		
+		try{
+		if(results != null ){
+			int i = 1;
+			for (TblClaimRecovery claim : results) {
+				LaborResultVo  vo = new LaborResultVo();
+				
+				vo.setNo(i++);
+				vo.setClaimNumber(StringUtils.trimToEmpty(claim
+						.getClaimNumber()));
+
+				if (claim.getClaimType() != null) {
+					vo.setClaimType(claim.getClaimType().getName());
+				}
+				if (claim.getPartyInsurance() != null) {
+					vo.setInsuranceName(claim.getPartyInsurance().getName());
+				}
+				
+
+				if (claim.getAccidentDate() != null) {
+					vo.setAccidentDate(DateToolsUtil.convertToString(
+							claim.getAccidentDate(), DateToolsUtil.LOCALE_TH));
+				}
+
+						
+				if (claim.getPartyPolicyNo() != null) {
+					vo.setPartyPolicyNo(claim.getPartyPolicyNo());
+				}
+
+				
+				if (claim.getRequestAmount() != null) {
+					vo.setRequestAmount(claim.getRequestAmount());
+				}
+
+				if (claim.getJobStatus() != null) {
+					vo.setJobStaus(claim.getJobStatus().getName());
+
+				}
+				
+				if (claim.getPartyPolicyNo() != null) {
+					vo.setPartyPolicyNo(claim.getPartyPolicyNo());
+					
+				}
+				
+				if (claim.getPartyLicenseNumber() != null) {
+					vo.setPartyLicenseNumber(claim.getPartyLicenseNumber());
+					
+				}
+				if (claim.getClaimType().equals(ClaimType.FAST_TRACK)) {
+					vo.setLaborPrice(80);
+					
+				}else if (claim.getClaimType().equals(ClaimType.KFK)) {
+					vo.setLaborPrice(80);
+				}else if (claim.getClaimType().equals(ClaimType.REQUEST)){
+					vo.setLaborPrice(100);
+				}
+				
+//				if (claim.getClaimAmount() != null) {
+//					vo.setClaimAmount(String.valueOf(claim.getClaimAmount()));
+//			   }
+				
+				
+				vos.add(vo);
+			}
+		}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return vos;
+		
+	}
 }

@@ -4,12 +4,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:url value="/report/download/token" var="downloadTokenUrl"/>
 <c:url value="/report/download/progress" var="downloadProgressUrl"/>
+
+<form action="${pageContext.request.contextPath}/report/labor/export" method="post">
 <div class="page-content col-xs-12">
 	<div class="page-header">
 		<h1>จ่ายค่าแรง
-			<button class="btn btn-success btn-xs" id="btnAdd">
-				<I class="icon-plus  bigger-110 icon-only"></I>
-			</button>
 		</h1>
 	</div>
 	<!-- /.page-header -->
@@ -61,17 +60,14 @@
 					</div>
 				</div>
 				<div class="col-sm-3">		
-<!-- 					<div class="input-group col-sm-12 no-padding-left"> -->
-					<div class="input-group col-sm-12 no-padding-left" style="text-align: left;">
-							<input class="form-control" id="agentName" type="text" style="text-align: left "/> 
+					<div class="input-group col-sm-12 no-padding-left">
+						<select class="col-sm-12" id="agentId">
+							<option value="">ทั้งหมด</option>
+							<c:forEach var="agent" items="${user}" varStatus="index">		
+								<option value="${user.id}">${user.name}</option>					
+							</c:forEach>
+						</select>
 					</div>
-<!-- 						<select class="col-sm-12" id="selInsurance"> -->
-<!-- 							<option value="">ทั้งหมด</option> -->
-<%-- 							<c:forEach var="insurance" items="${insurances}" varStatus="index">		 --%>
-<%-- 								<option value="${insurance.id}">${insurance.name}</option>					 --%>
-<%-- 							</c:forEach> --%>
-<!-- 						</select> -->
-<!-- 					</div> -->
 				</div>
 				
 			</div>
@@ -122,9 +118,7 @@
 					<button class="btn btn-info" type="button" id="btnSearch" onclick="search();">
 						<i class="icon-search"></i> ค้นหา
 					</button>
-					<button class="btn btn-success" type="button" id="btnExport" onclick="download();">
-						<i class="icon-file"></i> พิมพ์
-					</button>
+					
 				</div>
 			</div>
 			<!-- /.table-responsive -->
@@ -138,6 +132,7 @@
 		<table id="tblClaimBill" class="table table-striped table-bordered table-hover" style="width: 100%;">
 			<thead>
 				<tr>
+				   <th><label><input name="chkAll" class="ace" type="checkbox" onclick="checkSelect(this,document.getElementsByName('chk'));countTotalSelect();"><span class="lbl"></span></label></th>
 					<th>วันที่ปิดงาน</th>
 					<th>เลขเคลม</th>
 					<th>บริษัทประกัน</th>
@@ -150,8 +145,35 @@
 			</tbody>
 		</table>
 	</div>
+<div class="space-4"></div>
 	
-
+	<div class="row">
+		<div class="col-sm-offset-1 col-sm-10" style="text-align: right;">
+			<div class="table-responsive">
+				<div class="col-sm-12">
+					<b>จำนวนที่เลือก <label id="lblTotalSelect" style="font-size: 20px">0</label> รายการ</b>
+				</div>
+			</div>
+			<!-- /.table-responsive -->
+		</div>
+		<!-- /span -->
+	</div>
+	
+	<div class="space-4"></div>
+	
+	<div class="row">
+		<div class="col-sm-offset-1 col-sm-10" style="text-align: right;">
+			<div class="table-responsive">
+				<div class="col-sm-12">
+					<button class="btn btn-success" type="button" id="btnExport" onclick="download();">
+						<i class="icon-file"></i> พิมพ์
+					</button>
+				</div>
+			</div>
+			<!-- /.table-responsive -->
+		</div>
+		<!-- /span -->
+	</div>
 </div>
 <!-- /.page-content -->
 	<div class="modal fade" id="modalDownload" tabindex="-1" role="dialog" aria-labelledby="modalDownload"
@@ -182,7 +204,14 @@ var pageName = "labor"
 
 $(document).ready(function() {
 	tblClaimBill = $("#tblClaimBill").dataTable(
-				{"aoColumns" : [{ "mData" : "closeDate" },
+			{"aoColumns" : [ { "mData" : "claimId",
+				"bSortable": false,
+				'sWidth': '30px',
+				"mRender" : function (data, type, full) {
+					return '<input name="chk" class="ace" type="checkbox" onclick="countTotalSelect();" value="' + data + '"><span class="lbl"></span></label>';
+				}	
+			},
+								{ "mData" : "closeDate" },
 								{ "mData" : "claimNumber"  },
 								{ "mData" : "insuranceName" },
 								{ "mData" : "claimType" }
@@ -190,13 +219,14 @@ $(document).ready(function() {
 				columnDefs: [{ type: 'date-dd/mm/yyyy', targets: 0 }],
 				"processing": true,
                 "serverSide": true,
+                "bFilter": false,
                 "ajax": {
                 	"url": '${pageContext.request.contextPath}/tracking/labor',
                     "type": "POST",
                     "data": function ( d ) {
                          d.paramJobDateStart       =  $("#divParamSearch").find("#txtJobDateStart").val(),  
                          d.paramJobDateEnd         =  $("#divParamSearch").find("#txtJobDateEnd").val(),  
-                         d.paramPartyInsuranceId   =  $("#divParamSearch").find("#agentName").val(),   
+                         d.paramPartyInsuranceId   =  $("#divParamSearch").find("#agentId").val(),   
                          d.paramClaimTypeId        =  $("#divParamSearch").find("#selClaimType").val(),  
                          d.paramFirstTime          =  firstTime,
                          d.paramPageName		   =  pageName
@@ -209,7 +239,10 @@ $(document).ready(function() {
 	
 });
 	
-
+function countTotalSelect(chk)
+{
+	$("#lblTotalSelect").html($("[name='chk']:checked").size());
+}
 function search(){
 	delay(function(){
 		tblClaimBill.fnDraw();
@@ -245,15 +278,55 @@ function download() {
 		
 	});
 }
+function download() {
+	if($("[name='chk']:checked").size() == 0){
+		alert("กรุณาเลือกข้อมูลอย่างน้อย 1 ค่า");
+		return;
+	}
+	
+	// Retrieve download token
+	// When token is received, proceed with download
+	$.get('${downloadTokenUrl}', function(response) {
+		// Store token
+		var token = response.message[0];
+		// Show progress dialog
+		$('#modalDownload').modal('show');
+		
+		// Start download
+		exportFile(token);
 
-function exportFile(token){
-	var param = "token=" + token;
-	$("#divParamSearch").find('input,textarea,select').each(function() {
-		param += "&" + $(this).attr('id') + "=" + $(this).val();
-    });  
-	window.location = '${pageContext.request.contextPath}/report/labor?' + param;
+		// Check periodically if download has started
+		var frequency = 1000;
+		var timer = setInterval(function() {
+			$.get('${downloadProgressUrl}', {token: token}, 
+					function(response) {
+						// If token is not returned, download has started
+						// Close progress dialog if started
+						if (response.message[0] != token) {
+							$('#modalDownload').modal('hide');
+							clearInterval(timer);
+						}
+				});
+		}, frequency);
+		
+	});
 }
+function exportFile(token){
+	$("#token").val(token);
+	
+	var form = document.forms[0];
+	form.submit();
+}
+// function exportFile(token){
+// 	var param = "token=" + token;
+// 	$("#divParamSearch").find('input,textarea,select').each(function() {
+// 		param += "&" + $(this).attr('id') + "=" + $(this).val();
+//     });  
+// 	window.location = '${pageContext.request.contextPath}/report/labor?' + param;
+// }
 
 </script>
 
 <div id='msgbox' title='' style='display:none'></div>
+		<input type="hidden" id="token" name="token">
+		</form>

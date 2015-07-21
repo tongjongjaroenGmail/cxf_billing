@@ -75,7 +75,8 @@ public class ReportDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer>
 				} else if (jobDateEnd != null) {
 					criteriaCount
 							.add(Restrictions.le("followDate", jobDateEnd));
-				}
+				} 
+				 criteriaCount.add(Restrictions.eq("jobStatus", JobStatus.FOLLOWED));
 			}
 			if (pageName.equals("billing")) {
 				System.out.println(">>>>>> billing");
@@ -117,6 +118,7 @@ public class ReportDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer>
 					} else if (jobDateEnd != null) {
 						criteria.add(Restrictions.le("followDate", jobDateEnd));
 					}
+					criteria.add(Restrictions.eq("jobStatus", JobStatus.FOLLOWED));
 				}
 				if (pageName.equals("billing")) {
 					if (jobDateStart != null && jobDateEnd != null) {
@@ -292,8 +294,9 @@ public class ReportDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer>
 				} else if (jobDateEnd != null) {
 					criteria.add(Restrictions.le("followDate", jobDateEnd));
 				}
-			}
-			if (pageName.equals("billing")) {
+				criteria.add(Restrictions.eq("jobStatus", JobStatus.FOLLOWED));
+				
+			} else if (pageName.equals("billing")) {
 				if (jobDateStart != null && jobDateEnd != null) {
 					criteria.add(Restrictions.between("closeDate",
 							jobDateStart, jobDateEnd));

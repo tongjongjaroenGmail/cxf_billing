@@ -41,6 +41,11 @@ public class TrackingSearchResultVo {
 	 private String insuranceFullName;
 	 private String responseStatus;
 	 private String followRemark;
+	 private String followDate;
+	 private String titleName;
+	 private String claimId = "";
+	 private String agent="";
+	 
 	
 	 
 	public int getId() {
@@ -270,5 +275,29 @@ public class TrackingSearchResultVo {
 	}
 	public void setFollowRemark(String followRemark) {
 		this.followRemark = followRemark;
+	}
+	public String getFollowDate() {
+		return followDate;
+	}
+	public void setFollowDate(String followDate) {
+		this.followDate = followDate;
+	}
+	public String getTitleName() {
+		return titleName;
+	}
+	public void setTitleName(String titleName) {
+		this.titleName = titleName;
+	}
+	public String getClaimId() {
+		return claimId;
+	}
+	public void setClaimId(String claimId) {
+		this.claimId = claimId;
+	}
+	public String getAgent() {
+		return agent;
+	}
+	public void setAgent(String agent) {
+		this.agent = agent;
 	}
 }

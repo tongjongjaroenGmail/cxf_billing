@@ -115,6 +115,7 @@ public class ReportAjaxController {
 			@RequestParam(required = false) String paramPageName,
 			@RequestParam(required = false) String paramFirstTime,
 			@RequestParam(required = false) String token,
+			@RequestParam(required = false) String claimId,
 			
 			HttpSession session,
 			HttpServletResponse response) throws ParseException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {

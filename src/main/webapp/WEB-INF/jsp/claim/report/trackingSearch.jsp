@@ -1,18 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:url value="/report/download/token" var="downloadTokenUrl"/>
 <c:url value="/report/download/progress" var="downloadProgressUrl"/>
 
+<form action="${pageContext.request.contextPath}/tracking/export" method="post">
 <div class="page-content col-xs-12">
 	<div class="page-header">
 		<h1>
 			ออกหนังสือติดตาม
-			<button class="btn btn-success btn-xs" id="btnAdd">
-				<I class="icon-plus  bigger-110 icon-only"></I>
-			</button>
+		
 		</h1>
 	</div>
 	<!-- /.page-header -->
@@ -120,9 +118,7 @@
 							onclick="search();">
 							<i class="icon-search"></i> ค้นหา
 						</button>
-						<button class="btn btn-success" type="button" id="btnExport" onclick="download();">
-						<i class="icon-file"></i> พิมพ์
-					</button>
+					
 					</div>					
 				</div>
 				<!-- /.table-responsive -->
@@ -138,6 +134,7 @@
 				style="width: 100%;">
 				<thead>
 					<tr>
+					<th><label><input name="chkAll" class="ace" type="checkbox" onclick="checkSelect(this,document.getElementsByName('chk'));countTotalSelect();"><span class="lbl"></span></label></th>
 						<th>วันที่่ออกหนังสือ</th>
 						<th>วันที่เกิดเหตุ</th>
 						<th>เลขกรมธรรม์</th>
@@ -155,10 +152,37 @@
 				</tbody>
 			</table>
 		</div>
-
-
-		<%-- 	<jsp:include page = "modalClaimSave.jsp" flush="false"/> --%>
+<div class="space-4"></div>
+	
+	<div class="row">
+		<div class="col-sm-offset-1 col-sm-10" style="text-align: right;">
+			<div class="table-responsive">
+				<div class="col-sm-12">
+					<b>จำนวนที่เลือก <label id="lblTotalSelect" style="font-size: 20px">0</label> รายการ</b>
+				</div>
+			</div>
+			<!-- /.table-responsive -->
+		</div>
+		<!-- /span -->
 	</div>
+	
+	<div class="space-4"></div>
+	
+	<div class="row">
+		<div class="col-sm-offset-1 col-sm-10" style="text-align: right;">
+			<div class="table-responsive">
+				<div class="col-sm-12">
+					<button class="btn btn-success" type="button" id="btnExport" onclick="download();">
+						<i class="icon-file"></i> พิมพ์
+					</button>
+				</div>
+			</div>
+			<!-- /.table-responsive -->
+		</div>
+		<!-- /span -->
+	</div>
+</div>
+
 	<!-- /.page-content -->
 	<div class="modal fade" id="modalDownload" tabindex="-1" role="dialog" aria-labelledby="modalDownload"
 	aria-hidden="true" style="overflow-x: hidden; overflow-y: hidden;">
@@ -191,7 +215,14 @@
 		$(document).ready(
 						function() {
 							tblClaimDt = $("#tblClaim").dataTable(
-											{"aoColumns" : [ {"mData" : "jobDate"}, 
+											{"aoColumns" : [ { "mData" : "claimId",
+												"bSortable": false,
+												'sWidth': '30px',
+												"mRender" : function (data, type, full) {
+													return '<input name="chk" class="ace" type="checkbox" onclick="countTotalSelect();" value="' + data + '"><span class="lbl"></span></label>';
+												}	
+											},
+											                 {"mData" : "followDate"}, 
 											                 {"mData" : "accidentDate"}, 
 											                 {"mData" : "policyNo"}, 
 															 {"mData" : "claimNumber"}, 
@@ -206,6 +237,7 @@
 												} ],
 												"processing" : true,
 												"serverSide" : true,
+												"bFilter": false,
 												"ajax" : {
 													"url" : '${pageContext.request.contextPath}/tracking/search',
 													"type" : "POST",
@@ -226,7 +258,10 @@
 						});
 		
 	
-
+		function countTotalSelect(chk)
+		{
+			$("#lblTotalSelect").html($("[name='chk']:checked").size());
+		}
 
 		function search() {
 			delay(function() {
@@ -235,12 +270,16 @@
 		}
 		
 		function download() {
+			if($("[name='chk']:checked").size() == 0){
+				alert("กรุณาเลือกข้อมูลอย่างน้อย 1 ค่า");
+				return;
+			}
+			
 			// Retrieve download token
 			// When token is received, proceed with download
 			$.get('${downloadTokenUrl}', function(response) {
 				// Store token
 				var token = response.message[0];
-				
 				// Show progress dialog
 				$('#modalDownload').modal('show');
 				
@@ -263,14 +302,16 @@
 				
 			});
 		}
-
 		function exportFile(token){
-			var param = "token=" + token;
-			$("#divParamSearch").find('input,textarea,select').each(function() {
-				param += "&" + $(this).attr('id') + "=" + $(this).val();
-		    });  
-			window.location = '${pageContext.request.contextPath}/report/tracking?' + param;
+			$("#token").val(token);
+			
+			var form = document.forms[0];
+			form.submit();
 		}
+
+
 		</script>
 
-	<div id='msgbox' title='' style='display: none'></div>
+		<div id='msgbox' title='' style='display:none'></div>
+		<input type="hidden" id="token" name="token">
+		</form>
