@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.jasperreports.engine.JRException;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -92,21 +93,36 @@ public class BillingAjaxController extends BaseAjaxController {
 			HashMap<String,Object> param = new HashMap<String,Object>();
 			
 			ThaiBaht thaiBaht = new ThaiBaht();
+			boolean isContinue = false;
 			for (BillingExportResult result : results) {
+				isContinue = false;
 				totalWage += result.getWage();
 				if (totalWage > 30000) {
 					param = new HashMap<String,Object>();
-					param.put("totalWage", totalWage - result.getWage());
-					param.put("totalWageThai", thaiBaht.getText(totalWage - result.getWage()));
+					if(exports.size() == 0){
+						param.put("totalWage", totalWage);
+						param.put("totalWageThai", thaiBaht.getText(totalWage));
+						exports.add(result);
+						totalWage = 0;
+						isContinue = true;
+					}else{
+						param.put("totalWage", totalWage - result.getWage());
+						param.put("totalWageThai", thaiBaht.getText(totalWage - result.getWage()));
+						totalWage = result.getWage();
+					}
+	
 					ByteArrayOutputStream reportOut = downloadService.generateReportXLS(null,
 							session.getServletContext().getRealPath("/report/billing"), ExporterService.EXTENSION_TYPE_EXCEL,
 							param, "billing", exports);
 					exports = new ArrayList<BillingExportResult>();
-					totalWage = result.getWage();
+					
 					if (reportOut != null) {
 						InputStream in = new ByteArrayInputStream(reportOut.toByteArray());
 						inputStreams.add(in);
-						fileList.add("billing" + i++);
+						fileList.add("billing" + i++ + ".xls");
+					}
+					if(isContinue){
+						continue;
 					}
 				}
 
@@ -129,13 +145,29 @@ public class BillingAjaxController extends BaseAjaxController {
 				}
 			}
 			String header = "";
-			header = "attachment; filename=billing.zip";
-			OutputStream outs = null;
-			header = new String(header.getBytes("UTF-8"), "ISO8859_1");
+
+			OutputStream outs = null;	
 			outs = response.getOutputStream();
+
+			if(fileList.size() > 1){
+				header = "attachment; filename=billing.zip";
+			}else{
+				header = "attachment; filename=billing.xls";
+			}		
+			
+			header = new String(header.getBytes("UTF-8"), "ISO8859_1");
 			response.setHeader("Content-Disposition", header);
 			response.setContentType("application/ms-excel");
-			downloadService.writeZipFile(fileList, inputStreams, outs, token);
+			
+			if(fileList.size() > 1){
+				downloadService.writeZipFile(fileList, inputStreams, outs, token);
+			}else{		
+				byte[] bytes = IOUtils.toByteArray(inputStreams.get(0));
+				ByteArrayOutputStream baos = new ByteArrayOutputStream(bytes.length);
+				baos.write(bytes, 0, bytes.length);
+				downloadService.write(token, response, baos);
+				baos.close();
+			}		
 		}
 	}
 }

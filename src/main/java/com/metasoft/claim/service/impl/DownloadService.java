@@ -78,7 +78,7 @@ public class DownloadService {
 	/**
 	 * Writes the report to the output stream
 	 */
-	private void write(String token, HttpServletResponse response, ByteArrayOutputStream baos) {
+	public void write(String token, HttpServletResponse response, ByteArrayOutputStream baos) {
 
 		try {
 			logger.debug(baos.size());

@@ -203,6 +203,7 @@ var pageName = "billing"
 $(document).ready(function() {
 	tblClaimBill = $("#tblClaimBill").dataTable(
 				{
+					"lengthMenu": [[10, 25, 50, 100,200,300,400,500,600,700,800,900,1000], [10, 25, 50, 100,200,300,400,500,600,700,800,900,1000]],
 					'bAutoWidth': false , 
 					"aoColumns" : [
 								{ "mData" : "claimId",
@@ -238,11 +239,13 @@ $(document).ready(function() {
                 },
                 "fnDrawCallback" : function() {
                 	firstTime = false;
+                	$("[name='chkAll']").prop( "checked", false );
+                	countTotalSelect();
                 }
 	});
 });
 
-function countTotalSelect(chk)
+function countTotalSelect()
 {
 	$("#lblTotalSelect").html($("[name='chk']:checked").size());
 }
