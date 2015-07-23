@@ -150,7 +150,7 @@ public class ReportDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer>
 
 	@Override
 	public ReportPaging searchPaging(Date jobDateStart, Date jobDateEnd,
-			int agent, ClaimType claimType, int start, int length) {
+			SecUser agent, ClaimType claimType, int start, int length) {
 		System.out.println(">>>>> labor");
 		ReportPaging resultPaging = new ReportPaging();
 		
@@ -164,9 +164,9 @@ public class ReportDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer>
 			Criteria criteriaCount = getCurrentSession().createCriteria(
 					entityClass);
 
-			if (agent != 0) {
-				criteriaCount.add(Restrictions.eq("agent",
-						agent));
+			if (agent != null) {
+				criteriaCount.add(Restrictions.eq("agent",agent));
+				System.out.println(">>>> agent"+agent);
 			}
 
 			if (claimType != null) {
@@ -190,21 +190,17 @@ public class ReportDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer>
 			resultPaging.setRecordsFiltered((Long) criteriaCount.uniqueResult());
 
 			if (resultPaging.getRecordsFiltered() != 0) {
-				Criteria criteria = getCurrentSession().createCriteria(
-						entityClass);
-				if (agent != 0) {
-					criteria.add(Restrictions.eq("agent",
-							agent));
+				Criteria criteria = getCurrentSession().createCriteria(entityClass);
+				if (agent != null) {
+					criteria.add(Restrictions.eq("agent",agent));
 				}
 
 				if (claimType != null) {
 					criteria.add(Restrictions.eq("claimType", claimType));
 				}
 
-	
-					if (jobDateStart != null && jobDateEnd != null) {
-						criteria.add(Restrictions.between("closeDate",
-								jobDateStart, jobDateEnd));
+				if (jobDateStart != null && jobDateEnd != null) {
+						criteria.add(Restrictions.between("closeDate",jobDateStart, jobDateEnd));
 					} else if (jobDateStart != null) {
 						criteria.add(Restrictions.ge("closeDate", jobDateStart));
 					} else if (jobDateEnd != null) {

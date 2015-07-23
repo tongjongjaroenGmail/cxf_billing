@@ -18,7 +18,7 @@ public interface ReportDao extends AbstractDao<TblClaimRecovery, Integer>{
 	public ReportPaging searchPaging(Date jobDateStart,Date jobDateEnd,int agent,
 			ClaimType claimType);
 	
-	public ReportPaging searchPaging(Date jobDateStart,Date jobDateEnd,int agent,
+	public ReportPaging searchPaging(Date jobDateStart,Date jobDateEnd,SecUser agent,
 			ClaimType claimType,int start,int length);
 	
 	public List<TblClaimRecovery> searchExport(Date jobDateStart,Date jobDateEnd,int agent,

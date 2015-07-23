@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.jasperreports.engine.JRException;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -45,6 +46,7 @@ import com.metasoft.claim.controller.vo.ClaimSearchResultVo;
 import com.metasoft.claim.controller.vo.ResultVo;
 import com.metasoft.claim.controller.vo.TrackingSearchCriteriaVo;
 import com.metasoft.claim.controller.vo.TrackingSearchResultVo;
+import com.metasoft.claim.model.ClaimType;
 import com.metasoft.claim.model.SecUser;
 import com.metasoft.claim.model.TblClaimRecovery;
 import com.metasoft.claim.service.claim.ClaimService;
@@ -52,6 +54,7 @@ import com.metasoft.claim.service.claim.ReportService;
 import com.metasoft.claim.service.impl.DownloadService;
 import com.metasoft.claim.service.impl.ExporterService;
 import com.metasoft.claim.service.impl.TokenService;
+import com.metasoft.claim.service.standard.InsuranceService;
 import com.metasoft.claim.util.ThaiBaht;
 
 @Controller
@@ -64,6 +67,10 @@ public class TrackingAjaxController extends BaseAjaxController {
 
 	@Autowired
 	private TokenService tokenService;
+	@Autowired
+	private InsuranceService insuranceService;
+
+	
 
 	@RequestMapping(value = "/tracking/search", method = RequestMethod.POST)
 	public @ResponseBody
@@ -100,7 +107,7 @@ public class TrackingAjaxController extends BaseAjaxController {
 	String searchLabor(Model model,
 			@RequestParam(required = false) String paramJobDateStart,
 			@RequestParam(required = false) String paramJobDateEnd,
-			@RequestParam(required = false) String agentName,
+			@RequestParam(required = false) String paramAgentId,
 			@RequestParam(required = false) String paramClaimTypeId,
 			@RequestParam(required = false) String paramPageName,
 			@RequestParam(required = false) String paramFirstTime,
@@ -109,14 +116,16 @@ public class TrackingAjaxController extends BaseAjaxController {
 			@RequestParam(required = true) Integer start,
 			@RequestParam(required = true) Integer length) throws ParseException {
 		
+		System.out.println(">>>>> paramAgentId = "+paramAgentId);
+		
 		TrackingSearchResultVoPaging resultPaging = new TrackingSearchResultVoPaging();
 		resultPaging.setDraw(++draw);
 		if(new Boolean(paramFirstTime)){		
 			resultPaging.setRecordsFiltered(0L);
 			resultPaging.setRecordsTotal(0L);
-			resultPaging.setData(new ArrayList<TrackingSearchResultVo>());;
+			resultPaging.setData(new ArrayList<TrackingSearchResultVo>());
 		}else{
-			resultPaging = trackingService.searchPagingLabor(paramJobDateStart, paramJobDateEnd, agentName, paramClaimTypeId, start, length);
+			resultPaging = trackingService.searchPagingLabor(paramJobDateStart, paramJobDateEnd, paramAgentId, paramClaimTypeId, start, length);
 		}
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -125,63 +134,52 @@ public class TrackingAjaxController extends BaseAjaxController {
 	}
 		
 	@RequestMapping(value = "/tracking/export", method = RequestMethod.POST)
-	public void export(@RequestParam(required = true) Integer[] chk,
-			@RequestParam(required = false) String token, HttpSession session, HttpServletResponse response) throws ServletException,
-			IOException, JRException, Exception {
-
-		List<TrackingSearchResultVo> results = trackingService.searchExport(chk);
-
-		if (!results.isEmpty()) {
-			List<String> fileList = new ArrayList<String>();
-			List<InputStream> inputStreams = new ArrayList<InputStream>();
-
-			float totalWage = 0;
+	public void export(
+			@RequestParam(required = true) Integer[] chk,
+			@RequestParam(required = false) String token,
+			@RequestParam(required = true) String claimSearch,
+			@RequestParam(required = true) String companySearch,
+			HttpSession session, HttpServletResponse response) 
+			throws ServletException,IOException, JRException, Exception {
+		
+			String titleName = "";
+			String insuranceName = "";
+			HashMap<String,Object> params = new HashMap<String, Object>();
+			
+			System.out.println(">>>> claimSearch = "+claimSearch);
+			System.out.println(">>>> ClaimType.FAST_TRACK = "+ClaimType.FAST_TRACK);
+			
+			if (claimSearch != null) {
+					int temp = Integer.parseInt(claimSearch);
+				if (temp == ClaimType.FAST_TRACK.getId()) {
+					titleName = "หนังสือสัญญา เรียกร้องค่าสินไหมทดแทนรถยนต์แบบ Fast-Track";
+				} else if  (temp ==  ClaimType.KFK.getId()) {
+					titleName = "หนังสือสัญญา ตกลงไม่เรียกร้องค่าเสียหายซึ่งกันและกัน";
+				} else if (temp ==  ClaimType.REQUEST.getId()) {
+					titleName = "หนังสือสัญญา รื่องเรียกร้องค่าเสียหาย";
+				} else {
+					titleName = "หนังสือสัญญา";
+				}
+				params.put("titleName", titleName);
+			}
+			
+			if (companySearch != null ) {
+				insuranceName = insuranceService.findById(Integer.parseInt(companySearch)).getFullName();
+				params.put("insuranceFullName", insuranceName);
+			}
+			
+			List<TrackingSearchResultVo> results = trackingService.searchExport(chk);
 			List<TrackingSearchResultVo> exports = new ArrayList<TrackingSearchResultVo>();
 			
-			int i = 1;
-			HashMap<String,Object> param = new HashMap<String,Object>();
-			
-			ThaiBaht thaiBaht = new ThaiBaht();
 			for (TrackingSearchResultVo result : results) {
-					param = new HashMap<String,Object>();
-					ByteArrayOutputStream reportOut = downloadService.generateReportXLS(null,
-							session.getServletContext().getRealPath("/report/tracking"), ExporterService.EXTENSION_TYPE_EXCEL,
-							param, "Tracking", exports);
-					exports = new ArrayList<TrackingSearchResultVo>();
-					
-					if (reportOut != null) {
-						InputStream in = new ByteArrayInputStream(reportOut.toByteArray());
-						inputStreams.add(in);
-						fileList.add("Tracking" + i++);
-					}
 					exports.add(result);
 				}
-
-				
-
-			if (!exports.isEmpty()) {
-				param = new HashMap<String,Object>();
-				
-				ByteArrayOutputStream reportOut = downloadService.generateReportXLS(null,
-						session.getServletContext().getRealPath("/report/tracking"), ExporterService.EXTENSION_TYPE_EXCEL, param,
-						"Tracking", exports);
-				exports = new ArrayList<TrackingSearchResultVo>();
-
-				if (reportOut != null) {
-					InputStream in = new ByteArrayInputStream(reportOut.toByteArray());
-					inputStreams.add(in);
-					fileList.add("tracking" + i++ + ".xls");
-				}
+				downloadService.download(ExporterService.EXTENSION_TYPE_EXCEL, "tracking", session.getServletContext().getRealPath("/report/tracking"),
+					params,
+					exports, 
+					token, 
+					response);
 			}
-			String header = "";
-			header = "attachment; filename=tracking.zip";
-			OutputStream outs = null;
-			header = new String(header.getBytes("UTF-8"), "ISO8859_1");
-			outs = response.getOutputStream();
-			response.setHeader("Content-Disposition", header);
-			response.setContentType("application/ms-excel");
-			downloadService.writeZipFile(fileList, inputStreams, outs, token);
-		}
-	}
+	
 	
 }

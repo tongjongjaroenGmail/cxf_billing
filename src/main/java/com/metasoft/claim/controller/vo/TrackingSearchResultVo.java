@@ -4,50 +4,57 @@ import java.sql.Date;
 
 public class TrackingSearchResultVo {
 	 private int id;
-	 private String  accidentDate;
-	 private String claimAmount;
-	 private float claimInsuranceAmount;
-	 private String  claimNumber;
-	 private int   createBy;
-	 private String  createDate;
-	 private String  jobCancelRemark;
-	 private String  jobCloseRemark;
-	 private String   jobDate;
-	 private String  jobNo;
-	 private String  jobStartRemark;
-	 private String  licenseNumber;
-	 private String  maturityDate;
-	 private String  partyClaimNumber;
-	 private int  partyInsuranceId;
-	 private String  partyLicenseNumber;
-	 private String  partyPolicyNo;
-	 private String  policyNo;
-	 private float  requestAmount;
-	 private int   responsibility;
-	 private int  updateBy;
-	 private String   updateDate;
-	 private int  agentId;
-	 private String  claimType;
-	 private int   jobStatus;
-	 private int  insuranceId;
-	 private int  receiveType;
-	 private String insuranceName;
-	 private String closeDate;
-	 private String invoiceNumber;
-	 private int no;
-	 private String jobStaus;
-	 private String laborPrice;
-	 private String totalPrice;
-	 private String insuranceFullName;
-	 private String responseStatus;
-	 private String followRemark;
-	 private String followDate;
-	 private String titleName;
+	 private String  accidentDate = "";
+	 private String claimAmount = "";
+	 private float claimInsuranceAmount = 0;
+	 private String  claimNumber= "";
+	 private int   createBy = 0;
+	 private String  createDate = "";
+	 private String  jobCancelRemark= "";
+	 private String  jobCloseRemark= "";
+	 private String   jobDate= "";
+	 private String  jobNo= "";
+	 private String  jobStartRemark= "";
+	 private String  licenseNumber= "";
+	 private String  maturityDate= "";
+	 private String  partyClaimNumber= "";
+	 private int  partyInsuranceId=0;
+	 private String  partyLicenseNumber= "";
+	 private String  partyPolicyNo= "";
+	 private String  policyNo= "";
+	 private float  requestAmount=0;
+	 private int   responsibility=0;
+	 private int  updateBy=0;
+	 private String   updateDate= "";
+	 private int  agentId=0;
+	 private String  claimType="";
+	 private int   jobStatus=0;
+	 private int  insuranceId=0;
+	 private int  receiveType=0;
+	 private String insuranceName= "";
+	 private String closeDate= "";
+	 private String invoiceNumber= "";
+	 private int no=0;
+	 private String jobStaus= "";
+	 private String laborPrice= "";
+	 private String totalPrice= "";
+	 private String insuranceFullName= "";
+	 private String responseStatus= "";
+	 private String followRemark= "";
+	 private String followDate= "";
+	 private String titleName= "";
 	 private String claimId = "";
 	 private String agent="";
+	 private String agentName="";
 	 
 	
 	 
+	public String getAgentName() {
+		return agentName;
+	}
+	public void setAgentName(String agentName) {
+		this.agentName = agentName;
+	}
 	public int getId() {
 		return id;
 	}

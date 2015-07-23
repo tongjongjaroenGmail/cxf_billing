@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.jasperreports.engine.JRException;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +43,7 @@ import com.metasoft.claim.service.report.BillingService;
 import com.metasoft.claim.util.ThaiBaht;
 
 @Controller
-@RequestMapping("/report/labor")
+@RequestMapping("/labor")
 public class LaborAjaxController extends BaseAjaxController {
 	@Autowired
 	private ReportService reportService;
@@ -56,66 +57,114 @@ public class LaborAjaxController extends BaseAjaxController {
 
 	@RequestMapping(value = "/export", method = RequestMethod.POST)
 	public void export(@RequestParam(required = true) Integer[] chk,
-			@RequestParam(required = false) String token, HttpSession session, HttpServletResponse response) throws ServletException,
-			IOException, JRException, Exception {
+					  @RequestParam(required = false) String token,
+					  HttpSession session,
+					  HttpServletResponse response) throws ServletException,IOException, JRException, Exception {
 
+		System.out.println(">>>>>>>> labor export <<<<<<<");
+		
+		
 		List<LaborResultVo> results = reportService.searchExportLabor(chk);
-
-		if (!results.isEmpty()) {
-			List<String> fileList = new ArrayList<String>();
-			List<InputStream> inputStreams = new ArrayList<InputStream>();
-
-			float totalWage = 0;
-			List<LaborResultVo> exports = new ArrayList<LaborResultVo>();
-			
-			int i = 1;
-			HashMap<String,Object> param = new HashMap<String,Object>();
-			
-			ThaiBaht thaiBaht = new ThaiBaht();
-			for (LaborResultVo result : results) {
-				totalWage += result.getLaborPrice();
-				if (totalWage > 30000) {
-					param = new HashMap<String,Object>();
-					param.put("totalWage", totalWage - result.getLaborPrice());
-					param.put("totalWageThai", thaiBaht.getText(totalWage - result.getLaborPrice()));
-					ByteArrayOutputStream reportOut = downloadService.generateReportXLS(null,
-							session.getServletContext().getRealPath("/report/labor"), ExporterService.EXTENSION_TYPE_EXCEL,
-							param, "labor", exports);
-					exports = new ArrayList<LaborResultVo>();
-					totalWage = result.getLaborPrice();
-					if (reportOut != null) {
-						InputStream in = new ByteArrayInputStream(reportOut.toByteArray());
-						inputStreams.add(in);
-						fileList.add("labor" + i++);
-					}
-				}
-
+		List<LaborResultVo> exports = new ArrayList<LaborResultVo>();
+		
+		
+		for (LaborResultVo result : results) {
 				exports.add(result);
 			}
-
-			if (!exports.isEmpty()) {
-				param = new HashMap<String,Object>();
-				param.put("totalWage", totalWage);
-				param.put("totalWageThai", thaiBaht.getText(totalWage));
-				ByteArrayOutputStream reportOut = downloadService.generateReportXLS(null,
-						session.getServletContext().getRealPath("/report/labor"), ExporterService.EXTENSION_TYPE_EXCEL, param,
-						"labor", exports);
-				exports = new ArrayList<LaborResultVo>();
-
-				if (reportOut != null) {
-					InputStream in = new ByteArrayInputStream(reportOut.toByteArray());
-					inputStreams.add(in);
-					fileList.add("labor" + i++ + ".xls");
-				}
-			}
-			String header = "";
-			header = "attachment; filename=labor.zip";
-			OutputStream outs = null;
-			header = new String(header.getBytes("UTF-8"), "ISO8859_1");
-			outs = response.getOutputStream();
-			response.setHeader("Content-Disposition", header);
-			response.setContentType("application/ms-excel");
-			downloadService.writeZipFile(fileList, inputStreams, outs, token);
+			downloadService.download(ExporterService.EXTENSION_TYPE_EXCEL, "labor", session.getServletContext().getRealPath("/report/labor"),
+				new HashMap(),
+				exports, 
+				token, 
+				response);
 		}
-	}
+
+//
+//		if (!results.isEmpty()) {
+//			List<String> fileList = new ArrayList<String>();
+//			List<InputStream> inputStreams = new ArrayList<InputStream>();
+//
+//			float totalWage = 0;
+//			List<LaborResultVo> exports = new ArrayList<LaborResultVo>();
+//			
+//			int i = 1;
+//			HashMap<String,Object> param = new HashMap<String,Object>();
+//			
+//			ThaiBaht thaiBaht = new ThaiBaht();
+//			boolean isContinue = false;
+//			for (LaborResultVo result : results) {
+//				isContinue = false;
+//				totalWage += result.getLaborPrice();
+//				if (totalWage > 30000) {
+//					param = new HashMap<String,Object>();
+//					if(exports.size() == 0){
+//						param.put("totalWage", totalWage);
+//						param.put("totalWageThai", thaiBaht.getText(totalWage));
+//						exports.add(result);
+//						totalWage = 0;
+//						isContinue = true;
+//					}else{
+//						param.put("totalWage", totalWage - result.getLaborPrice());
+//						param.put("totalWageThai", thaiBaht.getText(totalWage - result.getLaborPrice()));
+//						totalWage = result.getLaborPrice();
+//					}
+//	
+//					ByteArrayOutputStream reportOut = downloadService.generateReportXLS(null,
+//							session.getServletContext().getRealPath("/report/labor"), ExporterService.EXTENSION_TYPE_EXCEL,
+//							param, "labor", exports);
+//					exports = new ArrayList<LaborResultVo>();
+//					
+//					if (reportOut != null) {
+//						InputStream in = new ByteArrayInputStream(reportOut.toByteArray());
+//						inputStreams.add(in);
+//						fileList.add("labor" + i++ + ".xls");
+//					}
+//					if(isContinue){
+//						continue;
+//					}
+//				}
+//
+//				exports.add(result);
+//			}
+//
+//			if (!exports.isEmpty()) {
+//				param = new HashMap<String,Object>();
+//				param.put("totalWage", totalWage);
+//				param.put("totalWageThai", thaiBaht.getText(totalWage));
+//				ByteArrayOutputStream reportOut = downloadService.generateReportXLS(null,
+//						session.getServletContext().getRealPath("/report/labor"), ExporterService.EXTENSION_TYPE_EXCEL, param,
+//						"labor", exports);
+//				exports = new ArrayList<LaborResultVo>();
+//
+//				if (reportOut != null) {
+//					InputStream in = new ByteArrayInputStream(reportOut.toByteArray());
+//					inputStreams.add(in);
+//					fileList.add("labor" + i++ + ".xls");
+//				}
+//			}
+//			String header = "";
+//
+//			OutputStream outs = null;	
+//			outs = response.getOutputStream();
+//
+//			if(fileList.size() > 1){
+//				header = "attachment; filename=labor.zip";
+//			}else{
+//				header = "attachment; filename=labor.xls";
+//			}		
+//			
+//			header = new String(header.getBytes("UTF-8"), "ISO8859_1");
+//			response.setHeader("Content-Disposition", header);
+//			response.setContentType("application/ms-excel");
+//			
+//			if(fileList.size() > 1){
+//				downloadService.writeZipFile(fileList, inputStreams, outs, token);
+//			}else{		
+//				byte[] bytes = IOUtils.toByteArray(inputStreams.get(0));
+//				ByteArrayOutputStream baos = new ByteArrayOutputStream(bytes.length);
+//				baos.write(bytes, 0, bytes.length);
+//				downloadService.write(token, response, baos);
+//				baos.close();
+//			}		
+//		}
+//	}
 }

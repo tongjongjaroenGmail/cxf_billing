@@ -33,6 +33,8 @@ public interface ReportService extends ModelBasedService<ReportDao, TblClaimReco
 	
 	public List<LaborResultVo> searchExportLabor(Integer[] ids);
 	
+//	public List<TrackingSearchResultVo> searchExportLabor(Integer[] ids);
+	
 
 	 
 }

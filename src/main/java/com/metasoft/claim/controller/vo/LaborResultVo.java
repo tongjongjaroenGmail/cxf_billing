@@ -5,7 +5,7 @@ import java.sql.Date;
 public class LaborResultVo {
 	
 	 private String  accidentDate;
-	 private String claimAmount;
+	 private float claimAmount;
 	 private String  claimNumber;
 	 private int  partyInsuranceId;
 	 private String  partyLicenseNumber;
@@ -28,10 +28,10 @@ public class LaborResultVo {
 	public void setAccidentDate(String accidentDate) {
 		this.accidentDate = accidentDate;
 	}
-	public String getClaimAmount() {
+	public float getClaimAmount() {
 		return claimAmount;
 	}
-	public void setClaimAmount(String claimAmount) {
+	public void setClaimAmount(float claimAmount) {
 		this.claimAmount = claimAmount;
 	}
 	public String getClaimNumber() {

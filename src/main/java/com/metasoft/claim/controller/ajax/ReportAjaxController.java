@@ -34,104 +34,106 @@ public class ReportAjaxController {
 
 	@Autowired
 	private TokenService tokenService;
-	
+
 	@Autowired
 	private ReportService reportService;
 
-
-	@RequestMapping(value="/download/progress")
-	public @ResponseBody StatusResponse checkDownloadProgress(@RequestParam String token) {
+	@RequestMapping(value = "/download/progress")
+	public @ResponseBody StatusResponse checkDownloadProgress(
+			@RequestParam String token) {
 		return new StatusResponse(true, tokenService.check(token));
 	}
-	
-	@RequestMapping(value="/download/token")
+
+	@RequestMapping(value = "/download/token")
 	public @ResponseBody StatusResponse getDownloadToken() {
 		return new StatusResponse(true, tokenService.generate());
 	}
-             
-	@RequestMapping(value="/work")
-	public void work(
-			@RequestParam(required = false) String txtJobDateStart,
-			@RequestParam(required = false) String txtJobDateEnd, 
-			@RequestParam(required = false) String selInsurance , 
+
+	@RequestMapping(value = "/work")
+	public void work(@RequestParam(required = false) String txtJobDateStart,
+			@RequestParam(required = false) String txtJobDateEnd,
+			@RequestParam(required = false) String selInsurance,
 			@RequestParam(required = false) String txtTotalDayOfMaturity,
 			@RequestParam(required = false) String selClaimType,
 			@RequestParam(required = false) String txtClaimNumber,
 			@RequestParam(required = false) String selJobStatus,
-			@RequestParam(required = false) String token,
-			HttpSession session,
-			HttpServletResponse response) throws ParseException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
-		
-		List<ClaimSearchResultVo> results = claimService.searchExport(txtJobDateStart, txtJobDateEnd, selInsurance, txtTotalDayOfMaturity, selClaimType, 
-				txtClaimNumber, selJobStatus);
+			@RequestParam(required = false) String token, HttpSession session,
+			HttpServletResponse response) throws ParseException,
+			IllegalAccessException, InstantiationException,
+			InvocationTargetException, NoSuchMethodException {
 
-		
-		downloadService.download(
-				ExporterService.EXTENSION_TYPE_EXCEL, 
-				"work", 
-				session.getServletContext().getRealPath("/report/work"), 
-				new HashMap(), 
-				results,
-				token, 
-				response);
-	}
-	
-	@RequestMapping(value="/tracking")
-	public void tracking(
-			
-			@RequestParam(required = false) String paramJobDateStart,
-			@RequestParam(required = false) String paramJobDateEnd,
-			@RequestParam(required = false) String paramPartyInsuranceId,
-			@RequestParam(required = false) String paramClaimTypeId,
-			@RequestParam(required = false) String paramPageName,
-			@RequestParam(required = false) String paramFirstTime,
-			@RequestParam(required = false) String token,
-			
-			HttpSession session,
-			HttpServletResponse response) throws ParseException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
-		
-//		List<ClaimSearchResultVo> results = reportService.searchExport(txtJobDateStart, txtJobDateEnd, selInsurance, txtTotalDayOfMaturity, selClaimType, 
-//				txtClaimNumber, selJobStatus);
-				List<TrackingSearchResultVo> results = reportService.trackingPrint(paramJobDateStart, paramJobDateEnd, paramPartyInsuranceId, paramClaimTypeId, "tracking");
+		List<ClaimSearchResultVo> results = claimService.searchExport(
+				txtJobDateStart, txtJobDateEnd, selInsurance,
+				txtTotalDayOfMaturity, selClaimType, txtClaimNumber,
+				selJobStatus);
 
-		
-		downloadService.download(
-				ExporterService.EXTENSION_TYPE_EXCEL, 
-				"Tracking", 
-				session.getServletContext().getRealPath("/report/tracking"), 
-				new HashMap(), 
-				results,
-				token, 
-				response);
+		downloadService.download(ExporterService.EXTENSION_TYPE_EXCEL, "work",
+				session.getServletContext().getRealPath("/report/work"),
+				new HashMap(), results, token, response);
 	}
-	
-	@RequestMapping(value="/labor")
-	public void labor(
-			
-			@RequestParam(required = false) String paramJobDateStart,
-			@RequestParam(required = false) String paramJobDateEnd,
-			@RequestParam(required = false) String agentName,
-			@RequestParam(required = false) String paramClaimTypeId,
-			@RequestParam(required = false) String paramPageName,
-			@RequestParam(required = false) String paramFirstTime,
-			@RequestParam(required = false) String token,
-			@RequestParam(required = false) String claimId,
-			
-			HttpSession session,
-			HttpServletResponse response) throws ParseException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
-		
-//		List<ClaimSearchResultVo> results = reportService.searchExport(txtJobDateStart, txtJobDateEnd, selInsurance, txtTotalDayOfMaturity, selClaimType, 
-//				txtClaimNumber, selJobStatus);
-				List<TrackingSearchResultVo> results = reportService.laborPrint(paramJobDateStart, paramJobDateEnd, agentName, paramClaimTypeId);
 
-		
-		downloadService.download(
-				ExporterService.EXTENSION_TYPE_EXCEL, 
-				"labor", 
-				session.getServletContext().getRealPath("/report/labor"), 
-				new HashMap(), 
-				results,
-				token, 
-				response);
-	}
+	// @RequestMapping(value="/tracking")
+	// public void tracking(
+	//
+	// @RequestParam(required = false) String paramJobDateStart,
+	// @RequestParam(required = false) String paramJobDateEnd,
+	// @RequestParam(required = false) String paramPartyInsuranceId,
+	// @RequestParam(required = false) String paramClaimTypeId,
+	// @RequestParam(required = false) String paramPageName,
+	// @RequestParam(required = false) String paramFirstTime,
+	// @RequestParam(required = false) String token,
+	//
+	// HttpSession session,
+	// HttpServletResponse response) throws ParseException,
+	// IllegalAccessException, InstantiationException,
+	// InvocationTargetException, NoSuchMethodException {
+	//
+	// // List<ClaimSearchResultVo> results =
+	// reportService.searchExport(txtJobDateStart, txtJobDateEnd, selInsurance,
+	// txtTotalDayOfMaturity, selClaimType,
+	// // txtClaimNumber, selJobStatus);
+	// List<TrackingSearchResultVo> results =
+	// reportService.trackingPrint(paramJobDateStart, paramJobDateEnd,
+	// paramPartyInsuranceId, paramClaimTypeId, "tracking");
+	//
+	//
+	// downloadService.download(
+	// ExporterService.EXTENSION_TYPE_EXCEL,
+	// "Tracking",
+	// session.getServletContext().getRealPath("/report/tracking"),
+	// new HashMap(),
+	// results,
+	// token,
+	// response);
+	// }
+
+//	@RequestMapping(value = "/labor")
+//	public void labor(
+//
+//	@RequestParam(required = false) String paramJobDateStart,
+//			@RequestParam(required = false) String paramJobDateEnd,
+//			@RequestParam(required = false) String agentName,
+//			@RequestParam(required = false) String paramClaimTypeId,
+//			@RequestParam(required = false) String paramPageName,
+//			@RequestParam(required = false) String paramFirstTime,
+//			@RequestParam(required = false) String token,
+//			@RequestParam(required = false) String claimId,
+//
+//			HttpSession session, HttpServletResponse response)
+//			throws ParseException, IllegalAccessException,
+//			InstantiationException, InvocationTargetException,
+//			NoSuchMethodException {
+//
+//		// List<ClaimSearchResultVo> results =
+//		// reportService.searchExport(txtJobDateStart, txtJobDateEnd,
+//		// selInsurance, txtTotalDayOfMaturity, selClaimType,
+//		// txtClaimNumber, selJobStatus);
+//		List<TrackingSearchResultVo> results = reportService
+//				.laborPrint(paramJobDateStart, paramJobDateEnd, agentName,
+//						paramClaimTypeId);
+//
+//		downloadService.download(ExporterService.EXTENSION_TYPE_EXCEL, "labor",
+//				session.getServletContext().getRealPath("/report/labor"),
+//				new HashMap(), results, token, response);
+//	}
 }
