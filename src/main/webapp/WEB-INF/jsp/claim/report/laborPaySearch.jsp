@@ -5,7 +5,7 @@
 <c:url value="/report/download/token" var="downloadTokenUrl"/>
 <c:url value="/report/download/progress" var="downloadProgressUrl"/>
 
-<form action="${pageContext.request.contextPath}/report/labor/export" method="post">
+<form action="${pageContext.request.contextPath}/labor/export" method="post">
 <div class="page-content col-xs-12">
 	<div class="page-header">
 		<h1>จ่ายค่าแรง
@@ -61,11 +61,16 @@
 				</div>
 				<div class="col-sm-3">		
 					<div class="input-group col-sm-12 no-padding-left">
-						<select class="col-sm-12" id="agentId">
+						<select class="col-sm-12" id="selSecUser">
 							<option value="">ทั้งหมด</option>
-							<c:forEach var="agent" items="${user}" varStatus="index">		
-								<option value="${user.id}">${user.name}</option>					
-							</c:forEach>
+<%-- 							<c:forEach var="selSecUser" items=${SecUser} varStatus="index"> --%>
+<%-- 							<option value=${SecUser.id}>${SecUser.Name}</option>		 --%>
+								<option value="2">สมศักดิ์ สมานมิตร </option>
+								<option value="3">ปิโยรส อภิรักษ์ภูสิทธิ์ </option>
+								<option value="4">อนุสรณ์ เกษมีฤทธิ์ </option>
+								<option value="5">บัณฑิต กฤษวงษ์ </option>
+								<option value="6">นัยนา ทรัพย์ธน </option>					
+<%-- 							</c:forEach> --%>
 						</select>
 					</div>
 				</div>
@@ -137,6 +142,7 @@
 					<th>เลขเคลม</th>
 					<th>บริษัทประกัน</th>
 					<th>ประเภทเคลม</th>
+					<th>ผู้รับผิดชอบ</th>
 				</tr>
 			</thead>
 
@@ -204,7 +210,9 @@ var pageName = "labor"
 
 $(document).ready(function() {
 	tblClaimBill = $("#tblClaimBill").dataTable(
-			{"aoColumns" : [ { "mData" : "claimId",
+			{   "lengthMenu": [[10, 25, 50, 100,200,300,400,500,600,700,800,900,1000], [10, 25, 50, 100,200,300,400,500,600,700,800,900,1000]],
+				'bAutoWidth': false ,
+				"aoColumns" : [ { "mData" : "claimId",
 				"bSortable": false,
 				'sWidth': '30px',
 				"mRender" : function (data, type, full) {
@@ -214,9 +222,10 @@ $(document).ready(function() {
 								{ "mData" : "closeDate" },
 								{ "mData" : "claimNumber"  },
 								{ "mData" : "insuranceName" },
-								{ "mData" : "claimType" }
+								{ "mData" : "claimType" },
+								{ "mData"  : "agentName"}
 							   ],
-				columnDefs: [{ type: 'date-dd/mm/yyyy', targets: 0 }],
+				columnDefs: [{ type: 'date-dd/mm/yyyy', targets: 1 }],
 				"processing": true,
                 "serverSide": true,
                 "bFilter": false,
@@ -226,7 +235,7 @@ $(document).ready(function() {
                     "data": function ( d ) {
                          d.paramJobDateStart       =  $("#divParamSearch").find("#txtJobDateStart").val(),  
                          d.paramJobDateEnd         =  $("#divParamSearch").find("#txtJobDateEnd").val(),  
-                         d.paramPartyInsuranceId   =  $("#divParamSearch").find("#agentId").val(),   
+                         d.paramAgentId  		   =  $("#divParamSearch").find("#selSecUser").val(),   
                          d.paramClaimTypeId        =  $("#divParamSearch").find("#selClaimType").val(),  
                          d.paramFirstTime          =  firstTime,
                          d.paramPageName		   =  pageName
@@ -322,10 +331,11 @@ function exportFile(token){
 // 	$("#divParamSearch").find('input,textarea,select').each(function() {
 // 		param += "&" + $(this).attr('id') + "=" + $(this).val();
 //     });  
-// 	window.location = '${pageContext.request.contextPath}/report/labor?' + param;
+// 	//window.location = '${pageContext.request.contextPath}/report/labor?' + param;
+// // 	window.location = '${pageContext.request.contextPath}/labor/export?' + param;
 // }
 
-</script>
+ </script>
 
 <div id='msgbox' title='' style='display:none'></div>
 		<input type="hidden" id="token" name="token">

@@ -215,13 +215,15 @@
 		$(document).ready(
 						function() {
 							tblClaimDt = $("#tblClaim").dataTable(
-											{"aoColumns" : [ { "mData" : "claimId",
+											{	"lengthMenu": [[10, 25, 50, 100,200,300,400,500,600,700,800,900,1000], [10, 25, 50, 100,200,300,400,500,600,700,800,900,1000]],
+												'bAutoWidth': false , 
+												"aoColumns" : [ { "mData" : "claimId",
 												"bSortable": false,
 												'sWidth': '30px',
 												"mRender" : function (data, type, full) {
 													return '<input name="chk" class="ace" type="checkbox" onclick="countTotalSelect();" value="' + data + '"><span class="lbl"></span></label>';
-												}	
-											},
+													}	
+												},
 											                 {"mData" : "followDate"}, 
 											                 {"mData" : "accidentDate"}, 
 											                 {"mData" : "policyNo"}, 
@@ -231,10 +233,7 @@
 															 {"mData" : "insuranceName"}, 
 															 {"mData" : "claimType"} 
 															],
-												columnDefs : [ {
-													type : 'date-dd/mm/yyyy',
-													targets : 0
-												} ],
+												columnDefs : [ { type : 'date-dd/mm/yyyy',targets : 1} ],
 												"processing" : true,
 												"serverSide" : true,
 												"bFilter": false,
@@ -304,7 +303,8 @@
 		}
 		function exportFile(token){
 			$("#token").val(token);
-			
+			$("#claimSearch").val($("#selClaimType").val());
+			$("#companySearch").val($("#selInsurance").val());
 			var form = document.forms[0];
 			form.submit();
 		}
@@ -314,4 +314,6 @@
 
 		<div id='msgbox' title='' style='display:none'></div>
 		<input type="hidden" id="token" name="token">
+		<input type="hidden" id="claimSearch" name="claimSearch">
+		<input type="hidden" id="companySearch" name="companySearch">
 		</form>

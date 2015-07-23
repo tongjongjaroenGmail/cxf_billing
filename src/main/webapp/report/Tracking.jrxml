@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="work" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" uuid="f47d0e5c-18a8-4682-8ca2-5d022141717e">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="521"/>
+	<property name="ireport.x" value="324"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="titleName" class="java.lang.String"/>
+	<parameter name="insuranceFullName" class="java.lang.String"/>
 	<field name="no" class="java.lang.Integer"/>
 	<field name="accidentDate" class="java.lang.String"/>
 	<field name="policyNo" class="java.lang.String"/>
@@ -31,12 +33,13 @@
 	</background>
 	<title>
 		<band height="30" splitType="Stretch">
-			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="842" height="30" uuid="0ce91b9a-e3ea-4ab4-804d-dc96934f00f8"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Angsana New" size="16" isBold="true"/>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="0" y="0" width="842" height="30" forecolor="#000000" backcolor="#FFFFFF" uuid="11536d67-5a78-4545-87ef-3f66e1949dbe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Angsana New" size="16" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{titleName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{titleName}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -56,21 +59,6 @@
 				</textElement>
 				<text><![CDATA[บริษัท ทิพยประกันภัย จำกัด(มหาชน) (ฝ่ายถูก)]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="467" y="0" width="226" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="a0102a4e-fe00-449c-bb5c-0d18c7b542c0"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
-					<font fontName="Angsana New" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{insuranceFullName}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="693" y="0" width="149" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="5dcc17d4-1595-4e04-9acd-8a63fa4a1e90"/>
 				<box>
@@ -86,6 +74,21 @@
 				</textElement>
 				<text><![CDATA[ ( ฝ่ายผิด)]]></text>
 			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="467" y="0" width="226" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="720200fe-6618-4102-a474-426868083389"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Angsana New" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{insuranceFullName}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -410,21 +413,6 @@
 				<textFieldExpression><![CDATA[$F{partyLicenseNumber}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="87" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="ded5cbde-fbf2-463f-add1-c48c9414b084"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="Angsana New" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{policyNo}]]></textFieldExpression>
-			</textField>
-			<textField pattern="" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="771" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="58dfa4dd-162d-48a6-baba-b7c38729efcb"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -454,6 +442,21 @@
 				</textElement>
 				<text><![CDATA[]]></text>
 			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="87" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="f018972e-c349-4921-8b12-566740c0d7e6"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Angsana New" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{policyNo}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<summary>
@@ -517,13 +520,6 @@
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="42" width="158" height="21" uuid="766b2ee9-2a1a-449e-abc0-81a2947a0a0e"/>
-				<textElement>
-					<font fontName="Angsana New" size="12"/>
-				</textElement>
-				<text><![CDATA[ลงชื่อ]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="0" y="21" width="158" height="21" uuid="e872dfba-f34b-4756-b71b-7eb6599cb571"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
@@ -531,14 +527,14 @@
 				<text><![CDATA[ลงชื่อ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="158" y="21" width="71" height="21" uuid="7624a027-1ffa-4656-aebe-2801bbd9f226"/>
+				<reportElement x="158" y="21" width="309" height="21" uuid="7624a027-1ffa-4656-aebe-2801bbd9f226"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
 				<text><![CDATA[ผู้ดำเนินการเรียกร้อง]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="158" y="42" width="309" height="21" uuid="833b9443-db9a-485c-b9f6-5d2a9f3aa335"/>
+				<reportElement x="158" y="63" width="309" height="21" uuid="833b9443-db9a-485c-b9f6-5d2a9f3aa335"/>
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
@@ -592,24 +588,43 @@
 					<font fontName="Angsana New" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{sumRequestAmount}]]></textFieldExpression>
-			</textField>
-			<textField pattern="" isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="551" y="0" width="71" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="d5d0e840-9e0c-45c8-9964-18373c0d97ca"/>
-				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" markup="none">
-					<font fontName="Angsana New" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{countCol}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="229" y="21" width="238" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="154c3465-c16a-4634-9d76-f104ec3971b2"/>
+				<reportElement mode="Transparent" x="0" y="42" width="467" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="154c3465-c16a-4634-9d76-f104ec3971b2"/>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
 					<font fontName="Angsana New" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{agent}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="63" width="158" height="21" uuid="b7df7bc6-a32a-4fd6-a8c1-ae1a75c44044"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<text><![CDATA[ลงชื่อ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="551" y="0" width="71" height="21" uuid="bd69c8d8-233d-4a92-9030-306d29a07f7c"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="771" y="63" width="71" height="21" uuid="c9c7ea8e-9838-452e-99be-98f91d4c78dc"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy", new java.util.Locale("th","TH")).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="467" y="63" width="155" height="21" uuid="3cc903b3-35d2-40bb-af5b-fa3551b418e5"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
 		</band>
 	</summary>
 </jasperReport>
