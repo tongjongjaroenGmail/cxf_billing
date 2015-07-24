@@ -37,6 +37,7 @@ import com.metasoft.claim.service.impl.DownloadService;
 import com.metasoft.claim.service.impl.ExporterService;
 import com.metasoft.claim.service.impl.TokenService;
 import com.metasoft.claim.service.report.BillingService;
+import com.metasoft.claim.util.NumberToolsUtil;
 import com.metasoft.claim.util.ThaiBaht;
 
 @Controller
@@ -110,7 +111,7 @@ public class BillingAjaxController extends BaseAjaxController {
 						param.put("totalWageThai", thaiBaht.getText(totalWage - result.getWage()));
 						totalWage = result.getWage();
 					}
-	
+					param.put("totalClaim", NumberToolsUtil.integerFormat(exports.size()));
 					ByteArrayOutputStream reportOut = downloadService.generateReportXLS(null,
 							session.getServletContext().getRealPath("/report/billing"), ExporterService.EXTENSION_TYPE_EXCEL,
 							param, "billing", exports);
@@ -131,6 +132,7 @@ public class BillingAjaxController extends BaseAjaxController {
 
 			if (!exports.isEmpty()) {
 				param = new HashMap<String,Object>();
+				param.put("totalClaim", NumberToolsUtil.integerFormat(exports.size()));
 				param.put("totalWage", totalWage);
 				param.put("totalWageThai", thaiBaht.getText(totalWage));
 				ByteArrayOutputStream reportOut = downloadService.generateReportXLS(null,

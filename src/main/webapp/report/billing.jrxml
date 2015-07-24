@@ -5,6 +5,7 @@
 	<property name="ireport.y" value="0"/>
 	<parameter name="totalWageThai" class="java.lang.String"/>
 	<parameter name="totalWage" class="java.lang.Float"/>
+	<parameter name="totalClaim" class="java.lang.String"/>
 	<field name="no" class="java.lang.Integer"/>
 	<field name="closeDate" class="java.util.Date"/>
 	<field name="jobNo" class="java.lang.String"/>
@@ -44,13 +45,20 @@
 				</textElement>
 				<text><![CDATA[เรียน แผนกบริหาร]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="0" y="60" width="595" height="20" uuid="9be898dd-4853-4be9-9126-ba90b51e44d4"/>
-				<textElement verticalAlignment="Middle">
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="60" width="595" height="20" isPrintWhenDetailOverflows="true" uuid="4ebaa3c0-2c4f-478c-bca5-c57f74dc31ab"/>
+				<box leftPadding="3" rightPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
 					<font fontName="AngsanaUPC" size="14"/>
+					<paragraph lineSpacing="1_1_2"/>
 				</textElement>
-				<text><![CDATA[เรื่อง ดำเนินการวางบิลค่าบริการงานเรียกร้องประกันภัย จำนวน ... เรื่อง ( ตามเอกสารแนบ )]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA["เรื่อง ดำเนินการวางบิลค่าบริการงานเรียกร้องประกันภัย จำนวน " + $P{totalClaim} + " เรื่อง ( ตามเอกสารแนบ )"]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -357,7 +365,7 @@
 	<lastPageFooter>
 		<band height="160">
 			<staticText>
-				<reportElement x="0" y="20" width="363" height="20" uuid="841bd9d4-08fa-44a0-bea9-14d992da3615"/>
+				<reportElement x="227" y="20" width="136" height="20" uuid="841bd9d4-08fa-44a0-bea9-14d992da3615"/>
 				<box leftPadding="0" rightPadding="0">
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
@@ -383,7 +391,7 @@
 				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="31" y="40" width="59" height="20" uuid="434af98a-22fd-4e9e-9645-5eded50b785f"/>
+				<reportElement x="31" y="20" width="59" height="20" uuid="434af98a-22fd-4e9e-9645-5eded50b785f"/>
 				<box leftPadding="0" rightPadding="0">
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
@@ -396,7 +404,7 @@
 				<text><![CDATA[ผู้จ่ายงาน]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="90" y="40" width="137" height="20" uuid="b69d8995-937c-4d8c-bc00-5aeccc108ffb"/>
+				<reportElement x="90" y="20" width="137" height="20" uuid="b69d8995-937c-4d8c-bc00-5aeccc108ffb"/>
 				<box leftPadding="0" rightPadding="0">
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
@@ -409,7 +417,7 @@
 				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="90" y="60" width="137" height="20" uuid="c41359d0-3908-4b05-a60b-95d83391b5ef"/>
+				<reportElement x="90" y="40" width="137" height="20" uuid="c41359d0-3908-4b05-a60b-95d83391b5ef"/>
 				<box leftPadding="0" rightPadding="0">
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
@@ -422,7 +430,7 @@
 				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="31" y="80" width="196" height="20" uuid="57a8c8f3-a98f-4844-8c80-b5b989fef0eb"/>
+				<reportElement x="31" y="60" width="196" height="20" uuid="57a8c8f3-a98f-4844-8c80-b5b989fef0eb"/>
 				<box leftPadding="0" rightPadding="0">
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
@@ -513,7 +521,7 @@
 				<text><![CDATA[รองกรรมการผู้จัดการ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="31" y="60" width="59" height="20" uuid="df4189f2-09cd-4f00-b635-847a77a99a4f"/>
+				<reportElement x="31" y="40" width="59" height="20" uuid="df4189f2-09cd-4f00-b635-847a77a99a4f"/>
 				<box leftPadding="0" rightPadding="0">
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
@@ -526,7 +534,7 @@
 				<text><![CDATA[(]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="227" y="60" width="136" height="20" uuid="60bc03fa-701e-41bb-9490-9f9a95d41999"/>
+				<reportElement x="227" y="40" width="136" height="20" uuid="60bc03fa-701e-41bb-9490-9f9a95d41999"/>
 				<box leftPadding="0" rightPadding="0">
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
@@ -537,6 +545,20 @@
 					<font fontName="AngsanaUPC" size="14"/>
 				</textElement>
 				<text><![CDATA[)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="595" height="20" uuid="ce785ec5-df47-453d-8916-a84ea2b166e8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="595" height="20" uuid="aa89ca73-13bc-445e-98d1-53ad823331cb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[]]></text>
 			</staticText>
 		</band>
 	</lastPageFooter>
