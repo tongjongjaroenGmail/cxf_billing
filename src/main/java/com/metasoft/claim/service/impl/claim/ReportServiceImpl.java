@@ -235,7 +235,7 @@ public class ReportServiceImpl extends
 
 				if (claim.getLicenseNumber() != null) {
 					vo.setLicenseNumber(claim.getLicenseNumber());
-				}
+				} 
 				if (claim.getClaimAmount() != null) {
 					vo.setClaimAmount(String.valueOf(claim.getClaimAmount()));
 				}
@@ -251,7 +251,10 @@ public class ReportServiceImpl extends
 					vo.setAgentName(claim.getAgent().getName()+" "+claim.getAgent().getLastName());
 					
 				}
-
+				if(claim.getId() != null ){
+					vo.setClaimId(String.valueOf(claim.getId()));
+					
+				}
 				voPaging.getData().add(vo);
 			}
 
@@ -620,8 +623,10 @@ public class ReportServiceImpl extends
 	@Override
 	public List<LaborResultVo> searchExportLabor(Integer[] ids) {
 		System.out.println(">>>>>>>>>> searchExportLabor >>>>>>>>");
+		
 		List<TblClaimRecovery> results = claimDao.findByIds(ids);
-
+		System.out.println(">>>>>>>>>> searchExportLabor >>> results.size() = "+results.size());
+		
 		List<LaborResultVo> vos = new ArrayList<LaborResultVo>();
 		
 		try{
@@ -653,10 +658,7 @@ public class ReportServiceImpl extends
 				}
 
 				
-				if (claim.getRequestAmount() != null) {
-					vo.setRequestAmount(claim.getRequestAmount());
-				}
-
+				
 				if (claim.getJobStatus() != null) {
 					vo.setJobStaus(claim.getJobStatus().getName());
 
@@ -671,19 +673,19 @@ public class ReportServiceImpl extends
 					vo.setPartyLicenseNumber(claim.getPartyLicenseNumber());
 					
 				}
+				System.out.println(">>>>>>>> getLaborPrice");
 				if (claim.getClaimType().equals(ClaimType.FAST_TRACK)) {
-					vo.setLaborPrice(80);
+					vo.setLaborPrice("80.00");
 					
 				}else if (claim.getClaimType().equals(ClaimType.KFK)) {
-					vo.setLaborPrice(80);
+					vo.setLaborPrice("80.00");
 				}else if (claim.getClaimType().equals(ClaimType.REQUEST)){
-					vo.setLaborPrice(100);
+					vo.setLaborPrice("100.00");
 				}
-				
+				System.out.println(">>>>>>>> getClaimAmount()");
 				if (claim.getClaimAmount() != null) {
 					vo.setClaimAmount(claim.getClaimAmount());
 			   }
-				
 				
 				vos.add(vo);
 			}

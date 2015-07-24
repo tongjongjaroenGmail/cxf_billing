@@ -61,18 +61,28 @@ public class LaborAjaxController extends BaseAjaxController {
 					  HttpSession session,
 					  HttpServletResponse response) throws ServletException,IOException, JRException, Exception {
 
-		System.out.println(">>>>>>>> labor export <<<<<<<");
+		System.out.println(">>>>>>>> labor export >> chk = "+chk.length);
 		
 		
 		List<LaborResultVo> results = reportService.searchExportLabor(chk);
+		System.out.println(">>>>>>>> results.size() = "+results.size());
+		
 		List<LaborResultVo> exports = new ArrayList<LaborResultVo>();
 		
-		
+		float totalAmount = 0;
+		ThaiBaht thaiBaht = new ThaiBaht();
 		for (LaborResultVo result : results) {
-				exports.add(result);
+			totalAmount =+ result.getClaimAmount();
+			exports.add(result);
 			}
+		
+		HashMap<String,Object> params = new HashMap<String, Object>();
+		params.put("totalAmountThai", thaiBaht.getText(totalAmount));
+		
+		
+			System.out.println(">>> totalAmountThai = "+thaiBaht.getText(totalAmount));
 			downloadService.download(ExporterService.EXTENSION_TYPE_EXCEL, "labor", session.getServletContext().getRealPath("/report/labor"),
-				new HashMap(),
+					params,
 				exports, 
 				token, 
 				response);
