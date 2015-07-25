@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="work" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" uuid="f47d0e5c-18a8-4682-8ca2-5d022141717e">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="324"/>
+	<property name="ireport.x" value="498"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="titleName" class="java.lang.String"/>
 	<parameter name="insuranceFullName" class="java.lang.String"/>
@@ -538,7 +538,7 @@
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
-				<text><![CDATA[ผู้จัดการวฝ่ายสินไหมทดแทนยานยนต์(ฝ่ายถูก)]]></text>
+				<text><![CDATA[ผู้จัดการฝ่ายสินไหมทดแทนยานยนต์(ฝ่ายถูก)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="467" y="21" width="155" height="21" uuid="8a1cde91-9b9c-42bc-9449-01c64e813a64"/>
@@ -573,7 +573,7 @@
 				<textElement>
 					<font fontName="Angsana New" size="12"/>
 				</textElement>
-				<text><![CDATA[ผู้จัดการวฝ่ายสินไหมทดแทนยานยนต์(ฝ่ายผิด)]]></text>
+				<text><![CDATA[ผู้จัดการฝ่ายสินไหมทดแทนยานยนต์(ฝ่ายผิด)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="693" y="63" width="78" height="21" uuid="2f85c86d-590f-40ba-b24e-3119ebff0779"/>

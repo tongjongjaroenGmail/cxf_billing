@@ -16,7 +16,7 @@ public class LaborResultVo {
 	 private String insuranceName;
 	 private int no;
 	 private String jobStaus;
-	 private String laborPrice;
+	 private float laborPrice;
 	 
 	public String getAccidentDate() {
 		return accidentDate;
@@ -93,10 +93,10 @@ public class LaborResultVo {
 	public void setJobStaus(String jobStaus) {
 		this.jobStaus = jobStaus;
 	}
-	public String getLaborPrice() {
+	public float getLaborPrice() {
 		return laborPrice;
 	}
-	public void setLaborPrice(String laborPrice) {
+	public void setLaborPrice(float laborPrice) {
 		this.laborPrice = laborPrice;
 	}
 

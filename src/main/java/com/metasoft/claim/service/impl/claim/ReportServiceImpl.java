@@ -675,12 +675,12 @@ public class ReportServiceImpl extends
 				}
 				System.out.println(">>>>>>>> getLaborPrice");
 				if (claim.getClaimType().equals(ClaimType.FAST_TRACK)) {
-					vo.setLaborPrice("80.00");
+					vo.setLaborPrice(80);
 					
 				}else if (claim.getClaimType().equals(ClaimType.KFK)) {
-					vo.setLaborPrice("80.00");
+					vo.setLaborPrice(80);
 				}else if (claim.getClaimType().equals(ClaimType.REQUEST)){
-					vo.setLaborPrice("100.00");
+					vo.setLaborPrice(100);
 				}
 				System.out.println(">>>>>>>> getClaimAmount()");
 				if (claim.getClaimAmount() != null) {

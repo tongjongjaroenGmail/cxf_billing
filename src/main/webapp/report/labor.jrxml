@@ -7,14 +7,14 @@
 	<field name="no" class="java.lang.String"/>
 	<field name="accidentDate" class="java.lang.String"/>
 	<field name="claimNumber" class="java.lang.String"/>
-	<field name="claimAmount" class="java.lang.String"/>
+	<field name="claimAmount" class="java.lang.Float"/>
 	<field name="insuranceName" class="java.lang.String"/>
 	<field name="claimType" class="java.lang.String"/>
-	<field name="laborPrice" class="java.lang.String"/>
-	<variable name="totalAmount" class="java.lang.String" calculation="Sum">
+	<field name="laborPrice" class="java.lang.Float"/>
+	<variable name="totalAmount" class="java.lang.Float" calculation="Sum">
 		<variableExpression><![CDATA[$F{claimAmount}]]></variableExpression>
 	</variable>
-	<variable name="totalLaborPrice" class="java.lang.String" calculation="Sum">
+	<variable name="totalLaborPrice" class="java.lang.Float" calculation="Sum">
 		<variableExpression><![CDATA[$F{laborPrice}]]></variableExpression>
 	</variable>
 	<background>
@@ -498,7 +498,7 @@
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement>
+				<textElement textAlignment="Center">
 					<font fontName="Angsana New" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalAmountThai}]]></textFieldExpression>

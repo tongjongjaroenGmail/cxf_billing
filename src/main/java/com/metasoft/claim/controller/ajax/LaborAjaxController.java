@@ -72,9 +72,12 @@ public class LaborAjaxController extends BaseAjaxController {
 		float totalAmount = 0;
 		ThaiBaht thaiBaht = new ThaiBaht();
 		for (LaborResultVo result : results) {
-			totalAmount =+ result.getClaimAmount();
+			float tempLaborPrice = Float.valueOf(result.getLaborPrice());
+			totalAmount = totalAmount + tempLaborPrice;
+			System.out.println(">>>>>> totalAmount = "+totalAmount);
 			exports.add(result);
 			}
+		
 		
 		HashMap<String,Object> params = new HashMap<String, Object>();
 		params.put("totalAmountThai", thaiBaht.getText(totalAmount));

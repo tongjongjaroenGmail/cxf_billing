@@ -142,14 +142,14 @@ public class TrackingAjaxController extends BaseAjaxController {
 			HttpSession session, HttpServletResponse response) 
 			throws ServletException,IOException, JRException, Exception {
 		
-			String titleName = "";
-			String insuranceName = "";
+			String titleName = "หนังสือสัญญา";
+			String insuranceName = "บริษัท ";
 			HashMap<String,Object> params = new HashMap<String, Object>();
 			
 			System.out.println(">>>> claimSearch = "+claimSearch);
 			System.out.println(">>>> ClaimType.FAST_TRACK = "+ClaimType.FAST_TRACK);
 			
-			if (claimSearch != null) {
+			if (claimSearch != null && !claimSearch.equals("")) {
 					int temp = Integer.parseInt(claimSearch);
 				if (temp == ClaimType.FAST_TRACK.getId()) {
 					titleName = "หนังสือสัญญา เรียกร้องค่าสินไหมทดแทนรถยนต์แบบ Fast-Track";
@@ -161,10 +161,14 @@ public class TrackingAjaxController extends BaseAjaxController {
 					titleName = "หนังสือสัญญา";
 				}
 				params.put("titleName", titleName);
+			} else {
+				params.put("titleName", titleName);
 			}
 			
-			if (companySearch != null ) {
+			if (companySearch != null && !companySearch.equals("")) {
 				insuranceName = insuranceService.findById(Integer.parseInt(companySearch)).getFullName();
+				params.put("insuranceFullName", insuranceName);
+			} else {
 				params.put("insuranceFullName", insuranceName);
 			}
 			
