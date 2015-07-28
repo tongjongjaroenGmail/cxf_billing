@@ -210,7 +210,7 @@ var pageName = "labor"
 
 $(document).ready(function() {
 	tblClaimBill = $("#tblClaimBill").dataTable(
-			{   "lengthMenu": [[10, 25, 50, 100,200,300,400,500,600,700,800,900,1000], [10, 25, 50, 100,200,300,400,500,600,700,800,900,1000]],
+			{   "lengthMenu": [[10,15,20, 25, 50, 100,200,300,400,500,600,700,800,900,1000], [10,15,20, 25, 50, 100,200,300,400,500,600,700,800,900,1000]],
 				'bAutoWidth': false ,
 				"aoColumns" : [ { "mData" : "claimId",
 				"bSortable": false,

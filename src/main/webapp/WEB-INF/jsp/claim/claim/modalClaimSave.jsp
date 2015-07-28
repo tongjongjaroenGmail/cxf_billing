@@ -150,7 +150,7 @@
 								
 								<div class="col-sm-2 no-padding-left">	
 									<div class="input-group col-sm-12 no-padding-left no-padding-right">
-										<select class="col-sm-12" id="selClaimType">
+										<select class="col-sm-12" id="selClaimType" title="ประเภทเคลม">
 											<c:forEach var="claimType" items="${claimTypes}" varStatus="index">		
 												<option value="${claimType.id}">${claimType.name}</option>					
 											</c:forEach>
