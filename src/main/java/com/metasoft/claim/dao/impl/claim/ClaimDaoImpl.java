@@ -237,7 +237,7 @@ public class ClaimDaoImpl extends AbstractDaoImpl<TblClaimRecovery, Integer> imp
 			if (claimType != null) {
 				criteria.add(Restrictions.eq("claimType", claimType));
 			}
-
+			criteria.addOrder(Order.asc("claimType"));
 			criteria.addOrder(Order.asc("claimNumber"));
 			criteria.setFirstResult(start);
 			criteria.setMaxResults(length);

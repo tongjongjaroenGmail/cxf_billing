@@ -205,6 +205,7 @@ $('.date-picker').datepicker({autoclose:true}).next().on(ace.click_event, functi
 
 var tblClaimDt;
 var firstTime = true;
+var isSearch = false;
 var selJobStatusOptions = {
 		<c:forEach var="jobStatus" items="${jobStatuses}" varStatus="index">		
 			${jobStatus.id} : '${jobStatus.name}',		
@@ -269,6 +270,8 @@ function search(){
 	delay(function(){
 		tblClaimDt.fnDraw();
 	}, 1000 );
+	
+	isSearch = true;
 }
 
 function setPageForAdd(){
@@ -388,10 +391,13 @@ function save(){
 			}
 			
 			if(data.error == false){
-				$("#modalSave").find("#txtClaimId").val(data.result.id);
-				$("#modalSave").find("#txtJobNo").val(data.result.jobNo);		
+				find(data.result.id);
 				
-				setPageForEdit($("#modalSave").find("#selAgent").val());
+				if(isSearch){
+					delay(function(){
+						tblClaimDt.fnDraw();
+					}, 1000 );
+				}
 			}
 		}
 	});

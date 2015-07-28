@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class BillingExportResult {
 	private int no;
+	private Date accidentDate;
 	private Date closeDate;
 	private String jobNo;
 	private String claimNumber;
@@ -13,7 +14,13 @@ public class BillingExportResult {
 	private Float wage;
 	private Float claimAmount;
 	private String receiveMoneyType;
-
+	
+	public Date getAccidentDate() {
+		return accidentDate;
+	}
+	public void setAccidentDate(Date accidentDate) {
+		this.accidentDate = accidentDate;
+	}
 	public String getReceiveMoneyType() {
 		return receiveMoneyType;
 	}

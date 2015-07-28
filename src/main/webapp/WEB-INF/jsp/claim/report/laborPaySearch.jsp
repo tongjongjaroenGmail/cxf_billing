@@ -56,13 +56,13 @@
 			<div class="table-responsive">
 				<div class="col-sm-2">		
 					<div class="input-group col-sm-12 no-padding-left" style="text-align: right;">
-						<b>ผู้รับผิดชอบ: </b> 
+						<b>ผู้รับผิดชอบ * : </b> 
 					</div>
 				</div>
 				<div class="col-sm-3">		
 					<div class="input-group col-sm-12 no-padding-left">
-						<select class="col-sm-12" id="selSecUser">
-							<option value="">ทั้งหมด</option>
+						<select class="col-sm-12 require" id="selSecUser" title="ผู้รับผิดชอบ">
+							<option value=""></option>
 <%-- 							<c:forEach var="selSecUser" items=${SecUser} varStatus="index"> --%>
 <%-- 							<option value=${SecUser.id}>${SecUser.Name}</option>		 --%>
 								<option value="2">สมศักดิ์ สมานมิตร </option>
@@ -253,6 +253,10 @@ function countTotalSelect(chk)
 	$("#lblTotalSelect").html($("[name='chk']:checked").size());
 }
 function search(){
+	if(!validate("divParamSearch")){
+		return;
+	}
+	
 	delay(function(){
 		tblClaimBill.fnDraw();
 	}, 1000 );

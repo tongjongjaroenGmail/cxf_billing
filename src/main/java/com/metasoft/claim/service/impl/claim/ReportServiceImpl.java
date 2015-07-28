@@ -642,10 +642,14 @@ public class ReportServiceImpl extends
 				if (claim.getClaimType() != null) {
 					vo.setClaimType(claim.getClaimType().getName());
 				}
+				
 				if (claim.getPartyInsurance() != null) {
 					vo.setInsuranceName(claim.getPartyInsurance().getName());
 				}
 				
+				if(claim.getAgent() != null){
+					vo.setAgentId(claim.getAgent().getId());
+				}	
 
 				if (claim.getAccidentDate() != null) {
 					vo.setAccidentDate(DateToolsUtil.convertToString(

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="labor" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b1308d65-6935-4e02-8c6b-f473f8223e62">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="24"/>
 	<parameter name="totalAmountThai" class="java.lang.String"/>
+	<parameter name="agentName" class="java.lang.String"/>
 	<field name="no" class="java.lang.String"/>
 	<field name="accidentDate" class="java.lang.String"/>
 	<field name="claimNumber" class="java.lang.String"/>
@@ -21,7 +22,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="38" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="555" height="30" uuid="d5c6f143-f2b1-4f36-be39-47d46109c8b5"/>
 				<box leftPadding="3" rightPadding="3">
@@ -40,27 +41,34 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="84" splitType="Stretch">
+		<band height="88" splitType="Stretch">
 			<staticText>
-				<reportElement x="-1" y="36" width="556" height="24" uuid="733dc8fe-e44c-433b-814c-3f0a595a1cc3"/>
+				<reportElement x="0" y="22" width="555" height="22" uuid="733dc8fe-e44c-433b-814c-3f0a595a1cc3"/>
 				<textElement>
 					<font fontName="Angsana New" size="14"/>
 				</textElement>
 				<text><![CDATA[เรียน กรรมการผู้จัดการ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-1" y="60" width="556" height="24" uuid="ddc6e031-626b-43b2-822d-3a42993e1c68"/>
+				<reportElement x="0" y="44" width="555" height="22" uuid="ddc6e031-626b-43b2-822d-3a42993e1c68"/>
 				<textElement textAlignment="Center">
 					<font fontName="Angsana New" size="14"/>
 				</textElement>
 				<text><![CDATA[เพื่อโปรดพิจารณาอนุมัติจ่าย]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="-1" y="14" width="555" height="20" uuid="af1f5bd3-6fe7-4889-ad16-1a64faba9e36"/>
+				<reportElement x="0" y="0" width="555" height="22" uuid="af1f5bd3-6fe7-4889-ad16-1a64faba9e36"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="AngsanaUPC" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy", new java.util.Locale("th","TH")).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="66" width="555" height="22" uuid="a9163fc8-6b92-496a-bd76-dda176fe966d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{agentName}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -169,7 +177,7 @@
 					<font fontName="Angsana New" size="14" isBold="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[ยวดรวม]]></text>
+				<text><![CDATA[ยอดรวม]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -285,7 +293,7 @@
 	<pageFooter>
 		<band height="189" splitType="Stretch">
 			<staticText>
-				<reportElement x="294" y="0" width="260" height="21" uuid="ccee3fb1-88e0-4edd-8a48-3c978bb06062"/>
+				<reportElement x="294" y="0" width="261" height="21" uuid="ccee3fb1-88e0-4edd-8a48-3c978bb06062"/>
 				<textElement>
 					<font fontName="Angsana New" size="14"/>
 				</textElement>
@@ -300,7 +308,7 @@
 				<text><![CDATA[(นายสมศักดิ์ สมานมิตร)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="294" y="42" width="260" height="21" uuid="065f5e8b-278f-418e-8680-c6addc268fd1"/>
+				<reportElement x="294" y="42" width="261" height="21" uuid="065f5e8b-278f-418e-8680-c6addc268fd1"/>
 				<textElement textAlignment="Center">
 					<font fontName="Angsana New" size="14"/>
 				</textElement>
@@ -314,7 +322,7 @@
 				<text><![CDATA[(นายโกสนธ์ พิศภา)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="294" y="63" width="260" height="21" uuid="3efcd0f1-0627-4951-b80b-71be8e7e3f6d"/>
+				<reportElement x="294" y="63" width="261" height="21" uuid="3efcd0f1-0627-4951-b80b-71be8e7e3f6d"/>
 				<textElement>
 					<font fontName="Angsana New" size="14"/>
 				</textElement>
@@ -356,7 +364,7 @@
 				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-1" y="21" width="295" height="21" uuid="2ea1c00f-229e-4030-801a-19316a85bf1e"/>
+				<reportElement x="0" y="21" width="294" height="21" uuid="2ea1c00f-229e-4030-801a-19316a85bf1e"/>
 				<textElement>
 					<font fontName="Angsana New" size="14"/>
 				</textElement>
@@ -398,7 +406,7 @@
 				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-1" y="147" width="295" height="21" uuid="de64141f-9bc4-4bdb-b7d4-4157076901e2"/>
+				<reportElement x="0" y="147" width="294" height="21" uuid="de64141f-9bc4-4bdb-b7d4-4157076901e2"/>
 				<textElement>
 					<font fontName="Angsana New" size="14"/>
 				</textElement>
@@ -447,21 +455,8 @@
 				</textElement>
 				<text><![CDATA[]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="211" y="21" width="344" height="20" uuid="1b686735-31aa-48a0-89a9-d027bf70528f"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="AngsanaUPC" size="14"/>
-				</textElement>
-				<text><![CDATA[]]></text>
-			</staticText>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="211" y="1" width="83" height="20" uuid="f602e276-1e87-488f-8400-51abbcdba72e"/>
+				<reportElement x="211" y="0" width="83" height="21" uuid="f602e276-1e87-488f-8400-51abbcdba72e"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -475,7 +470,7 @@
 				<textFieldExpression><![CDATA[$V{totalAmount}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="483" y="1" width="71" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="d7948cde-f6a1-412e-b50f-34654a7f6a3b"/>
+				<reportElement mode="Transparent" x="483" y="0" width="72" height="21" forecolor="#000000" backcolor="#FFFFFF" uuid="d7948cde-f6a1-412e-b50f-34654a7f6a3b"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>

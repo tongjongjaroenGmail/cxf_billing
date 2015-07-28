@@ -156,7 +156,7 @@ public class TrackingAjaxController extends BaseAjaxController {
 				} else if  (temp ==  ClaimType.KFK.getId()) {
 					titleName = "หนังสือสัญญา ตกลงไม่เรียกร้องค่าเสียหายซึ่งกันและกัน";
 				} else if (temp ==  ClaimType.REQUEST.getId()) {
-					titleName = "หนังสือสัญญา รื่องเรียกร้องค่าเสียหาย";
+					titleName = "หนังสือสัญญา เรื่องเรียกร้องค่าเสียหาย";
 				} else {
 					titleName = "หนังสือสัญญา";
 				}

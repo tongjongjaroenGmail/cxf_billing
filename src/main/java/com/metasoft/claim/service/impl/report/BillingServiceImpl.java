@@ -129,6 +129,9 @@ public class BillingServiceImpl extends ModelBasedServiceImpl<ClaimDao, TblClaim
 				if (claim.getCloseDate() != null) {
 					export.setCloseDate(claim.getCloseDate());
 				}
+				if (claim.getAccidentDate() != null) {
+					export.setAccidentDate(claim.getAccidentDate());
+				}
 				export.setJobNo(StringUtils.trimToEmpty(claim.getJobNo()));
 				export.setClaimNumber(StringUtils.trimToEmpty(claim.getClaimNumber()));
 				export.setLicenseNumber(StringUtils.trimToEmpty(claim.getLicenseNumber()));

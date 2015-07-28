@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import net.sf.jasperreports.engine.JRException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,11 +36,13 @@ import com.metasoft.claim.bean.report.BillingExportResult;
 import com.metasoft.claim.controller.vo.BillingSearchResultVo;
 import com.metasoft.claim.controller.vo.LaborResultVo;
 import com.metasoft.claim.controller.vo.TrackingSearchResultVo;
+import com.metasoft.claim.model.SecUser;
 import com.metasoft.claim.service.claim.ReportService;
 import com.metasoft.claim.service.impl.DownloadService;
 import com.metasoft.claim.service.impl.ExporterService;
 import com.metasoft.claim.service.impl.TokenService;
 import com.metasoft.claim.service.report.BillingService;
+import com.metasoft.claim.service.security.UserService;
 import com.metasoft.claim.util.ThaiBaht;
 
 @Controller
@@ -53,6 +56,9 @@ public class LaborAjaxController extends BaseAjaxController {
 
 	@Autowired
 	private TokenService tokenService;
+	
+	@Autowired
+	private UserService userService;
 
 
 	@RequestMapping(value = "/export", method = RequestMethod.POST)
@@ -76,10 +82,15 @@ public class LaborAjaxController extends BaseAjaxController {
 			totalAmount = totalAmount + tempLaborPrice;
 			System.out.println(">>>>>> totalAmount = "+totalAmount);
 			exports.add(result);
-			}
-		
+		}
 		
 		HashMap<String,Object> params = new HashMap<String, Object>();
+		
+		if(exports.get(0).getAgentId() != 0){
+			SecUser agent = userService.findById(exports.get(0).getAgentId());
+			params.put("agentName", StringUtils.trimToEmpty(agent.getName())  + " " + StringUtils.trimToEmpty(agent.getLastName()));
+		}
+
 		params.put("totalAmountThai", thaiBaht.getText(totalAmount));
 		
 		
