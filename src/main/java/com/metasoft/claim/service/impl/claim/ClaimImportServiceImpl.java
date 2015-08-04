@@ -74,18 +74,28 @@ public class ClaimImportServiceImpl extends ModelBasedServiceImpl<ClaimDao, TblC
 			Iterator<Row> rowIterator = sheet.iterator();
 			Row row = rowIterator.next();
 			// iterating over each row
+			int i = 1;
+			int rowAt = 1;
 			while (rowIterator.hasNext()) {
-				int i = 1;
+				i = 1;
 				TblClaimRecovery claim = new TblClaimRecovery();
 				
 				row = rowIterator.next();
-//				ลำดับ	เลขเคลม	เลขกรมธรรม์	รถประกัน	คู่กรณี	วันที่เกิดเหตุ	วันหมดอายุความ	คู่กรณี	 จำนวนเงิน			
-				claim.setClaimNumber(StringUtils.trimToNull(row.getCell(i++).getStringCellValue()));
-				claim.setPolicyNo(StringUtils.trimToNull(row.getCell(i++).getStringCellValue()));
-				claim.setLicenseNumber(StringUtils.trimToNull(row.getCell(i++).getStringCellValue()));
-				claim.setPartyLicenseNumber(StringUtils.trimToNull(row.getCell(i++).getStringCellValue()));
-				claim.setAccidentDate(row.getCell(i++).getDateCellValue());
-				claim.setMaturityDate(row.getCell(i++).getDateCellValue());
+				try{
+	//				ลำดับ	เลขเคลม	เลขกรมธรรม์	รถประกัน	คู่กรณี	วันที่เกิดเหตุ	วันหมดอายุความ	คู่กรณี	 จำนวนเงิน			
+					claim.setClaimNumber(StringUtils.trimToNull(row.getCell(i++).getStringCellValue()));
+					claim.setPolicyNo(StringUtils.trimToNull(row.getCell(i++).getStringCellValue()));
+					claim.setLicenseNumber(StringUtils.trimToNull(row.getCell(i++).getStringCellValue()));
+					claim.setPartyLicenseNumber(StringUtils.trimToNull(row.getCell(i++).getStringCellValue()));
+					claim.setAccidentDate(row.getCell(i++).getDateCellValue());
+					claim.setMaturityDate(row.getCell(i++).getDateCellValue());
+				} catch (Exception e) {
+					ImportError importError = new ImportError();
+					importError.setReason("ข้อมูลแถวที่ " + rowAt + " คอลัมน์ที่ " + i + " ไม่ถูกต้อง");
+					importError.setClaimNumber(StringUtils.isEmpty(claim.getClaimNumber())?"ไม่พบหมายเลขเคลม":claim.getClaimNumber());
+					errorClaimNumbers.add(importError);
+					continue;
+				}
 				
 				String partyInsuranceName = StringUtils.trimToNull(row.getCell(i++).getStringCellValue());
 				if(partyInsuranceName != null){
@@ -125,6 +135,8 @@ public class ClaimImportServiceImpl extends ModelBasedServiceImpl<ClaimDao, TblC
 					importError.setClaimNumber(claim.getClaimNumber());
 					errorClaimNumbers.add(importError);
 				}
+				
+				rowAt++;
 			}
 
 			input.close();
