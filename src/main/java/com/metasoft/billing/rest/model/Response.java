@@ -2,7 +2,7 @@ package com.metasoft.billing.rest.model;
 
 public class Response {
 	private String errorMessage;
-	private boolean success;
+	private boolean success = true;
 
 	public String getErrorMessage() {
 		return errorMessage;

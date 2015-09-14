@@ -14,9 +14,9 @@ public class DhipRequest {
 	private Integer photoCount;// จำนวนรูปถ่าย
 	private Integer dailyCount;// จำนวนข้อประจำวัน
 	private String thirdPartyType;// เงื่อนไขฝ่ายถูก
-	private String claimFee;// เงินเรียกร้อง
-	private String insureFee;// ค่าประกันตัว
-	private String otherFee;// ค่าใช้จ่ายอื่นๆ
+	private Float claimFee;// เงินเรียกร้อง
+	private Float insureFee;// ค่าประกันตัว
+	private Float otherFee;// ค่าใช้จ่ายอื่นๆ
 
 	public String getSurveyId() {
 		return surveyId;
@@ -122,28 +122,27 @@ public class DhipRequest {
 		this.thirdPartyType = thirdPartyType;
 	}
 
-	public String getClaimFee() {
+	public Float getClaimFee() {
 		return claimFee;
 	}
 
-	public void setClaimFee(String claimFee) {
+	public void setClaimFee(Float claimFee) {
 		this.claimFee = claimFee;
 	}
 
-	public String getInsureFee() {
+	public Float getInsureFee() {
 		return insureFee;
 	}
 
-	public void setInsureFee(String insureFee) {
+	public void setInsureFee(Float insureFee) {
 		this.insureFee = insureFee;
 	}
 
-	public String getOtherFee() {
+	public Float getOtherFee() {
 		return otherFee;
 	}
 
-	public void setOtherFee(String otherFee) {
+	public void setOtherFee(Float otherFee) {
 		this.otherFee = otherFee;
 	}
-
 }
