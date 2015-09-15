@@ -1,4 +1,4 @@
-package com.metasoft.billing.xml.bean;
+package com.metasoft.billing.bean.xml;
 
 import java.util.HashMap;
 import java.util.Map;

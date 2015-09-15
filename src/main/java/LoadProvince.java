@@ -4,8 +4,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import com.metasoft.billing.xml.bean.Province;
-import com.metasoft.billing.xml.bean.Provinces;
+import com.metasoft.billing.bean.xml.Province;
+import com.metasoft.billing.bean.xml.Provinces;
 
 
 public class LoadProvince {

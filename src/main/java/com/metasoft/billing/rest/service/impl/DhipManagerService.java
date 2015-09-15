@@ -5,9 +5,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.metasoft.billing.bean.cont.AreaType;
+import com.metasoft.billing.bean.cont.ClaimType;
+import com.metasoft.billing.bean.cont.ServiceType;
 import com.metasoft.billing.rest.model.DhipRequest;
 import com.metasoft.billing.rest.model.DhipResponse;
-import com.metasoft.billing.rest.model.ResponseMessage;
 import com.metasoft.billing.rest.service.DhipManager;
 
 @Service("dhipManagerService")
@@ -49,11 +51,11 @@ public class DhipManagerService implements DhipManager{
 	
 		boolean branchProvince = StringUtils.isBlank(loadProvincesService.getProvinces().getProvinceMap().get(province).getMainProvinceName());
 		
-		if("กทม".equals(areaType))
+		if(AreaType.bkk.getValue().equals(areaType))
 		{									
-			if(!"ติดตาม".equals(claimType))								
+			if(!ClaimType.follow.getValue().equals(claimType))								
 			{								
-				if("หน้าร้าน".equals(serviceType) || "ต่อเนื่อง".equals(serviceType) || "บริการ".equals(serviceType))							
+				if(ServiceType.home.getValue().equals(serviceType) || ServiceType.cont.getValue().equals(serviceType) || ServiceType.service.getValue().equals(serviceType))							
 				{ surInvest = 300f;}	
 				else if ("Y".equals(disperse))							
 				{ surInvest = 200f;}							
@@ -65,13 +67,13 @@ public class DhipManagerService implements DhipManager{
 				surInvest = 500f;							
 			}								
 		}									
-		else if("ปริมณฑล".equals(areaType))										
+		else if(AreaType.perimeter.getValue().equals(areaType))										
 		{									
-			if(!"ติดตาม".equals(claimType))								
+			if(!ClaimType.follow.getValue().equals(claimType))								
 			{								
-				if("หน้าร้าน".equals(serviceType) || "บริการ".equals(serviceType))				
+				if(ServiceType.home.getValue().equals(serviceType) || ServiceType.service.getValue().equals(serviceType))				
 				{ surInvest = 350f;}							
-				else if ("Y".equals(disperse) || "ต่อเนื่อง".equals(serviceType))						
+				else if ("Y".equals(disperse) || ServiceType.cont.getValue().equals(serviceType))						
 				{ surInvest = 300f;}							
 				else							
 				{ surInvest = 700f;}							
@@ -81,7 +83,7 @@ public class DhipManagerService implements DhipManager{
 				surInvest = 500f;							
 			}								
 		}									
-		else if("ตจว.".equals(areaType))											
+		else if(AreaType.country.getValue().equals(areaType))											
 		{									
 		    if ("Y".equals(disperse))									
 			{								
@@ -89,7 +91,7 @@ public class DhipManagerService implements DhipManager{
 		    	return surInvest;								
 			}								
 											
-		    if("หน้าร้าน".equals(serviceType) || "ต่อเนื่อง".equals(serviceType) || "บริการ".equals(serviceType))						
+		    if(ServiceType.home.getValue().equals(serviceType) || ServiceType.cont.getValue().equals(serviceType) || ServiceType.service.getValue().equals(serviceType))						
 			{								
 		    	surInvest = 200f;							
 			}								
@@ -113,17 +115,17 @@ public class DhipManagerService implements DhipManager{
 		String province = request.getProvince();
 		String amphur = request.getAmphur();
 		
-		if("กทม".equals(areaType) || "ปริมณฑล".equals(areaType))								
+		if(AreaType.bkk.getValue().equals(areaType) || AreaType.perimeter.getValue().equals(areaType))								
 		{								
 			surTrans = 0f;							
 		}								
-		else if ("ตจว.".equals(areaType))									
+		else if (AreaType.country.getValue().equals(areaType))									
 		{								
 			if ("พื้นที่เดียวกัน".equals(serviceType))							
 			{							
 				surTrans = 200f;						
 			}							
-			else if ("ต่อเนื่อง".equals(serviceType) || "หน้าร้าน".equals(serviceType) || "บริการ".equals(serviceType)) 							
+			else if (ServiceType.cont.getValue().equals(serviceType) || ServiceType.home.getValue().equals(serviceType) || ServiceType.service.getValue().equals(serviceType)) 							
 			{							
 				surTrans = 0f;						
 			}							
@@ -140,11 +142,11 @@ public class DhipManagerService implements DhipManager{
 		Float surDaily = null;
 		String areaType = request.getAreaType();
 		Integer dailyCount = request.getDailyCount();
-		if("กทม".equals(areaType) || "ปริมณฑล".equals(areaType))									
+		if(AreaType.bkk.getValue().equals(areaType) || AreaType.perimeter.getValue().equals(areaType))									
 		{						
 			surDaily = (float) (dailyCount * 100); //ปจว.ข้อละ 100 บาท					
 		}						
-		else if ("ตจว.".equals(areaType))							
+		else if (AreaType.country.getValue().equals(areaType))							
 		{						
 			if(dailyCount.intValue() > 1)					
 			{ surDaily = 200f;}					
@@ -158,11 +160,11 @@ public class DhipManagerService implements DhipManager{
 		Float surPhoto = null;
 		String areaType = request.getAreaType();
 		Integer photoCount = request.getPhotoCount();
-		if("กทม".equals(areaType) || "ปริมณฑล".equals(areaType))									
+		if(AreaType.bkk.getValue().equals(areaType) || AreaType.perimeter.getValue().equals(areaType))									
 		{						
 			surPhoto = 0f;			
 		}						
-		else if ("ตจว.".equals(areaType))							
+		else if (AreaType.country.getValue().equals(areaType))							
 		{						
 			if(photoCount.intValue() > 5)					
 			{ surPhoto = 50f;}					
@@ -184,13 +186,13 @@ public class DhipManagerService implements DhipManager{
 		String claimType = request.getClaimType();
 		String serviceType = request.getServiceType();
 	
-		if("กทม".equals(areaType) || "ปริมณฑล".equals(areaType))									
+		if(AreaType.bkk.getValue().equals(areaType) || AreaType.perimeter.getValue().equals(areaType))									
 		{						
 			surTel = 0f;			
 		}						
-		else if ("ตจว.".equals(areaType))							
+		else if (AreaType.country.getValue().equals(areaType))							
 		{			
-			if("ติดตาม".equals(claimType) || "หน้าร้าน".equals(serviceType) || "ต่อเนื่อง".equals(serviceType)) 											
+			if(ClaimType.follow.getValue().equals(claimType) || ServiceType.home.getValue().equals(serviceType) || ServiceType.cont.getValue().equals(serviceType)) 											
 			{ surTel = 0f;}					
 			else					
 			{ surTel = 30f;}					
