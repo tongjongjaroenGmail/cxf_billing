@@ -9,8 +9,8 @@ import javax.ws.rs.core.MediaType;
 import com.metasoft.billing.rest.model.DhipRequest;
 import com.metasoft.billing.rest.model.DhipResponse;
 
-@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
-@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+@Consumes({MediaType.APPLICATION_JSON})
+@Produces({MediaType.APPLICATION_JSON})
 public interface DhipManager
 {
 	@POST

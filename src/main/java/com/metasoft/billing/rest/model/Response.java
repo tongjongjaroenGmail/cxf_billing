@@ -1,22 +1,15 @@
 package com.metasoft.billing.rest.model;
 
 public class Response {
-	private String errorMessage;
-	private boolean success = true;
+	private ResponseMessage responseMessage = new ResponseMessage();
 
-	public String getErrorMessage() {
-		return errorMessage;
+	public ResponseMessage getResponseMessage() {
+		return responseMessage;
 	}
 
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+	public void setResponseMessage(ResponseMessage responseMessage) {
+		this.responseMessage = responseMessage;
 	}
-
-	public boolean isSuccess() {
-		return success;
-	}
-
-	public void setSuccess(boolean success) {
-		this.success = success;
-	}
+	
+	
 }

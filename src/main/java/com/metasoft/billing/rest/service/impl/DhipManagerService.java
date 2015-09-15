@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.metasoft.billing.rest.model.DhipRequest;
 import com.metasoft.billing.rest.model.DhipResponse;
+import com.metasoft.billing.rest.model.ResponseMessage;
 import com.metasoft.billing.rest.service.DhipManager;
 
 @Service("dhipManagerService")
@@ -20,17 +21,19 @@ public class DhipManagerService implements DhipManager{
 	public DhipResponse calcDhip(DhipRequest request) {
 		DhipResponse response = new DhipResponse();
 		try{
-		response.setSurClaim(calcSurClaim(request)); 
-		response.setSurDaily(calcSurDaily(request));
-		response.setSurInsure(calcSurInsure(request));
-		response.setSurInvest(calcSurInvest(request));
-		response.setSurOther(calcSurOther(request));
-		response.setSurPhoto(calcSurPhoto(request));
-		response.setSurTel(calcSurTel(request));
-		response.setSurTrans(calcSurTrans(request));
+			response.getDhip().setSurClaim(calcSurClaim(request)); 
+			response.getDhip().setSurDaily(calcSurDaily(request));
+			response.getDhip().setSurInsure(calcSurInsure(request));
+			response.getDhip().setSurInvest(calcSurInvest(request));
+			response.getDhip().setSurOther(calcSurOther(request));
+			response.getDhip().setSurPhoto(calcSurPhoto(request));
+			response.getDhip().setSurTel(calcSurTel(request));
+			response.getDhip().setSurTrans(calcSurTrans(request));
 		}catch(Exception e){
-			response.setSuccess(false);
-			response.setErrorMessage(e.getMessage());
+			logger.error(e.toString());
+			
+			response.getResponseMessage().setSuccess(false);
+			response.getResponseMessage().setErrorMessage(e.getMessage() == null?e.toString():e.getMessage());
 		}
 		return response;
 	}
