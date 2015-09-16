@@ -48,8 +48,6 @@ public class DhipManagerService implements DhipManager{
 		String disperse = request.getDisperse();
 		String amphur = request.getAmphur();
 		String province = request.getProvince();
-	
-		boolean branchProvince = StringUtils.isBlank(loadProvincesService.getProvinces().getProvinceMap().get(province).getMainProvinceName());
 		
 		if(AreaType.bkk.getValue().equals(areaType))
 		{									
@@ -96,7 +94,9 @@ public class DhipManagerService implements DhipManager{
 		    	surInvest = 200f;							
 			}								
 		    else 								
-			{								
+			{			
+		    	boolean branchProvince = StringUtils.isBlank(loadProvincesService.getProvinces().getProvinceMap().get(province).getMainProvinceName());
+		    	
 				if("เมือง".equals(amphur) && branchProvince)							
 				{ surInvest = 400f;}							
 				else if (!"เมือง".equals(amphur) && branchProvince)							
