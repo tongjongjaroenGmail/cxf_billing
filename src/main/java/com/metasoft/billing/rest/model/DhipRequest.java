@@ -3,8 +3,8 @@ package com.metasoft.billing.rest.model;
 public class DhipRequest {
 	private String surveyId;// รหัสพนักงาน
 	private String branch;// สาขา/ศูนย์
-	private String amphur;// อำเภอที่ตรวจสอบ
-	private String province;// จังหวัดที่ตรวจสอบ
+	private Integer amphur;// อำเภอที่ตรวจสอบ
+	private Integer province;// จังหวัดที่ตรวจสอบ
 	private String areaType;// พื้นที่
 	private String claimType;// ประเภทเคลม
 	private String dutyType;// เวร
@@ -16,7 +16,16 @@ public class DhipRequest {
 	private String thirdPartyType;// เงื่อนไขฝ่ายถูก
 	private Float claimFee;// เงินเรียกร้อง
 	private Float insureFee;// ค่าประกันตัว
+	private Float towFee;// ค่ารถยก
 	private Float otherFee;// ค่าใช้จ่ายอื่นๆ
+
+	public Float getTowFee() {
+		return towFee;
+	}
+
+	public void setTowFee(Float towFee) {
+		this.towFee = towFee;
+	}
 
 	public String getSurveyId() {
 		return surveyId;
@@ -34,19 +43,19 @@ public class DhipRequest {
 		this.branch = branch;
 	}
 
-	public String getAmphur() {
+	public Integer getAmphur() {
 		return amphur;
 	}
 
-	public void setAmphur(String amphur) {
+	public void setAmphur(Integer amphur) {
 		this.amphur = amphur;
 	}
 
-	public String getProvince() {
+	public Integer getProvince() {
 		return province;
 	}
 
-	public void setProvince(String province) {
+	public void setProvince(Integer province) {
 		this.province = province;
 	}
 

@@ -1,13 +1,15 @@
 package com.metasoft.billing.rest.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.metasoft.billing.bean.cont.AreaType;
-import com.metasoft.billing.bean.cont.ClaimType;
-import com.metasoft.billing.bean.cont.ServiceType;
+import com.metasoft.billing.dao.AmphurDao;
+import com.metasoft.billing.dao.ProvinceDao;
+import com.metasoft.billing.model.AreaType;
+import com.metasoft.billing.model.ClaimType;
+import com.metasoft.billing.model.ServiceType;
+import com.metasoft.billing.rest.model.Dhip;
 import com.metasoft.billing.rest.model.DhipRequest;
 import com.metasoft.billing.rest.model.DhipResponse;
 import com.metasoft.billing.rest.service.DhipManager;
@@ -17,8 +19,11 @@ public class DhipManagerService implements DhipManager{
 	final static Logger logger = Logger.getLogger(DhipManagerService.class);
 	
 	@Autowired
-	private LoadProvincesService loadProvincesService;
+	private ProvinceDao provinceDao;
 	
+	@Autowired
+	private AmphurDao amphurDao;
+
 	@Override
 	public DhipResponse calcDhip(DhipRequest request) {
 		DhipResponse response = new DhipResponse();
@@ -27,10 +32,15 @@ public class DhipManagerService implements DhipManager{
 			response.getDhip().setSurDaily(calcSurDaily(request));
 			response.getDhip().setSurInsure(calcSurInsure(request));
 			response.getDhip().setSurInvest(calcSurInvest(request));
+			response.getDhip().setSurTow(calcSurTow(request));
 			response.getDhip().setSurOther(calcSurOther(request));
 			response.getDhip().setSurPhoto(calcSurPhoto(request));
 			response.getDhip().setSurTel(calcSurTel(request));
 			response.getDhip().setSurTrans(calcSurTrans(request));
+			
+			response.getDhip().setTotal(calcTotal(response.getDhip()));
+			response.getDhip().setIncVat(calcIncVat(response.getDhip().getTotal()));
+			response.getDhip().setTotalAmount(calcTotalAmount(response.getDhip().getTotal(), response.getDhip().getIncVat()));
 		}catch(Exception e){
 			logger.error(e.toString());
 			
@@ -46,17 +56,21 @@ public class DhipManagerService implements DhipManager{
 		String claimType = request.getClaimType();
 		String serviceType = request.getServiceType();
 		String disperse = request.getDisperse();
-		String amphur = request.getAmphur();
-		String province = request.getProvince();
-		
-		if(AreaType.bkk.getValue().equals(areaType))
-		{									
-			if(!ClaimType.follow.getValue().equals(claimType))								
-			{								
-				if(ServiceType.home.getValue().equals(serviceType) || ServiceType.cont.getValue().equals(serviceType) || ServiceType.service.getValue().equals(serviceType))							
-				{ surInvest = 300f;}	
-				else if ("Y".equals(disperse))							
-				{ surInvest = 200f;}							
+		int amphur = request.getAmphur();
+		int province = request.getProvince();
+
+		if(AreaType.bkk.getName().equals(areaType))
+		{					
+			if ("Yes".equals(disperse))							
+			{ 
+				surInvest = 200f;
+				return surInvest;
+			}	
+			if(!ClaimType.follow.getName().equals(claimType))								
+			{				
+				if(ServiceType.home.getName().equals(serviceType) || ServiceType.cont.getName().equals(serviceType) 
+						|| ServiceType.service.getName().equals(serviceType) || ServiceType.sameArea.getName().equals(serviceType))							
+				{ surInvest = 300f;}					
 				else							
 				{ surInvest = 600f;}							
 			}								
@@ -65,13 +79,18 @@ public class DhipManagerService implements DhipManager{
 				surInvest = 500f;							
 			}								
 		}									
-		else if(AreaType.perimeter.getValue().equals(areaType))										
-		{									
-			if(!ClaimType.follow.getValue().equals(claimType))								
+		else if(AreaType.perimeter.getName().equals(areaType))										
+		{		
+			if ("Yes".equals(disperse))							
+			{ 
+				surInvest = 300f;
+				return surInvest;
+			}	
+			if(!ClaimType.follow.getName().equals(claimType))								
 			{								
-				if(ServiceType.home.getValue().equals(serviceType) || ServiceType.service.getValue().equals(serviceType))				
-				{ surInvest = 350f;}							
-				else if ("Y".equals(disperse) || ServiceType.cont.getValue().equals(serviceType))						
+				if(ServiceType.home.getName().equals(serviceType)) 
+				{ surInvest = 350f;}			
+				else if (ServiceType.service.getName().equals(serviceType) || ServiceType.cont.getName().equals(serviceType) || ServiceType.sameArea.getName().equals(serviceType))									
 				{ surInvest = 300f;}							
 				else							
 				{ surInvest = 700f;}							
@@ -81,25 +100,26 @@ public class DhipManagerService implements DhipManager{
 				surInvest = 500f;							
 			}								
 		}									
-		else if(AreaType.country.getValue().equals(areaType))											
+		else if(AreaType.country.getName().equals(areaType))											
 		{									
-		    if ("Y".equals(disperse))									
+		    if ("Yes".equals(disperse))									
 			{								
 		    	surInvest = 300f;								
 		    	return surInvest;								
 			}								
 											
-		    if(ServiceType.home.getValue().equals(serviceType) || ServiceType.cont.getValue().equals(serviceType) || ServiceType.service.getValue().equals(serviceType))						
+		    if(ServiceType.home.getName().equals(serviceType) || ServiceType.cont.getName().equals(serviceType) || ServiceType.service.getName().equals(serviceType))						
 			{								
 		    	surInvest = 200f;							
 			}								
 		    else 								
 			{			
-		    	boolean branchProvince = StringUtils.isBlank(loadProvincesService.getProvinces().getProvinceMap().get(province).getMainProvinceName());
+		    	boolean branchProvince = provinceDao.findById(province).getMainBranch();
+		    	String amphurName = amphurDao.findById(amphur).getName();
 		    	
-				if("เมือง".equals(amphur) && branchProvince)							
+				if("เมือง".equals(amphurName) && branchProvince)							
 				{ surInvest = 400f;}							
-				else if (!"เมือง".equals(amphur) && branchProvince)							
+				else if (!"เมือง".equals(amphurName) && branchProvince)							
 				{ surInvest = 500f;}							
 				else //นอกจังหวัดที่สาขาตั้งอยู่							
 				{ surInvest = 600f;}							
@@ -112,26 +132,25 @@ public class DhipManagerService implements DhipManager{
 		Float surTrans = null;
 		String areaType = request.getAreaType();
 		String serviceType = request.getServiceType();
-		String province = request.getProvince();
-		String amphur = request.getAmphur();
+		int amphur = request.getAmphur();
 		
-		if(AreaType.bkk.getValue().equals(areaType) || AreaType.perimeter.getValue().equals(areaType))								
+		if(AreaType.bkk.getName().equals(areaType) || AreaType.perimeter.getName().equals(areaType))								
 		{								
 			surTrans = 0f;							
 		}								
-		else if (AreaType.country.getValue().equals(areaType))									
+		else if (AreaType.country.getName().equals(areaType))									
 		{								
-			if ("พื้นที่เดียวกัน".equals(serviceType))							
+			if (ServiceType.sameArea.getName().equals(serviceType))							
 			{							
 				surTrans = 200f;						
 			}							
-			else if (ServiceType.cont.getValue().equals(serviceType) || ServiceType.home.getValue().equals(serviceType) || ServiceType.service.getValue().equals(serviceType)) 							
+			else if (ServiceType.cont.getName().equals(serviceType) || ServiceType.home.getName().equals(serviceType) || ServiceType.service.getName().equals(serviceType)) 							
 			{							
 				surTrans = 0f;						
 			}							
 			else							
 			{			
-				surTrans = loadProvincesService.getProvinces().getProvinceMap().get(province).getAmphorMap().get(amphur).getSurTrans();				
+				surTrans = amphurDao.findById(amphur).getSurTrans();				
 			}							
 		}								
 		
@@ -142,11 +161,11 @@ public class DhipManagerService implements DhipManager{
 		Float surDaily = null;
 		String areaType = request.getAreaType();
 		Integer dailyCount = request.getDailyCount();
-		if(AreaType.bkk.getValue().equals(areaType) || AreaType.perimeter.getValue().equals(areaType))									
+		if(AreaType.bkk.getName().equals(areaType) || AreaType.perimeter.getName().equals(areaType))									
 		{						
 			surDaily = (float) (dailyCount * 100); //ปจว.ข้อละ 100 บาท					
 		}						
-		else if (AreaType.country.getValue().equals(areaType))							
+		else if (AreaType.country.getName().equals(areaType))							
 		{						
 			if(dailyCount.intValue() > 1)					
 			{ surDaily = 200f;}					
@@ -160,11 +179,11 @@ public class DhipManagerService implements DhipManager{
 		Float surPhoto = null;
 		String areaType = request.getAreaType();
 		Integer photoCount = request.getPhotoCount();
-		if(AreaType.bkk.getValue().equals(areaType) || AreaType.perimeter.getValue().equals(areaType))									
+		if(AreaType.bkk.getName().equals(areaType) || AreaType.perimeter.getName().equals(areaType))									
 		{						
 			surPhoto = 0f;			
 		}						
-		else if (AreaType.country.getValue().equals(areaType))							
+		else if (AreaType.country.getName().equals(areaType))							
 		{						
 			if(photoCount.intValue() > 5)					
 			{ surPhoto = 50f;}					
@@ -186,13 +205,13 @@ public class DhipManagerService implements DhipManager{
 		String claimType = request.getClaimType();
 		String serviceType = request.getServiceType();
 	
-		if(AreaType.bkk.getValue().equals(areaType) || AreaType.perimeter.getValue().equals(areaType))									
+		if(AreaType.bkk.getName().equals(areaType) || AreaType.perimeter.getName().equals(areaType))									
 		{						
 			surTel = 0f;			
 		}						
-		else if (AreaType.country.getValue().equals(areaType))							
+		else if (AreaType.country.getName().equals(areaType))							
 		{			
-			if(ClaimType.follow.getValue().equals(claimType) || ServiceType.home.getValue().equals(serviceType) || ServiceType.cont.getValue().equals(serviceType)) 											
+			if(ClaimType.follow.getName().equals(claimType) || ServiceType.home.getName().equals(serviceType) || ServiceType.cont.getName().equals(serviceType)) 											
 			{ surTel = 0f;}					
 			else					
 			{ surTel = 30f;}					
@@ -204,7 +223,26 @@ public class DhipManagerService implements DhipManager{
 		return request.getInsureFee();				
 	}
 	
+	private Float calcSurTow(DhipRequest request){
+		return request.getTowFee();		
+	}
+	
 	private Float calcSurOther(DhipRequest request){
 		return request.getOtherFee();		
+	}
+	
+	private Float calcTotal(Dhip dhip){
+		Float total = dhip.getSurClaim() + dhip.getSurDaily() + dhip.getSurInsure() + 
+			dhip.getSurInvest() + dhip.getSurTow() + dhip.getSurOther() + 
+			dhip.getSurPhoto() + dhip.getSurTel() + dhip.getSurTrans();
+		return total;		
+	}
+	
+	private Float calcIncVat(Float total){
+		return total * 0.7f;		
+	}
+	
+	private Float calcTotalAmount(Float total , Float incVat){
+		return total + incVat;		
 	}
 }

@@ -8,10 +8,18 @@ public class Dhip {
 	private Float surClaim;// ค่าเรียกร้อง
 	private Float surTel;// ค่าโทรศัพท์
 	private Float surInsure;// ค่าประกันตัว
+	private Float surTow;//	ค่ารถยก
 	private Float surOther;// ค่าใช้จ่ายอื่นๆ
 	private Float total;// ยอดรวมก่อนภาษี
 	private Float incVat;// ภาษี
 	private Float totalAmount;// ยอดรวมหลังภาษี
+	
+	public Float getSurTow() {
+		return surTow;
+	}
+	public void setSurTow(Float surTow) {
+		this.surTow = surTow;
+	}
 	public Float getSurInvest() {
 		return surInvest;
 	}
