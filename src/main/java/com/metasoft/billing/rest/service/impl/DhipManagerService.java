@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.metasoft.billing.dao.AmphurDao;
+import com.metasoft.billing.dao.BranchDao;
 import com.metasoft.billing.dao.ProvinceDao;
 import com.metasoft.billing.model.AreaType;
+import com.metasoft.billing.model.Branch;
 import com.metasoft.billing.model.ClaimType;
 import com.metasoft.billing.model.ServiceType;
 import com.metasoft.billing.rest.model.Dhip;
@@ -19,7 +21,7 @@ public class DhipManagerService implements DhipManager{
 	final static Logger logger = Logger.getLogger(DhipManagerService.class);
 	
 	@Autowired
-	private ProvinceDao provinceDao;
+	private BranchDao branchDao;
 	
 	@Autowired
 	private AmphurDao amphurDao;
@@ -114,12 +116,11 @@ public class DhipManagerService implements DhipManager{
 			}								
 		    else 								
 			{			
-		    	boolean branchProvince = provinceDao.findById(province).getMainBranch();
-		    	String amphurName = amphurDao.findById(amphur).getName();
-		    	
-				if("เมือง".equals(amphurName) && branchProvince)							
+		    	Long countByAmhurId = branchDao.countByAmhurId(amphur);
+		    	Long countByProvinceId = branchDao.countByProvinceId(province);
+				if(countByAmhurId > 0)							
 				{ surInvest = 400f;}							
-				else if (!"เมือง".equals(amphurName) && branchProvince)							
+				else if (countByProvinceId > 0)							
 				{ surInvest = 500f;}							
 				else //นอกจังหวัดที่สาขาตั้งอยู่							
 				{ surInvest = 600f;}							

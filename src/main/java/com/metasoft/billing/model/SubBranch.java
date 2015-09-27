@@ -1,13 +1,18 @@
 package com.metasoft.billing.model;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -18,9 +23,9 @@ import com.sun.istack.NotNull;
  * 
  */
 @Entity
-@Table(name = "amphur")
-@NamedQuery(name = "Amphur.findAll", query = "SELECT s FROM Amphur s")
-public class Amphur extends BaseModel {
+@Table(name = "sub_branch")
+@NamedQuery(name = "SubBranch.findAll", query = "SELECT s FROM SubBranch s")
+public class SubBranch extends BaseModel {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -31,18 +36,13 @@ public class Amphur extends BaseModel {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "sur_trans", nullable = false)
-	private Float surTrans;
+	@OneToOne
+	@JoinColumn(name = "amphur_id", nullable = false)
+	private Amphur amphur;
 
 	@ManyToOne
-	@JoinColumn(name = "province_id", nullable = false)
-	private Province province;
-
-	@OneToOne(mappedBy = "amphur")
+	@JoinColumn(name = "branch_id", nullable = false)
 	private Branch branch;
-	
-	@OneToOne(mappedBy = "amphur")
-	private SubBranch subBranch;
 
 	public Integer getId() {
 		return id;
@@ -60,20 +60,12 @@ public class Amphur extends BaseModel {
 		this.name = name;
 	}
 
-	public Float getSurTrans() {
-		return surTrans;
+	public Amphur getAmphur() {
+		return amphur;
 	}
 
-	public void setSurTrans(Float surTrans) {
-		this.surTrans = surTrans;
-	}
-
-	public Province getProvince() {
-		return province;
-	}
-
-	public void setProvince(Province province) {
-		this.province = province;
+	public void setAmphur(Amphur amphur) {
+		this.amphur = amphur;
 	}
 
 	public Branch getBranch() {
@@ -83,17 +75,8 @@ public class Amphur extends BaseModel {
 	public void setBranch(Branch branch) {
 		this.branch = branch;
 	}
-	
-	public SubBranch getSubBranch() {
-		return subBranch;
-	}
-
-	public void setSubBranch(SubBranch subBranch) {
-		this.subBranch = subBranch;
-	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
 }

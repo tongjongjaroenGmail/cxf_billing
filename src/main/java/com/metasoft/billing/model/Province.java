@@ -34,13 +34,6 @@ public class Province extends BaseModel {
 	@Column(name = "name",nullable=false)
 	private String name;
 	
-	@Column(name = "main_branch",nullable=false)
-	private Boolean mainBranch;
-
-	@ManyToOne
-	@JoinColumn(name = "branch_id", nullable = false)
-	private Branch branch;
-	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "province")
 	private List<Amphur> amphurs;
 
@@ -58,22 +51,6 @@ public class Province extends BaseModel {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Branch getBranch() {
-		return branch;
-	}
-
-	public void setBranch(Branch branch) {
-		this.branch = branch;
-	}
-
-	public Boolean getMainBranch() {
-		return mainBranch;
-	}
-
-	public void setMainBranch(Boolean mainBranch) {
-		this.mainBranch = mainBranch;
 	}
 
 	public static long getSerialversionuid() {

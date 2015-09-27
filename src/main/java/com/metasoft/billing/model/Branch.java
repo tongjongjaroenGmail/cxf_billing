@@ -8,8 +8,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.sun.istack.NotNull;
@@ -29,11 +32,15 @@ public class Branch extends BaseModel {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@Column(name = "name",nullable=false)
+	@Column(name = "name")
 	private String name;
 
+	@OneToOne
+	@JoinColumn(name = "amphur_id", nullable = false)
+	private Amphur amphur;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "branch")
-	private List<Province> Provinces;
+	private List<SubBranch> subBranchs;
 
 	public Integer getId() {
 		return id;
@@ -51,12 +58,20 @@ public class Branch extends BaseModel {
 		this.name = name;
 	}
 
-	public List<Province> getProvinces() {
-		return Provinces;
+	public Amphur getAmphur() {
+		return amphur;
 	}
 
-	public void setProvinces(List<Province> provinces) {
-		Provinces = provinces;
+	public void setAmphur(Amphur amphur) {
+		this.amphur = amphur;
+	}
+
+	public List<SubBranch> getSubBranchs() {
+		return subBranchs;
+	}
+
+	public void setSubBranchs(List<SubBranch> subBranchs) {
+		this.subBranchs = subBranchs;
 	}
 
 	public static long getSerialversionuid() {
