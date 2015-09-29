@@ -57,4 +57,11 @@ public class BranchDaoImpl extends AbstractDaoImpl<Branch, Integer> implements B
 		criteria.setProjection(Projections.rowCount());
 		return (Long) criteria.uniqueResult();	
 	}
+	
+	@Override
+	public Branch findByName(String name) {
+		Criteria criteria = getCurrentSession().createCriteria(entityClass);
+		criteria.add(Restrictions.eq("name", name));	
+		return (Branch) criteria.uniqueResult();	
+	}
 }

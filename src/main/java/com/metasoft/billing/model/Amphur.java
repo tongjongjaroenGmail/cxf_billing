@@ -31,9 +31,6 @@ public class Amphur extends BaseModel {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "sur_trans", nullable = false)
-	private Float surTrans;
-
 	@ManyToOne
 	@JoinColumn(name = "province_id", nullable = false)
 	private Province province;
@@ -58,14 +55,6 @@ public class Amphur extends BaseModel {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Float getSurTrans() {
-		return surTrans;
-	}
-
-	public void setSurTrans(Float surTrans) {
-		this.surTrans = surTrans;
 	}
 
 	public Province getProvince() {

@@ -6,11 +6,12 @@ import org.springframework.stereotype.Service;
 
 import com.metasoft.billing.dao.AmphurDao;
 import com.metasoft.billing.dao.BranchDao;
-import com.metasoft.billing.dao.ProvinceDao;
+import com.metasoft.billing.dao.SubBranchDao;
 import com.metasoft.billing.model.AreaType;
 import com.metasoft.billing.model.Branch;
 import com.metasoft.billing.model.ClaimType;
 import com.metasoft.billing.model.ServiceType;
+import com.metasoft.billing.model.SubBranch;
 import com.metasoft.billing.rest.model.Dhip;
 import com.metasoft.billing.rest.model.DhipRequest;
 import com.metasoft.billing.rest.model.DhipResponse;
@@ -25,6 +26,9 @@ public class DhipManagerService implements DhipManager{
 	
 	@Autowired
 	private AmphurDao amphurDao;
+	
+	@Autowired
+	private SubBranchDao subBranchDao;
 
 	@Override
 	public DhipResponse calcDhip(DhipRequest request) {
@@ -129,10 +133,11 @@ public class DhipManagerService implements DhipManager{
 		return surInvest;
 	}
 	
-	private Float calcSurTrans(DhipRequest request){
+	private Float calcSurTrans(DhipRequest request) throws Exception{
 		Float surTrans = null;
 		String areaType = request.getAreaType();
 		String serviceType = request.getServiceType();
+		String branchName = request.getBranch();
 		int amphur = request.getAmphur();
 		
 		if(AreaType.bkk.getName().equals(areaType) || AreaType.perimeter.getName().equals(areaType))								
@@ -151,7 +156,13 @@ public class DhipManagerService implements DhipManager{
 			}							
 			else							
 			{			
-				surTrans = amphurDao.findById(amphur).getSurTrans();				
+				Branch branch = branchDao.findByName(branchName);
+				SubBranch subBranch = subBranchDao.findByBranchIdAndAmphurId(branch.getId(), amphur);
+				if(subBranch == null){
+					throw new Exception("calcSurTrans : SubBranch not found.");
+				}else{
+					surTrans = subBranchDao.findByBranchIdAndAmphurId(branch.getId(), amphur).getSurTrans();	
+				}
 			}							
 		}								
 		
@@ -240,7 +251,7 @@ public class DhipManagerService implements DhipManager{
 	}
 	
 	private Float calcIncVat(Float total){
-		return total * 0.7f;		
+		return total * 0.07f;		
 	}
 	
 	private Float calcTotalAmount(Float total , Float incVat){
