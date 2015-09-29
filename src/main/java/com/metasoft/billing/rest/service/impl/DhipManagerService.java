@@ -161,7 +161,7 @@ public class DhipManagerService implements DhipManager{
 				if(subBranch == null){
 					throw new Exception("calcSurTrans : SubBranch not found.");
 				}else{
-					surTrans = subBranchDao.findByBranchIdAndAmphurId(branch.getId(), amphur).getSurTrans();	
+					surTrans = subBranchDao.findByBranchIdAndAmphurId(branch.getId(), amphur).getSurTran();	
 				}
 			}							
 		}								

@@ -44,8 +44,8 @@ public class SubBranch extends BaseModel {
 	@JoinColumn(name = "branch_id", nullable = false)
 	private Branch branch;
 
-	@Column(name = "sur_trans", nullable = false)
-	private Float surTrans;
+	@Column(name = "sur_tran", nullable = false)
+	private Float surTran;
 
 	public Integer getId() {
 		return id;
@@ -79,12 +79,12 @@ public class SubBranch extends BaseModel {
 		this.branch = branch;
 	}
 
-	public Float getSurTrans() {
-		return surTrans;
+	public Float getSurTran() {
+		return surTran;
 	}
 
-	public void setSurTrans(Float surTrans) {
-		this.surTrans = surTrans;
+	public void setSurTran(Float surTran) {
+		this.surTran = surTran;
 	}
 
 	public static long getSerialversionuid() {
