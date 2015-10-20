@@ -8,10 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.sun.istack.NotNull;
 
 /**
  * The persistent class for the sec_user database table.
@@ -34,13 +31,7 @@ public class Amphur extends BaseModel {
 	@ManyToOne
 	@JoinColumn(name = "province_id", nullable = false)
 	private Province province;
-
-	@OneToOne(mappedBy = "amphur")
-	private Branch branch;
 	
-	@OneToOne(mappedBy = "amphur")
-	private SubBranch subBranch;
-
 	public Integer getId() {
 		return id;
 	}
@@ -63,22 +54,6 @@ public class Amphur extends BaseModel {
 
 	public void setProvince(Province province) {
 		this.province = province;
-	}
-
-	public Branch getBranch() {
-		return branch;
-	}
-
-	public void setBranch(Branch branch) {
-		this.branch = branch;
-	}
-	
-	public SubBranch getSubBranch() {
-		return subBranch;
-	}
-
-	public void setSubBranch(SubBranch subBranch) {
-		this.subBranch = subBranch;
 	}
 
 	public static long getSerialversionuid() {
