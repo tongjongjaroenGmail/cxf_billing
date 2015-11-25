@@ -108,7 +108,7 @@ public class DhipManagerService implements DhipManager{
 		}									
 		else if(AreaType.country.getName().equals(areaType))											
 		{									
-		    if ("Yes".equals(disperse))									
+		    if ("Yes".equals(disperse) || ClaimType.follow.getName().equals(claimType))									
 			{								
 		    	surInvest = 300f;								
 		    	return surInvest;								
