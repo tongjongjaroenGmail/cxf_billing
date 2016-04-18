@@ -64,6 +64,7 @@ public class DhipManagerService implements DhipManager{
 		String disperse = request.getDisperse();
 		int amphur = request.getAmphur();
 		int province = request.getProvince();
+		String branchName = request.getBranch();
 
 		if(AreaType.bkk.getName().equals(areaType))
 		{					
@@ -120,11 +121,14 @@ public class DhipManagerService implements DhipManager{
 			}								
 		    else 								
 			{			
+		    	Branch branch = branchDao.findByName(branchName);
+		    	Integer startProvince = branch.getAmphur().getProvince().getId();
+		    	
 		    	Long countByAmhurId = branchDao.countByAmhurId(amphur);
 		    	Long countByProvinceId = branchDao.countByProvinceId(province);
-				if(countByAmhurId > 0)							
+				if(countByAmhurId > 0 && (startProvince == province))							
 				{ surInvest = 400f;}							
-				else if (countByProvinceId > 0)							
+				else if (countByProvinceId > 0 && (startProvince == province))							
 				{ surInvest = 500f;}							
 				else //นอกจังหวัดที่สาขาตั้งอยู่							
 				{ surInvest = 600f;}							
